@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+
+        <style>
+            table, th.base, td.base, caption {
+                border: thin solid #e0e0e0;
+            }
+            font.lessvisible{
+                color: rgb(210,210,210);
+            }
+            button.hdgimmic, select.hdgimmic{
+                width: 100%;
+            }
+            button.indecrease{
+                font-size: 0.7em;
+                font-face: Candara;
+            }
+            textarea {
+                width: 100%
+            }
+            table.main {
+                border-collapse: collapse;
+                border-spacing: 0;
+                border-width: thin 0 0 thin;
+                margin: 0 0 1em;
+                width: 100%;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+                border-width: thin 0 0 thin;
+                margin: 0 0 0em;
+            }
+
+            th.base {
+                font-weight: 700;
+                background-color: rgb(250,240,240);
+                text-align: left;
+                padding: 2em 1em 1em 1em;
+                white-space:nowrap;
+            }
+            th.info {
+                position: sticky;
+                top: 0;
+                width: 50%
+                min-width: 45%;
+                max-width: 70%;
+            }
+            th.grouping {
+                position: sticky;
+                top: 0;
+                min-width: 5%;
+            }
+            th.output1 {
+                position: sticky;
+                top: 0;
+                min-width: 10%;
+                max-widht: 40%;
+            }
+            th.output2{
+                position: sticky;
+                top: 0;
+                min-width: 10%;
+                max-widht: 40%;
+            }
+            object {
+                width: 100%;
+                height:  100%;
+            }
+            td.base {
+                padding: 1em 1em 1em 1em;
+                word-wrap: break-word;
+            }
+            td.tblcol_11, td.tblcol_10, td.tblcol_9, td.tblcol_8, td.tblcol_7 {
+                font-color: rgb(240,240,240);
+                font-weight: normal;
+                text-align: left;
+                font-size: 0px;
+                padding: 0em 0em 0em 0em;
+            }
+            div.alldata_4, div.alldata_5, div.alldata_6 {
+                overflow-x: hidden;
+                overflow-y: auto;
+                resize: both;
+            }
+			col.tblgrouping {
+                background-color: rgb(240,240,255);
+            }
+            col.tblsrcinfo {
+                background-color: rgb(250,250,250);
+                visibility: table-column;
+            }
+            th.base2 {
+                position: sticky;
+                top: 0;
+                background-color: rgb(240,240,255);
+            }
+            tr:hover {
+                background-color: rgb(250,240,240);
+            }
+
+            th.srcinfo {
+                position: sticky;
+                top: 0;
+                padding: 0em 0em 0em 0em;
+                width:0.5%;
+            }
+            Option, Select {
+                font-family: "Candara";
+            }
+
+    </style>
+
+
+    <script>
+        var size_flag = "10px";
+        var prev_value = "";
+
+        function CopyToClipboard(id)
+        {
+            var r = document.createRange();
+            r.selectNode(document.getElementById(id));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(r);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+        }
+        ;
+        function copyToTextfield(id){
+            document.getElementById("free_text").value = document.getElementById(id).value
+            document.getElementById("free_text").focus();
+            document.getElementById("free_text").select();
+        }
+        ;
+        function changeColstate()
+        {
+            const collection2 = document.getElementsByClassName("tblcol_7");
+            for (let i = 0; i < collection2.length; i++) {
+                collection2[i].style.fontSize = size_flag ;
+            }
+            const collection3 = document.getElementsByClassName("tblcol_8");
+            for (let i = 0; i < collection3.length; i++) {
+                collection3[i].style.fontSize = size_flag;
+            }
+            const collection4 = document.getElementsByClassName("tblcol_9");
+            for (let i = 0; i < collection4.length; i++) {
+                collection4[i].style.fontSize = size_flag;
+            }
+            const collection5 = document.getElementsByClassName("tblcol_10");
+            for (let i = 0; i < collection5.length; i++) {
+                collection5[i].style.fontSize = size_flag;
+            }
+            const collection6 = document.getElementsByClassName("tblcol_11");
+            for (let i = 0; i < collection6.length; i++) {
+                collection6[i].style.fontSize = size_flag;
+            }
+            if(size_flag == "10px")
+            {
+                size_flag = "0px"
+            }
+            else
+            {
+                size_flag = "10px"
+            }
+        }
+        ;
+        function selectText(id) {
+            const input = document.getElementById(id);
+            var curr_value = input.value ;
+
+            if(isNaN(curr_value.charCodeAt(0)) ){
+                input.value=""
+                prev_value=""
+            }
+            else {
+                input.value = prev_value + curr_value ;
+                // alert(curr_value.charCodeAt(0)) ;
+                input.focus();
+                input.select();
+                prev_value = prev_value + curr_value ;
+            }
+        };
+
+    </script>
+
+
+    <HTML>
+        <HEAD>
+
+        </HEAD>
+
+        <BODY>
+            <P title='# is the Windows-Key / ! is the ALT-Key / ^ is CTRL-Key / + is the SHIFT-Key'>
+                <div>
+                <font color=gray size=4em face='Candara'>
+                    HELP: #F1 - - RUN (default search): F3 - - RUN (search in header1-3) F2 - - RUN (search in all Cols): F1 - - ADD TAG to search: ^F3 - - ADD HEADER to search: ^F2 - - ADD any Condition: ^F1  <BR> || !y EXECUTE the CLIPBOARD with standard app || # is Windows-Key - - ! is ALT-Key - - ^ is CTRL-Key - - + is SHIFT-Key
+                </font>
+                </div>
+                    <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
+                <BR>
+                <select name='h1a' id='h1a' onInput="copyToTextfield('h1a'); return false;" >
+                <option> - </option>
+                <option value=''></option> <option value='ANALYSIS'>ANALYSIS</option> <option value='DOCUMENT'>DOCUMENT</option> <option value='EMAIL'>EMAIL</option> <option value='GENERAL'>GENERAL</option> <option value='H1'>H1</option> <option value='HELP_TAGS'>HELP_TAGS</option> <option value='LEARNING'>LEARNING</option> <option value='LOCATION'>LOCATION</option> <option value='MINI REPORT'>MINI REPORT</option> <option value='MISC'>MISC</option> <option value='PRICE CAP ART1'>PRICE CAP ART1</option> <option value='PROPER'>PROPER</option> <option value='SQL'>SQL</option> <option value='SQL SNOW'>SQL SNOW</option> <option value='SQL STROLF'>SQL STROLF</option> 
+            </select>
+
+
+            <select name='h2a' id='h2a' onInput="copyToTextfield('h2a'); return false;" >
+                <option> - </option>
+                <option value=''></option> <option value='ABKÜRZUNG'>ABKÜRZUNG</option> <option value='ADHOC INFO'>ADHOC INFO</option> <option value='ANLAGE'>ANLAGE</option> <option value='CHECK'>CHECK</option> <option value='DISTRIBUTION'>DISTRIBUTION</option> <option value='DISTRIBUTIONLIST'>DISTRIBUTIONLIST</option> <option value='DOCUMENTATION'>DOCUMENTATION</option> <option value='EVENTS OUTAGE'>EVENTS OUTAGE</option> <option value='EVENTS OUTAGE SITE'>EVENTS OUTAGE SITE</option> <option value='H2'>H2</option> <option value='IDEA'>IDEA</option> <option value='INHALT'>INHALT</option> <option value='MARGIN'>MARGIN</option> <option value='MARKET CURVE'>MARKET CURVE</option> <option value='MARKET SETTLEMENT'>MARKET SETTLEMENT</option> <option value='MDB2'>MDB2</option> <option value='MDB2 INFO'>MDB2 INFO</option> <option value='MEETING'>MEETING</option> <option value='PATH'>PATH</option> <option value='PRICE'>PRICE</option> <option value='PROCESS'>PROCESS</option> <option value='PROPER'>PROPER</option> <option value='REPORT'>REPORT</option> <option value='RISK BASISDATA'>RISK BASISDATA</option> <option value='RISK_MARGIN'>RISK_MARGIN</option> <option value='SAP BASISDATA'>SAP BASISDATA</option> <option value='SAP-ACCOUNT'>SAP-ACCOUNT</option> <option value='TEIL_1: Allg. Bestimmungen'>TEIL_1: Allg. Bestimmungen</option> <option value='TEMPLATE'>TEMPLATE</option> <option value='TRAINING'>TRAINING</option> <option value='TUTORIAL'>TUTORIAL</option> <option value='Teil_2: Entlastung der Letzt-Verb.'>Teil_2: Entlastung der Letzt-Verb.</option> <option value='Teil_3: Absch. Von Überschusserlösen'>Teil_3: Absch. Von Überschusserlösen</option> <option value='Teil_4: Ausgl Absch. und weitere Ausgl.-Mech.'>Teil_4: Ausgl Absch. und weitere Ausgl.-Mech.</option> <option value='Teil_5: Kontoführung u. Mtteilungspflichten'>Teil_5: Kontoführung u. Mtteilungspflichten</option> <option value='Teil_6: Behörd. Verfahren'>Teil_6: Behörd. Verfahren</option> <option value='Teil_7: Schlussbestimmungen'>Teil_7: Schlussbestimmungen</option> <option value='WEB'>WEB</option> <option value='ZUSAMMENFASSUNG'>ZUSAMMENFASSUNG</option> 
+            </select>
+
+
+            <select name='h3a' id='h3a'  onInput="copyToTextfield('h3a'); return false;" >
+                <option> - </option>
+                <option value=''></option> <option value='AC'>AC</option> <option value='ACT vs FC'>ACT vs FC</option> <option value='ACUTAL ANALYSIS 2021'>ACUTAL ANALYSIS 2021</option> <option value='ACUTAL ANALYSIS 2022'>ACUTAL ANALYSIS 2022</option> <option value='ALLOCATION'>ALLOCATION</option> <option value='ARC INFO'>ARC INFO</option> <option value='ARCHIVE'>ARCHIVE</option> <option value='ART 1 StromPBG'>ART 1 StromPBG</option> <option value='Anlage 1 Krisenbedin..'>Anlage 1 Krisenbedin..</option> <option value='Anlage 2 Besonders v..'>Anlage 2 Besonders v..</option> <option value='Anlage 3 Kohlendioxi..'>Anlage 3 Kohlendioxi..</option> <option value='Anlage 4 Absicherung..'>Anlage 4 Absicherung..</option> <option value='Anlage 5 Absicherung..'>Anlage 5 Absicherung..</option> <option value='BIOMASS'>BIOMASS</option> <option value='BLOCKINFO'>BLOCKINFO</option> <option value='BS'>BS</option> <option value='ButeDatei'>ButeDatei</option> <option value='CC'>CC</option> <option value='CFO REPORT RWEP'>CFO REPORT RWEP</option> <option value='CFO RWEP'>CFO RWEP</option> <option value='CHATBOT'>CHATBOT</option> <option value='CHECK'>CHECK</option> <option value='CMC'>CMC</option> <option value='CMC DATES'>CMC DATES</option> <option value='CMC MINUTES'>CMC MINUTES</option> <option value='CMC SLIDES'>CMC SLIDES</option> <option value='COAL'>COAL</option> <option value='COCO'>COCO</option> <option value='CURVES'>CURVES</option> <option value='DAILY GRID'>DAILY GRID</option> <option value='DAILY RR'>DAILY RR</option> <option value='DAILY RR 2020'>DAILY RR 2020</option> <option value='DAILY RR 2021'>DAILY RR 2021</option> <option value='DAILY RR 2022'>DAILY RR 2022</option> <option value='DAT'>DAT</option> <option value='DOR'>DOR</option> <option value='DORT'>DORT</option> <option value='DREMIO'>DREMIO</option> <option value='EB_DORT'>EB_DORT</option> <option value='EB_KAR_B'>EB_KAR_B</option> <option value='EC_AC_9'>EC_AC_9</option> <option value='EC_EEM_A'>EC_EEM_A</option> <option value='EC_EEM_B'>EC_EEM_B</option> <option value='EC_GKM_7'>EC_GKM_7</option> <option value='EC_GKM_8'>EC_GKM_8</option> <option value='EC_GKM_9'>EC_GKM_9</option> <option value='EC_GKM_Gas'>EC_GKM_Gas</option> <option value='EC_NSA_IBB_1'>EC_NSA_IBB_1</option> <option value='EEM'>EEM</option> <option value='EG_CC_C'>EG_CC_C</option> <option value='EG_DOR'>EG_DOR</option> <option value='EG_EH_04'>EG_EH_04</option> <option value='EG_ELS_1'>EG_ELS_1</option> <option value='EG_EMS_B'>EG_EMS_B</option> <option value='EG_EMS_C'>EG_EMS_C</option> <option value='EG_EMS_D'>EG_EMS_D</option> <option value='EG_GER_F'>EG_GER_F</option> <option value='EG_GER_G'>EG_GER_G</option> <option value='EG_GER_H'>EG_GER_H</option> <option value='EG_GER_I'>EG_GER_I</option> <option value='EG_GER_K1'>EG_GER_K1</option> <option value='EG_INS_1'>EG_INS_1</option> <option value='EG_MDK_1'>EG_MDK_1</option> <option value='EG_MDK_2'>EG_MDK_2</option> <option value='EG_SWE_1'>EG_SWE_1</option> <option value='EG_TP_1'>EG_TP_1</option> <option value='EH'>EH</option> <option value='EKP'>EKP</option> <option value='ELS'>ELS</option> <option value='EMS'>EMS</option> <option value='ENE'>ENE</option> <option value='Eif'>Eif</option> <option value='FAB'>FAB</option> <option value='FC1'>FC1</option> <option value='GAS'>GAS</option> <option value='GER'>GER</option> <option value='GIT'>GIT</option> <option value='GKM'>GKM</option> <option value='GOW'>GOW</option> <option value='H3'>H3</option> <option value='HOURLY GRID'>HOURLY GRID</option> <option value='HP_KOE'>HP_KOE</option> <option value='HP_KOE_BAT_1'>HP_KOE_BAT_1</option> <option value='HP_KOE_BAT_2'>HP_KOE_BAT_2</option> <option value='HP_SLU_HAE'>HP_SLU_HAE</option> <option value='HP_SLU_SAE'>HP_SLU_SAE</option> <option value='HP_SLU_WAL'>HP_SLU_WAL</option> <option value='HP_SLU_WEH'>HP_SLU_WEH</option> <option value='HP_SLU_WIT'>HP_SLU_WIT</option> <option value='HP_VIA'>HP_VIA</option> <option value='HR_LIN_1'>HR_LIN_1</option> <option value='HYDRO (PUMP)'>HYDRO (PUMP)</option> <option value='HYDRO (RUN-OF-RIVER)'>HYDRO (RUN-OF-RIVER)</option> <option value='HYDRO GMBH'>HYDRO GMBH</option> <option value='INFO COLLECITON'>INFO COLLECITON</option> <option value='INHALT ARTIKEL 1'>INHALT ARTIKEL 1</option> <option value='INS'>INS</option> <option value='KAR'>KAR</option> <option value='KEYS 2022'>KEYS 2022</option> <option value='KKE'>KKE</option> <option value='KOE'>KOE</option> <option value='KONTO'>KONTO</option> <option value='KSE'>KSE</option> <option value='LIGNITE'>LIGNITE</option> <option value='LIN'>LIN</option> <option value='LI_FAB_BER'>LI_FAB_BER</option> <option value='LI_FAB_FOR'>LI_FAB_FOR</option> <option value='LI_FAB_FRE'>LI_FAB_FRE</option> <option value='LI_GOW'>LI_GOW</option> <option value='LI_MVA'>LI_MVA</option> <option value='LI_NEU_A'>LI_NEU_A</option> <option value='LI_NEU_C'>LI_NEU_C</option> <option value='LI_NEU_D'>LI_NEU_D</option> <option value='LI_NEU_E'>LI_NEU_E</option> <option value='LI_NEU_F'>LI_NEU_F</option> <option value='LI_NEU_G'>LI_NEU_G</option> <option value='LI_NIA_E'>LI_NIA_E</option> <option value='LI_NIA_F'>LI_NIA_F</option> <option value='LI_NIA_G'>LI_NIA_G</option> <option value='LI_NIA_H'>LI_NIA_H</option> <option value='LI_NIA_K'>LI_NIA_K</option> <option value='LI_TGB_gesamt'>LI_TGB_gesamt</option> <option value='LI_WWL_F'>LI_WWL_F</option> <option value='LI_WWL_G'>LI_WWL_G</option> <option value='LI_WWL_G_VGT'>LI_WWL_G_VGT</option> <option value='LI_WWL_H'>LI_WWL_H</option> <option value='LI_WWL_H_VGT'>LI_WWL_H_VGT</option> <option value='LOGIN NAME'>LOGIN NAME</option> <option value='Line Item'>Line Item</option> <option value='MARGE'>MARGE</option> <option value='MDB2'>MDB2</option> <option value='MDK'>MDK</option> <option value='MICROSOFT'>MICROSOFT</option> <option value='MINUTES (new)'>MINUTES (new)</option> <option value='MINUTES (old)'>MINUTES (old)</option> <option value='MMB'>MMB</option> <option value='MMB RWEP'>MMB RWEP</option> <option value='MMB WEIGAND'>MMB WEIGAND</option> <option value='MONTHLY GRID'>MONTHLY GRID</option> <option value='MONTHLY MARGIN REPORT GENCO'>MONTHLY MARGIN REPORT GENCO</option> <option value='MONTHLY MARGIN REPORT POWER'>MONTHLY MARGIN REPORT POWER</option> <option value='MONTHLY OUTAGES'>MONTHLY OUTAGES</option> <option value='MVA'>MVA</option> <option value='NEU'>NEU</option> <option value='NIA'>NIA</option> <option value='NSA'>NSA</option> <option value='NSO'>NSO</option> <option value='NUCLEAR'>NUCLEAR</option> <option value='NU_BS_30'>NU_BS_30</option> <option value='NU_KKE_A'>NU_KKE_A</option> <option value='NW2'>NW2</option> <option value='OBJECTS'>OBJECTS</option> <option value='OTHER'>OTHER</option> <option value='OUTAGE ANA'>OUTAGE ANA</option> <option value='PDF'>PDF</option> <option value='PORTFOLIO'>PORTFOLIO</option> <option value='POWER BI'>POWER BI</option> <option value='PRICE CAP'>PRICE CAP</option> <option value='PROFITCENTER'>PROFITCENTER</option> <option value='PROPER'>PROPER</option> <option value='PROPER DASHBOARD'>PROPER DASHBOARD</option> <option value='PTF'>PTF</option> <option value='RADAG'>RADAG</option> <option value='RWE GENERATION'>RWE GENERATION</option> <option value='RWE POWER'>RWE POWER</option> <option value='SCOUT'>SCOUT</option> <option value='SEGMENT'>SEGMENT</option> <option value='SIBE/KVBG'>SIBE/KVBG</option> <option value='SIBE2/KVBG'>SIBE2/KVBG</option> <option value='SLU'>SLU</option> <option value='SNOWFLAKE GUI'>SNOWFLAKE GUI</option> <option value='SUB_PROCESS'>SUB_PROCESS</option> <option value='SWE'>SWE</option> <option value='TGB'>TGB</option> <option value='TP'>TP</option> <option value='VIA'>VIA</option> <option value='WDB'>WDB</option> <option value='WEEKLY GRID'>WEEKLY GRID</option> <option value='WEM'>WEM</option> <option value='WVR'>WVR</option> <option value='WWL'>WWL</option> <option value='X_DAT_4'>X_DAT_4</option> <option value='X_EKP_1'>X_EKP_1</option> <option value='X_ENE_BAT_1'>X_ENE_BAT_1</option> <option value='X_Eif_Obermaubach'>X_Eif_Obermaubach</option> <option value='X_Eif_Schwammenauel'>X_Eif_Schwammenauel</option> <option value='X_NSA_AGG_2'>X_NSA_AGG_2</option> <option value='X_NSA_AZV_3'>X_NSA_AZV_3</option> <option value='X_NSA_AZV_4'>X_NSA_AZV_4</option> <option value='X_NSA_EMS_B1'>X_NSA_EMS_B1</option> <option value='X_NSA_EMS_C1'>X_NSA_EMS_C1</option> <option value='X_NSA_EMS_D1'>X_NSA_EMS_D1</option> <option value='X_NSA_EMS_D2'>X_NSA_EMS_D2</option> <option value='X_NSA_FHH_1'>X_NSA_FHH_1</option> <option value='X_NSA_FHH_4'>X_NSA_FHH_4</option> <option value='X_NSA_FHH_5'>X_NSA_FHH_5</option> <option value='X_NSA_FHH_6'>X_NSA_FHH_6</option> <option value='X_NSA_KAR_1'>X_NSA_KAR_1</option> <option value='X_NSA_KKE_1'>X_NSA_KKE_1</option> 
+            </select>
+
+                </div>
+            </P>
+            <br>
+            <br>
+
+        <font face='Candara' >
+        <TABLE id='master_table' class='main'>
+            <CAPTION>
+                Output for:  > microsoft <  (There are #3 out of 3 results shown!)
+            </CAPTION>
+            <COLGROUP>
+                <col span=3 class='tblgrouping' >
+                <col span=3 class='tblcontent' >
+                <col span=5 class='tblsrcinfo' >
+            </COLGROUP>
+            <thead>
+                <TR>
+                    <TH class='base grouping'>
+            <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
+            <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
+                <option> - </option>
+                <option value='LEARNING'>LEARNING</option> 
+            </select>
+        </TH>
+        <TH class='base grouping'  >
+            <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
+            <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
+                <option> - </option>
+                <option value='DOCUMENTATION'>DOCUMENTATION</option> <option value='TRAINING'>TRAINING</option> <option value='TUTORIAL'>TUTORIAL</option> 
+            </select>
+        </TH>
+        <TH class='base grouping' >
+            <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
+                <option> - </option>
+                <option value='MICROSOFT'>MICROSOFT</option> <option value='POWER BI'>POWER BI</option> 
+            </select>
+        </TH>
+                    <TH class='base info'> Info </TH>
+                    <TH class='base output1'> Output </TH>
+                    <TH class='base output2'> Output_2 </TH>
+                    <TH class='base2 srcinfo' onClick="changeColstate();return false;">  </TH>
+                    <TH class='base2 srcinfo' onClick="changeColstate();return false;">  </TH>
+                    <TH class='base2 srcinfo' onClick="changeColstate();return false;">  </TH>
+                    <TH class='base2 srcinfo' onClick="changeColstate();return false;">  </TH>
+                    <TH class='base2 srcinfo' onClick="changeColstate();return false;">  </TH>
+                </TR>
+            </thead>
+            <tbody>
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>LEARNING</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>DOCUMENTATION</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'>MICROSOFT</DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>Documentation for Microsoft Products</DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'></DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'>https://learn.microsoft.com/en-us/docs/</DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>LEARNING_TEACHIN_DOCUMENTATION_MS_MICROSOFT</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>W:\RWE-Trading\MFC\PC_CAO_POWER\MFC_PH\Other\2001_TK\100_Infosrc\KNOW_INTERMEDIATE.xlsx</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>SRC_LEARNING</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>row: 7</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>XLS</DIV>  </TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> LEARNING </font></TD> <TD class='base tblcol_2' onclick="CopyToClipboard('tbl_2_2');return false;" >  <div class='alldata_2' id='tbl_2_2'>TRAINING</DIV></TD><TD class='base' > <font class='lessvisible'> MICROSOFT </font></TD> <TD class='base tblcol_4' onclick="CopyToClipboard('tbl_2_4');return false;" >  <div class='alldata_4' id='tbl_2_4'>Trainings and Tutorials for Microsoft Products</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_2_5');return false;" >  <div class='alldata_5' id='tbl_2_5'></DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_2_6');return false;" >  <div class='alldata_6' id='tbl_2_6'>https://learn.microsoft.com/en-us/training/</DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_2_7');return false;" >  <div class='alldata_7' id='tbl_2_7'>LEARNING_TEACHIN_DOCUMENTATION_MS_MICROSOFT</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_2_8');return false;" >  <div class='alldata_8' id='tbl_2_8'>W:\RWE-Trading\MFC\PC_CAO_POWER\MFC_PH\Other\2001_TK\100_Infosrc\KNOW_INTERMEDIATE.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_2_9');return false;" >  <div class='alldata_9' id='tbl_2_9'>SRC_LEARNING</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_2_10');return false;" >  <div class='alldata_10' id='tbl_2_10'>row: 8</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_2_11');return false;" >  <div class='alldata_11' id='tbl_2_11'>XLS</DIV></TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> LEARNING </font></TD> <TD class='base tblcol_2' onclick="CopyToClipboard('tbl_3_2');return false;" >  <div class='alldata_2' id='tbl_3_2'>TUTORIAL</DIV></TD><TD class='base tblcol_3' onclick="CopyToClipboard('tbl_3_3');return false;" >  <div class='alldata_3' id='tbl_3_3'>POWER BI</DIV></TD><TD class='base tblcol_4' onclick="CopyToClipboard('tbl_3_4');return false;" >  <div class='alldata_4' id='tbl_3_4'>Direct access to PowerBI/Power-BI Documentations and Tutorials</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_3_5');return false;" >  <div class='alldata_5' id='tbl_3_5'></DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_3_6');return false;" >  <div class='alldata_6' id='tbl_3_6'>https://learn.microsoft.com/en-us/power-bi/</DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_3_7');return false;" >  <div class='alldata_7' id='tbl_3_7'>LEARNING_TEACHIN_POWERBI</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_3_8');return false;" >  <div class='alldata_8' id='tbl_3_8'>W:\RWE-Trading\MFC\PC_CAO_POWER\MFC_PH\Other\2001_TK\100_Infosrc\KNOW_INTERMEDIATE.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_3_9');return false;" >  <div class='alldata_9' id='tbl_3_9'>SRC_LEARNING</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_3_10');return false;" >  <div class='alldata_10' id='tbl_3_10'>row: 6</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_3_11');return false;" >  <div class='alldata_11' id='tbl_3_11'>XLS</DIV></TD></TR>
+
+            </tbody>
+        </TABLE>
+        </font>
+
+        </BODY>
+
+    <script>
+        const elements = document.querySelectorAll("div.alldata_4, div.alldata_5, div.alldata_6");
+        const table = document.getElementById("master_table");
+        const increaseBtn = document.getElementById("increaseBtn");
+        const decreaseBtn = document.getElementById("decreaseBtn");
+        increaseBtn.addEventListener("click", function() {
+            requestAnimationFrame( function(){
+        for (let i = 0; i < table.rows.length; i++) {
+            table.rows[i].style.maxHeight = (table.rows[i].offsetHeight + table.rows[i].offsetHeight*0.3) + "px";
+
+        }
+        elements.forEach(function(element) {
+            element.style.maxHeight = (element.offsetHeight + element.offsetHeight*0.3) + "px";
+          });
+        });
+        });
+
+        decreaseBtn.addEventListener("click", function() {
+        requestAnimationFrame( function(){
+        for (let i = 0; i < table.rows.length; i++) {
+            table.rows[i].style.maxHeight = (table.rows[i].offsetHeight - table.rows[i].offsetHeight*0.3 ) + "px";
+        }
+        elements.forEach(function(element) {
+            element.style.maxHeight = (element.offsetHeight - element.offsetHeight*0.3) + "px";
+          });
+        });
+    });
+    </script>
+
+    </HTML>

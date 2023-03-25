@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "ahkdbg",
+            "request": "launch",
+            "name": "AHKDebug",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "captureStreams": true,
+            "AhkExecutable": "C:\\MY_TOOLS\\AutoHotkey_1_1_33_10\\AutoHotkeyU64.exe",
+            "port": 9005
+        }
+,
+        {
+            "type": "ahkdbg",
+            "request": "launch",
+            "name": "AHKDebug32u",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "captureStreams": true,
+            "AhkExecutable": "C:\\MY_TOOLS\\AutoHotkey_1_1_33_10\\AutoHotkeyU32.exe",
+            "port": 9005
+        }
+,
+        {
+            "type": "ahkdbg",
+            "request": "launch",
+            "name": "AHKDebug32a",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "captureStreams": true,
+            "AhkExecutable": "C:\\MY_TOOLS\\AutoHotkey_1_1_33_10\\AutoHotkeyA32.exe",
+            "port": 9005
+        }
+    ]
+}

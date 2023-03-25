@@ -1,0 +1,14 @@
+WITH splitting(new_val, rest, c) AS (
+  SELECT SUBSTR(search_in || '_' , 1, INSTR(search_in, '_') - 1) AS new_value,
+         REPLACE(search_in || '_' , SUBSTR(search_in || '_'  , 1, INSTR(search_in, '_') - 0), '') || '_' AS rest,
+         1 AS c
+  FROM  T_KNOWLEDGE
+  UNION ALL
+  SELECT SUBSTR(rest, 1, INSTR(rest, '_') - 1) AS new_value,
+         REPLACE(rest, SUBSTR(rest, 1, INSTR(rest, '_') - 0), '') AS rest,
+         c+1 AS c 
+  FROM splitting
+  WHERE REPLACE(rest, '_', '') != '' AND c < 15
+)
+SELECT * FROM splitting;
+
