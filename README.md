@@ -1,2 +1,2 @@
 # 010_AntAI
- Basis Version of my Knowledge Databaser named AntAI
+ Thias is the first Version of my Knowledge Database AntAI
