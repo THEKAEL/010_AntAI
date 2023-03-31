@@ -377,7 +377,7 @@ showPopUp(message, duration) {
     Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
     Gui Color, EEEEEE
     Gui Font, s10, Arial
-    Gui Add, Text, x10 y10 w200 h20, %message%
+    Gui Add, Text, x10 y10 w300 h60, %message%
     Gui Show, NA
     Sleep, duration
     Gui Destroy

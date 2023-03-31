@@ -263,13 +263,6 @@ PROCESS_INI:
 return
 
 
-#F11::
-; For Testing Purpose Only To Be removed 
-
-;showTempMessage("Dies ist eine Beispielmeldung.", 6000)
-
-
-return
 
 CHANGE_DEFAULT_LOOKUP:
 
@@ -278,17 +271,18 @@ CHANGE_DEFAULT_LOOKUP:
         default_add := "HTML_ADD_TAG_LOOKUP"
         default_run := "HTML_TAG_LOOKUP"
         my_message := my_message . "TAG SEARCH"
-    } else if (default_add == "HTML_TAG_LOOKUP"){
+    } else if (default_run == "HTML_TAG_LOOKUP"){
         default_add := "HTML_ADD_HEADLINE_LOOKUP"
         default_run := "HTML_HEADLINE_LOOKUP"
         my_message := my_message . "HEADLINE SEARCH"
-    } else if (default_add == "HTML_HEADLINE_LOOKUP"){
+    } else if (default_run == "HTML_HEADLINE_LOOKUP"){
         default_add := "HTML_ADD_ALL_LOOKUP"
         default_run := "HTML_ALL_LOOKUP"
         my_message := my_message . "FULL SEARCH"
     } else {
         default_add := "HTML_ADD_ALL_LOOKUP"
         default_run := "HTML_ALL_LOOKUP"
+        my_message := my_message . "FULL SEARCH"
     }
 
     showPopUp(my_message, 1000)
