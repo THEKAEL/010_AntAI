@@ -258,12 +258,11 @@ return
 
 
 #F11::
-; Test 
+; For Testing Purpose Only To Be removed 
 
-showTempMessage4("Dies ist eine Beispielmeldung.", 6000)
+;showTempMessage("Dies ist eine Beispielmeldung.", 6000)
 
 
-   ; Gosub, PROCESS_INI
 return
 
 REBUILD_DB:
