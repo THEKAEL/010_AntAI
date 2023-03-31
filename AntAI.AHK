@@ -19,6 +19,8 @@ SetWorkingDir, %A_ScriptDir%
     my_db3 := New SQLiteDB(sqlite_dll_path)
     my_db3.loadToInMem(knowledge_path)
 
+    default_add := "HTML_ADD_ALL_LOOKUP"
+    default_run := "HTML_ALL_LOOKUP"
 
 
     sql_template =
@@ -168,23 +170,27 @@ PROCESS_INI:
     IniRead, knowledge_path, %config_ini_file% , GENERAL, KNOWLEDGE_PATH , %knowledge_path%
     IniRead, sqliteToolPath, %config_ini_file%, GENERAL, SQLITE3TOOL_PATH , %sqliteToolPath%
 
-    IniRead, hk_open_DB, %config_ini_file%, GENERAL, HK_OPEN_DB , ^F12
-    IniRead, hk_help, %config_ini_file%, GENERAL, HK_HELP , #F1
+    IniRead, hk_open_DB, %config_ini_file%, OPTIONAL_HOTKEYS, HK_OPEN_DB , ^F12
+    IniRead, hk_help, %config_ini_file%, MANDATORY_HOTKEYS, HK_HELP , #F1
 
-    IniRead, hk_run_html, %config_ini_file%, GENERAL, HK_RUN_TAG , F9
-    IniRead, hk_run_html_allcols, %config_ini_file%, GENERAL, HK_RUN_ALLCOLS , F11
-    IniRead, hk_run_header, %config_ini_file%, GENERAL, HK_RUN_HEADER , F10
+    IniRead, hk_run_default, %config_ini_file%, MANDATORY_HOTKEYS, HK_RUN_DEFAULT , F1
+    IniRead, hk_add_default, %config_ini_file%, MANDATORY_HOTKEYS, HK_ADD_DEFAULT , ^F1
+    IniRead, hk_change_defaultmode, %config_ini_file%, MANDATORY_HOTKEYS, HK_CHANGE_DEFAULTMODE , !a
+
+    IniRead, hk_run_html, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_TAG , F9
+    IniRead, hk_run_html_allcols, %config_ini_file%, MANDATORY_HOTKEYS, HK_RUN_ALLCOLS , F11
+    IniRead, hk_run_header, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_HEADER , F10
     
-    IniRead, hk_run_add_tag, %config_ini_file%, GENERAL, HK_RUN_ADD_TAG, +F9
-    IniRead, hk_run_add_header, %config_ini_file%, GENERAL, HK_RUN_ADD_HEADER, +F10
-    IniRead, hk_run_add_allcols, %config_ini_file%, GENERAL, HK_RUN_ADD_ALLCOLS, +F11
+    IniRead, hk_run_add_tag, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_ADD_TAG, +F9
+    IniRead, hk_run_add_header, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_ADD_HEADER, +F10
+    IniRead, hk_run_add_allcols, %config_ini_file%, MANDATORY_HOTKEYS, HK_RUN_ADD_ALLCOLS, +F11
 
-    IniRead, hk_rebuild_db, %config_ini_file%, GENERAL, HK_REBUILD_DB, F2
+    IniRead, hk_rebuild_db, %config_ini_file%, OPTIONAL_HOTKEYS, HK_REBUILD_DB, F2
     IniRead, display_row_limit, %config_ini_file%, ETC, DISPLAY_ROW_LIMIT, 1000
     IniRead, qry_row_limit, %config_ini_file%, ETC, QRY_ROW_LIMIT, 5000
     IniRead, show_tags, %config_ini_file% ,ETC, SHOW_TAG_SELECTOR, 0
     IniRead, show_all_tags, %config_ini_file% , ETC, SHOW_ALLTAGS_SELECTOR, 1
-    IniRead, exe_clipboard, %config_ini_file%, GENERAL, HK_EXECUTE_CLIPBOARD, X
+    IniRead, exe_clipboard, %config_ini_file%, OPTIONAL_HOTKEYS, HK_EXECUTE_CLIPBOARD, X
     IniRead, html_outputFile, %config_ini_file%, ETC, HTML_BUFFER_FILE , %html_outputFile%
 
     ; XLS_INPUTS
@@ -237,20 +243,20 @@ PROCESS_INI:
     ;; register dynamically hotkeys based on ini file formatTable
 
     registerHK(hk_open_DB, "OPEN_DB")
-    registerHK(hk_help, "HELP_HTML")
     registerHK(hk_run_header, "HTML_HEADLINE_LOOKUP")
-    registerHK(hk_run_html_allcols, "HTML_ALL_LOOKUP")
     registerHK(hk_run_html, "HTML_TAG_LOOKUP")
-    ;Hotkey, %hk_run_html% , HTML_TAG_LOOKUP
-    registerHK(hk_run_add_tag, "HTML_ADDTAG_LOOKUP")
+    registerHK(hk_run_add_tag, "HTML_ADD_TAG_LOOKUP")
     registerHK(hk_run_add_header, "HTML_ADD_HEADLINE_LOOKUP")
-    registerHK(hk_run_add_allcols, "HTML_ADD_ALL_LOOKUP")
     registerHK(hk_rebuild_db, "REBUILD_DB")
     registerHK(exe_clipboard, "FOLLOW_CLIPBOARD")
 
-
-
-
+    registerHK(hk_help, "HELP_HTML")
+    registerHK(hk_run_html_allcols, "HTML_ALL_LOOKUP")
+    registerHK(hk_run_add_allcols, "HTML_ADD_ALL_LOOKUP")
+    registerHK(hk_run_default,"HTML_DEFAULT_LOOKUP")
+    registerHK(hk_add_default,"HTML_ADD_DEFAULT_LOOKUP")
+    registerHK(hk_change_defaultmode,"CHANGE_DEFAULT_LOOKUP")
+    
     Gosub, HELP_TEXT
 
 
@@ -264,6 +270,45 @@ return
 
 
 return
+
+CHANGE_DEFAULT_LOOKUP:
+
+    my_message := "NEW DEFAULT MODE: --> "
+    if( default_run == "HTML_ALL_LOOKUP"){
+        default_add := "HTML_ADD_TAG_LOOKUP"
+        default_run := "HTML_TAG_LOOKUP"
+        my_message := my_message . "TAG SEARCH"
+    } else if (default_add == "HTML_TAG_LOOKUP"){
+        default_add := "HTML_ADD_HEADLINE_LOOKUP"
+        default_run := "HTML_HEADLINE_LOOKUP"
+        my_message := my_message . "HEADLINE SEARCH"
+    } else if (default_add == "HTML_HEADLINE_LOOKUP"){
+        default_add := "HTML_ADD_ALL_LOOKUP"
+        default_run := "HTML_ALL_LOOKUP"
+        my_message := my_message . "FULL SEARCH"
+    } else {
+        default_add := "HTML_ADD_ALL_LOOKUP"
+        default_run := "HTML_ALL_LOOKUP"
+    }
+
+    showPopUp(my_message, 1)
+
+return
+
+HTML_DEFAULT_LOOKUP:
+
+    Gosub, %default_run%
+
+Return
+
+HTML_ADD_DEFAULT_LOOKUP:
+
+    Gosub, %default_add%
+
+Return
+
+
+
 
 REBUILD_DB:
     Gosub,  OpenLogGui
@@ -375,7 +420,7 @@ HTML_TAG_LOOKUP:
 Return
 
 
-HTML_ADDTAG_LOOKUP:
+HTML_ADD_TAG_LOOKUP:
     Gosub, FETCH_USER_INPUT
 
         temp_template = 
