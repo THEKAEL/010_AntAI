@@ -291,7 +291,7 @@ CHANGE_DEFAULT_LOOKUP:
         default_run := "HTML_ALL_LOOKUP"
     }
 
-    showPopUp(my_message, 1)
+    showPopUp(my_message, 1000)
 
 return
 
