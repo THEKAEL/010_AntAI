@@ -260,11 +260,8 @@ return
 #F11::
 ; Test 
 
-Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
-Gui Color, EEEEEE
-Gui Font, s10, Arial
-Gui Add, Text, x10 y10 w200 h20, This is a sample GUI.
-Gui Show, NA
+showTempMessage2("Dies ist eine Beispielmeldung.", 6000)
+
 
    ; Gosub, PROCESS_INI
 return
