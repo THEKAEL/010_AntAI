@@ -373,7 +373,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
 }
 
 
-showTempMessage(message, duration) {
+showPopUp(message, duration) {
     Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
     Gui Color, EEEEEE
     Gui Font, s10, Arial
@@ -383,44 +383,3 @@ showTempMessage(message, duration) {
     Gui Destroy
   }
   
-
-  showTempMessage2(message, duration) {
-    Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
-    Gui Color, EEEEEE
-    Gui Font, s10, Arial
-    Gui Add, Text, x10 y10 w200 h20, %message%
-    Gui Add, Button, x10 y40 w60 h20, Close
-    Gui Show, NA
-    WinSet, AlwaysOnTop, On, This is a sample GUI
-    WinSet, Style, ^0x80000, This is a sample GUI
-    my_now := A_TickCount
-    Loop {
-      Sleep, 50
-      if !WinExist("This is a sample GUI")
-        break
-      if (A_TickCount-my_now >= duration)
-        break
-    }
-    Gui Destroy
-  }
-  
-
-  showTempMessage3(message, duration) {
-    Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
-    Gui Color, EEEEEE
-    Gui Font, s10, Arial
-    Gui Add, Text, x10 y10 w200 h20, %message%
-    Gui Add, Button, x10 y40 w60 h20 gCloseButton, Close
-    Gui Show, NA
-    WinSet, AlwaysOnTop, On, This is a sample GUI
-    SetTimer, CloseGui, %duration%
-  }
-  
-  CloseButton:
-  Gui Destroy
-  return
-  
-  CloseGui:
-  Gui Destroy
-  return
-  }

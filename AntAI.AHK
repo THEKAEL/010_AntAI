@@ -260,7 +260,7 @@ return
 #F11::
 ; Test 
 
-showTempMessage2("Dies ist eine Beispielmeldung.", 6000)
+showTempMessage4("Dies ist eine Beispielmeldung.", 6000)
 
 
    ; Gosub, PROCESS_INI
