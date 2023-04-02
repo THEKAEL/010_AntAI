@@ -952,6 +952,7 @@ ExitApp
 
 
 registerHK(hk_string_semikolon, mylbl){
+    try{
     if(hk_string_semikolon=="X")
         Return
 
@@ -959,6 +960,10 @@ registerHK(hk_string_semikolon, mylbl){
     Loop % hk_arr.Length()
         Hotkey, % hk_arr[A_Index], %mylbl%
 
+    } catch error
+    {
+        MsgBox, % "Error in Hotkey definition --> " hk_string_semikolon " <--. `n Some HK might not work!!! Please check ini-file and reload script..." 
+    }
     return
 
 }
