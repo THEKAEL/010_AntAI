@@ -285,7 +285,7 @@ CHANGE_DEFAULT_LOOKUP:
         my_message := my_message . "FULL SEARCH"
     }
 
-    showPopUp(my_message, 1000)
+    showPopUp(my_message, 500)
 
 return
 
