@@ -335,6 +335,12 @@ HELP_TEXT:
     Hotkey for 
             - HELP                    %hk_help%
 
+        ---- DEFAULT EXECUTION / SEARCH MODE -------
+            - SWAP                    %hk_change_defaultmode%
+            - RUN CONDITION           %hk_run_default%
+            - ADD CONDITION           %hk_add_default%
+        
+        ----- DIRECT searches (not recommended)-----
             - RUN TAG SEARCH          %hk_run_html%
             - RUN HEADER SEARCH       %hk_run_header%  
             - RUN FULL SEARCH         %hk_run_html_allcols%
@@ -343,34 +349,46 @@ HELP_TEXT:
             - ADD HEADER to search    %hk_run_add_header%
             - ADD anything to search  %hk_run_add_allcols%
 
+        ---- ADMIN TASKS -----------------------------
             - OPEN DB (db browser)    %hk_open_db%            
             - RE-BUILD DB             %hk_rebuild_db%
-
+        
+        ---- OTHER FEATURES --------------------------
             - Execute Clipboard       %exe_clipboard%
             - Turn Hotkeys (on/off)   ^Escape
 
-    Folder for
+    Folder for (ADMIN FEATURES)
             - SQLITE SQLite dll       %sqlite_dll_path%
             - ini file 0              %config_ini_file%
             - Main Data Base (Sqlite) %knowledge_path%
 
-    Others / HK Shortcuts:
+    Legend HK Shortcuts (AHK Standard syntax):
             # stands for Winows Key
             ^ stands for CTRL or STRG key
             ! stands for ALT key
             + stands fro Shift key
     
     How to...
+        ... for advice how to set up and configure the Tool read detailed documentation.
+        1) Select a search tag/text
             In order to open a webpage with your custom help/info you have to:
-            - Select a Text or
-            - Put text to your clipbord or
-            - hover over text with your mouse pointer
-            Then you need to press one of the following hotkeys: %hk_run_html%, %hk_run_html_allcols% or %hk_run_header%. 
-            It will bring up a help page in your standard browser. Note that this should work within any MS Windows application.
+                - Select a Text or
+                - Put text to your clipbord or
+                - hover over text with your mouse pointer
+        2) Execute Search
+            Then you need to press hotkey %hk_run_default%. (Other options see above)
+            It will bring up a help page in your standard browser. Note that this should work within almost any application.
 
-            If you run already a search then you can hit %hk_run_add_tag%, %hk_run_add_header% or %hk_run_add_allcols% to just search within our old output. 
+        3) Add additional Search to previous search output
+            If you run already a search before then you can hit %hk_add_default% to just search within our old output. 
             This might help to bring down the number of results.
 
+        4) You can change the default search mode with %hk_change_defaultmode%
+            With the search mode you can define in which column the search should be executed:
+                - TAG search: Will search in the tag column SEARCH_IN and FIT_TO
+                - HEADER search: Will search in the Header 1-3 columns
+                - FULL search: Will search in all columns (header, info, output...)
+        More...
             Pressing %exe_clipboard% will try to start the string in your clipboard with the standard application of your machine.
                 This might help you to quickly follow a file or folder.
 
