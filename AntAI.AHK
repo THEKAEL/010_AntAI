@@ -192,6 +192,7 @@ PROCESS_INI:
     IniRead, show_all_tags, %config_ini_file% , ETC, SHOW_ALLTAGS_SELECTOR, 1
     IniRead, exe_clipboard, %config_ini_file%, OPTIONAL_HOTKEYS, HK_EXECUTE_CLIPBOARD, X
     IniRead, html_outputFile, %config_ini_file%, ETC, HTML_BUFFER_FILE , %html_outputFile%
+    IniRead, cfg_popupdelay, %config_ini_file%, ETC, POPUP_DELAY_MS, 700
 
     ; XLS_INPUTS
     ;IniRead, src_xls_1, %config_ini_file%, XLS_INPUTS, XLS_1 , X
@@ -285,7 +286,7 @@ CHANGE_DEFAULT_LOOKUP:
         my_message := my_message . "FULL SEARCH"
     }
 
-    showPopUp(my_message, 500)
+    showPopUp(my_message, cfg_popupdelay)
 
 return
 
