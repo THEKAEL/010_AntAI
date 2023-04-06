@@ -180,6 +180,7 @@ PROCESS_INI:
     IniRead, hk_run_html, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_TAG , F9
     IniRead, hk_run_html_allcols, %config_ini_file%, MANDATORY_HOTKEYS, HK_RUN_ALLCOLS , F11
     IniRead, hk_run_header, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_HEADER , F10
+    IniRead, hk_toy_transparency, %config_ini_file%, OPTIONAL_HOTKEYS, HK_TOY_TRANSPARENCY, X
     
     IniRead, hk_run_add_tag, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_ADD_TAG, +F9
     IniRead, hk_run_add_header, %config_ini_file%, OPTIONAL_HOTKEYS, HK_RUN_ADD_HEADER, +F10
@@ -193,10 +194,19 @@ PROCESS_INI:
     IniRead, exe_clipboard, %config_ini_file%, OPTIONAL_HOTKEYS, HK_EXECUTE_CLIPBOARD, X
     IniRead, html_outputFile, %config_ini_file%, ETC, HTML_BUFFER_FILE , %html_outputFile%
     IniRead, cfg_popupdelay, %config_ini_file%, ETC, POPUP_DELAY_MS, 700
+    IniRead, cfg_stdout_browser, %config_ini_file%, RUN_CONFIG , RUN_CONFIG_STDOUT_BROWSER, X
 
-    ; XLS_INPUTS
-    ;IniRead, src_xls_1, %config_ini_file%, XLS_INPUTS, XLS_1 , X
-    ;IniRead, xls_src_list, %config_ini_file% , XLS_INPUTS
+    run_config_string := IniGetKeys(config_ini_file,"RUN_CONFIG","|")
+    array_run_config := StrSplit( run_config_string , "|" )
+
+    arr_config := Array()
+    for index, element in array_run_config
+    {
+        IniRead, x_temp, %config_ini_file%, RUN_CONFIG, %element%, X
+        if(x_temp != "X")
+            arr_config.Push(x_temp)
+    }
+
     xls_src_string := IniGetKeys(config_ini_file,"XLS_INPUTS","|")
     array_src_key := StrSplit( xls_src_string , "|" )
 
@@ -257,6 +267,8 @@ PROCESS_INI:
     registerHK(hk_run_default,"HTML_DEFAULT_LOOKUP")
     registerHK(hk_add_default,"HTML_ADD_DEFAULT_LOOKUP")
     registerHK(hk_change_defaultmode,"CHANGE_DEFAULT_LOOKUP")
+    registerHK(hk_toy_transparency,"TOY_TRANSPARENCY")
+
     
     Gosub, HELP_TEXT
 
@@ -403,12 +415,6 @@ Return
 OPEN_DB:
     Run, %knowledge_path%
 Return
-
-
-
-FOLLOW_CLIPBOARD:
-    run, %Clipboard%
-return
 
 
 
@@ -927,12 +933,37 @@ Return
 
 
 DISPLAY_HTML_DEFAULT:
-    Run, % html_outputFile
+
+    if(cfg_stdout_browser=="X") {
+        ;Default based on Sstemsettings is used to execute / open html file
+        Run, % html_outputFile
+        return
+    }
+
+
+    if ( RegExMatch( cfg_stdout_browser,"\{\{.*\}\}" ) > 0 ) {
+        to_execute:=RegExReplace(cfg_stdout_browser, "\{\{.*\}\}" , html_outputFile)
+        to_execute:=StrReplace(to_execute,".\", A_ScriptDir "\")
+        run, %to_execute%
+        Return
+    }
+    
+    try{
+
+        ; If no special handling was found execute the clipboard
+        html_outputFile2:=StrReplace(html_outputFile,".\", A_ScriptDir "\")
+        Run, %cfg_stdout_browser%  %html_outputFile2%
+
+    } catch Error {
+        Run, % html_outputFile
+    }
+
+
 Return
 
 
 
-^RButton:: ;todo config in ini
+TOY_TRANSPARENCY: ;todo config in ini
     MouseGetPos,,, MouseWin
     WinGet, Transparent, Transparent, ahk_id %MouseWin%
     if(Transparent<90) {
@@ -958,6 +989,36 @@ return
 
 
 
+FOLLOW_CLIPBOARD:
+    
+    x := StrLen(Clipboard) 
+    if(x==0){
+        ;Clipboard is empty or invalid -> Ther is nothing to do or execute
+        return
+    }
+    my_clip := Clipboard
+
+
+    to_execute:=""
+    temp_needle:=""
+    file_ending := getFileExt(my_clip)
+    for index, element in arr_config
+    {
+        to_execute:=element
+        temp_needle := extractToken(element,"{{","}}")
+        if ( RegExMatch( file_ending,temp_needle ) > 0 ) {
+            to_execute:=RegExReplace(to_execute, "\{\{.*\}\}" , my_clip)
+            run, %to_execute%
+            Return
+        }
+    }
+
+    ; If no special handling was found execute the clipboard
+    run, %Clipboard%
+return
+
+
+
 ExitSub:
     if A_ExitReason not in Logoff,Shutdown  ; Avoid spaces around the comma in this line.
     {
@@ -970,19 +1031,5 @@ ExitApp
 
 
 
-registerHK(hk_string_semikolon, mylbl){
-    try{
-    if(hk_string_semikolon=="X")
-        Return
 
-    hk_arr :=  StrSplit( hk_string_semikolon , ";" )
-    Loop % hk_arr.Length()
-        Hotkey, % hk_arr[A_Index], %mylbl%
 
-    } catch error
-    {
-        MsgBox, % "Error in Hotkey definition --> " hk_string_semikolon " <--. `n Some HK might not work!!! Please check ini-file and reload script..." 
-    }
-    return
-
-}

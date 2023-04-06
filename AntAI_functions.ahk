@@ -383,3 +383,35 @@ showPopUp(message, duration) {
     Gui Destroy
   }
   
+
+  getFileExt(str){
+    dotPos := RegExMatch(str, "(?<=\.)[^.]*$", dot)
+    fileExtension := SubStr(str,dotPos) ;(str, StrLen(str) - dotPos)
+    return fileExtension
+}
+
+
+extractToken(lookupString, left_token="##", right_token="##"){
+    xpos := RegExMatch(lookupString , left_token . "(.*?)" . right_token, prep_pivot_config)
+    prep_pivot_config := Trim(StrReplace(StrReplace(prep_pivot_config,left_token,""),right_token) )
+    Return prep_pivot_config
+} 
+
+
+
+registerHK(hk_string_semikolon, mylbl){
+    try{
+    if(hk_string_semikolon=="X")
+        Return
+
+    hk_arr :=  StrSplit( hk_string_semikolon , ";" )
+    Loop % hk_arr.Length()
+        Hotkey, % hk_arr[A_Index], %mylbl%
+
+    } catch error
+    {
+        MsgBox, % "Error in Hotkey definition --> " hk_string_semikolon " <--. `n Some HK might not work!!! Please check ini-file and reload script..." 
+    }
+    return
+
+}
