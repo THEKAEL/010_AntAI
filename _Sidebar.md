@@ -1,3 +1,0 @@
-- [Home](Home)
-- [Installation](Installieren/Einrichten)
-- [Configuration und Administration] (Configuration/Administration)
