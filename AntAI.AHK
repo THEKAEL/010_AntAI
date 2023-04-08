@@ -141,8 +141,8 @@ DebugAppend(Data, useNewline = True, addTime = False)
 }
 
 closeLogGui:
-    sleep 3000
-    Gui, Destroy
+    ;sleep 3000
+    ;Gui, Destroy
 return
 
 
@@ -335,6 +335,8 @@ REBUILD_DB:
     Gosub, CloseLogGui
 
 return
+
+
 
 
 HELP_HTML:

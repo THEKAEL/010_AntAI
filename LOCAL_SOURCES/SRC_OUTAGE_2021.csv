@@ -1,0 +1,29 @@
+﻿search_in,fit_to,H1,H2,H3,INFO,INFO_HTML,OUTPUT,OUTPUT_2,SHOW_FROM,SHOW_TO
+OUTAGE_EVENT_DORT_EB_2021-01-01_OUTEB_Q1_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-01-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Reparatur / Störung Sonstiges</TD><TD>                      1,747 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-01-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Reparatur / Störung Turbosatz</TD><TD>                         832 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-01-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>           2,579 </TD></TR>
+ </TABLE> ",EB_DORT,2021-01-01,,
+OUTAGE_EVENT_DORT_EB_2021-02-01_OUTEB_Q1_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-02-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Reparatur / Störung Turbosatz</TD><TD>                         504 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-02-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>               504 </TD></TR>
+ </TABLE> ",EB_DORT,2021-02-01,,
+OUTAGE_EVENT_DORT_EB_2021-03-01_OUTEB_Q1_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-03-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Reparatur / Störung Sonstiges</TD><TD>                         440 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-03-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                         673 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-03-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>             1,114 </TD></TR>
+ </TABLE> ",EB_DORT,2021-03-01,,
+OUTAGE_EVENT_DORT_EB_2021-04-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-04-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Reparatur / Störung Sonstiges</TD><TD>                     3,607 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-04-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     5,475 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-04-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>           9,082 </TD></TR>
+ </TABLE> ",EB_DORT,2021-04-01,,
+OUTAGE_EVENT_DORT_EB_2021-05-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-05-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Reparatur / Störung Sonstiges</TD><TD>                     6,543 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-05-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     8,928 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-05-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          15,471 </TD></TR>
+ </TABLE> ",EB_DORT,2021-05-01,,
+OUTAGE_EVENT_DORT_EB_2021-06-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-06-01</TD><TD>ACTIVE</TD><TD>4:  Stillstand::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                   18,248 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2021-06-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          18,248 </TD></TR>
+ </TABLE> ",EB_DORT,2021-06-01,,

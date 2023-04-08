@@ -1,0 +1,32 @@
+﻿search_in,fit_to,H1,H2,H3,INFO,INFO_HTML,OUTPUT,OUTPUT_2,SHOW_FROM,SHOW_TO
+OUTAGE_EVENT_DORT_EB_2022-02-01_OUTEB_Q1_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-02-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Reparatur / Störung Turbosatz</TD><TD>                         966 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-02-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>               966 </TD></TR>
+ </TABLE> ",EB_DORT,2022-02-01,,
+OUTAGE_EVENT_DORT_EB_2022-03-01_OUTEB_Q1_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-03-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Reparatur / Störung Turbosatz</TD><TD>                     3,599 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-03-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     6,438 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-03-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          10,037 </TD></TR>
+ </TABLE> ",EB_DORT,2022-03-01,,
+OUTAGE_EVENT_DORT_EB_2022-04-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-04-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Sonstige Maßnahmen</TD><TD>                      6,519 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-04-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     8,640 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-04-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          15,159 </TD></TR>
+ </TABLE> ",EB_DORT,2022-04-01,,
+OUTAGE_EVENT_DORT_EB_2022-05-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-05-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Sonstige Maßnahmen</TD><TD>                    10,416 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-05-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     8,928 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-05-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          19,344 </TD></TR>
+ </TABLE> ",EB_DORT,2022-05-01,,
+OUTAGE_EVENT_DORT_EB_2022-06-01_OUTEB_Q2_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-06-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Sonstige Maßnahmen</TD><TD>                   16,300 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-06-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Wetterbedingte Minderleistung::D23 - Klima</TD><TD>                     2,425 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-06-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>          18,725 </TD></TR>
+ </TABLE> ",EB_DORT,2022-06-01,,
+OUTAGE_EVENT_DORT_EB_2022-07-01_OUTEB_Q3_,OUT%DORT,CAMMEL,EVENTS OUTAGE,EB_DORT,,"<TABLE> <caption>CAMMEL OUTAGE EVENTS for:    EB DORT</caption> <TR> <TH> Seg </TH>  <TH> BLOCK_ID </TH>  <TH> MONTH </TH>  <TH> ENTFALLEN </TH>  <TH> STD_TXT_ADJ </TH>  <TH> MWh Impact </TH> </TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-07-01</TD><TD>ACTIVE</TD><TD>2: Minderleistung::Sonstige Maßnahmen</TD><TD>                               2 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-07-01</TD><TD>ACTIVE Ergebnis</TD><TD></TD><TD>                    2 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-07-01</TD><TD>ENTFALLEN</TD><TD>4:  Stillstand::K - Jahresstillstandsprogramm::A-Inspektion VG</TD><TD>-                   1,682 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-07-01</TD><TD>ENTFALLEN</TD><TD>4:  Stillstand::K - Jahresstillstandsprogramm::Innere Prüfung </TD><TD>-                  3,024 </TD></TR>
+<TR><TD>EB</TD><TD>DORT</TD><TD>2022-07-01</TD><TD>ENTFALLEN Ergebnis</TD><TD></TD><TD>-         4,706 </TD></TR>
+ </TABLE> ",EB_DORT,2022-07-01,,
