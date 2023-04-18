@@ -194,7 +194,7 @@ PROCESS_INI:
     IniRead, exe_clipboard, %config_ini_file%, OPTIONAL_HOTKEYS, HK_EXECUTE_CLIPBOARD, X
     IniRead, html_outputFile, %config_ini_file%, ETC, HTML_BUFFER_FILE , %html_outputFile%
     IniRead, cfg_popupdelay, %config_ini_file%, ETC, POPUP_DELAY_MS, 700
-    IniRead, cfg_stdout_browser, %config_ini_file%, RUN_CONFIG , RUN_CONFIG_STDOUT_BROWSER, X
+    IniRead, cfg_stdout_browser, %config_ini_file%, RUN_CONFIG_STD , RUN_CONFIG_STDOUT_BROWSER, X
 
     run_config_string := IniGetKeys(config_ini_file,"RUN_CONFIG","|")
     array_run_config := StrSplit( run_config_string , "|" )
@@ -993,12 +993,12 @@ return
 
 FOLLOW_CLIPBOARD:
     
-    x := StrLen(Clipboard) 
+    x := StrLen(trim(Clipboard)) 
     if(x==0){
         ;Clipboard is empty or invalid -> Ther is nothing to do or execute
         return
     }
-    my_clip := Clipboard
+    my_clip := trim(Clipboard)
 
 
     to_execute:=""
@@ -1016,7 +1016,7 @@ FOLLOW_CLIPBOARD:
     }
 
     ; If no special handling was found execute the clipboard
-    run, %Clipboard%
+    run, %my_clip%
 return
 
 
