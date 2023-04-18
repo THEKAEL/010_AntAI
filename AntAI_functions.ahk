@@ -122,6 +122,10 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
         my_sql := """update T_KNOWLEDGE set src_lbl1='" curr_csvfile_bak "', src_lbl2='FILE', src_lbl3='n/a', src_info='CSV', _insertLBL='csv_updated' where src_info is NULL"""
         OutputDebug, %loc_sqliteToolPath% %db_path%  %my_sql%
         RunWait, %loc_sqliteToolPath% %db_path%  %my_sql%
+        my_sql := """delete from T_KNOWLEDGE where upper(h1)='H1' and upper(h2)='H2' and upper(h3)='H3' """
+        OutputDebug, %loc_sqliteToolPath% %db_path%  %my_sql%
+        RunWait, %loc_sqliteToolPath% %db_path%  %my_sql%
+
         DebugAppend("END processing CSV file " A_Index ": " loc_arrayPathCSV[csv_counter] ,True,True)
 
         ;W:\RWE-Trading\MFC\PC_CAO_POWER\MFC_PH\Other\2001_TK\100_Infosrc\DBSRC_PSP.db3
@@ -185,7 +189,8 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         DebugAppend("")
         DebugAppend("")
         DebugAppend("START file " A_Index ": " xlsArray[xls_counter] ,True,True)
-        XL_WB := XL.Workbooks.Open(xlsArray[xls_counter],False,True) ; no link update + read only
+        my_xls_to_open := StrReplace(xlsArray[xls_counter], ".\", A_ScriptDir "\")
+        XL_WB := XL.Workbooks.Open(my_xls_to_open,False,True) ; no link update + read only
         ; todo: some error handling
 
         num_tabs := XL_WB.Worksheets.count()

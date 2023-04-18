@@ -346,7 +346,7 @@ Return
 HELP_TEXT:
     help_text = 
     ( 
-    Your personal Knowledge DB by (c) Thomas Kloeckl
+    AntAi - Your personal Knowledge DB by Thomas Kloeckl
     Hotkey for 
             - HELP                    %hk_help%
 
