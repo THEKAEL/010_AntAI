@@ -351,9 +351,9 @@ HELP_TEXT:
             - HELP                    %hk_help%
 
         ---- DEFAULT EXECUTION / SEARCH MODE -------
-            - SWAP                    %hk_change_defaultmode%
-            - RUN CONDITION           %hk_run_default%
-            - ADD CONDITION           %hk_add_default%
+            - SWAP SEARCH MODE        %hk_change_defaultmode%
+            - RUN SEARCH              %hk_run_default%
+            - ADD SEARCH CONDITION    %hk_add_default%
         
         ----- DIRECT searches (not recommended)-----
             - RUN TAG SEARCH          %hk_run_html%
