@@ -17,7 +17,12 @@ SetWorkingDir, %A_ScriptDir%
     Gosub PROCESS_INI
 
     my_db3 := New SQLiteDB(sqlite_dll_path)
-    my_db3.loadToInMem(knowledge_path)
+    if( cfg_inmem == 1) {   
+        my_db3.loadToInMem(knowledge_path)
+    }
+    else {
+        my_db3.OpenDB(knowledge_path)
+    }
 
     default_add := "HTML_ADD_ALL_LOOKUP"
     default_run := "HTML_ALL_LOOKUP"
@@ -195,6 +200,7 @@ PROCESS_INI:
     IniRead, html_outputFile, %config_ini_file%, ETC, HTML_BUFFER_FILE , %html_outputFile%
     IniRead, cfg_popupdelay, %config_ini_file%, ETC, POPUP_DELAY_MS, 700
     IniRead, cfg_stdout_browser, %config_ini_file%, RUN_CONFIG_STD , RUN_CONFIG_STDOUT_BROWSER, X
+    IniRead, cfg_inmem, %config_ini_file%, ETC, USE_INMEM_DB , 0
 
     run_config_string := IniGetKeys(config_ini_file,"RUN_CONFIG","|")
     array_run_config := StrSplit( run_config_string , "|" )
@@ -329,8 +335,12 @@ REBUILD_DB:
     my_db3.storeto(knowledge_path)  ; save in memory DB to file because we need to have the db in file system for the next setpp
 
     buildFromCSV(knowledge_path,arrayPathCSV,sqliteToolPath) ; todo: Get CSV config like quotes or sepeators from inif file ??
-    my_db3.loadToInMem(knowledge_path) ; bring the db back to the RAM for further use and improved performance.
-
+    if( cfg_inmem == 1) {   
+        my_db3.loadToInMem(knowledge_path) ; bring the db back to the RAM for further use and improved performance.
+    }
+    else {
+        ;we do not put it back to the memory and access data directly on the drive
+    }
     OutputDebug, % "Load/Refresh of db finished!"
     Gosub, CloseLogGui
 
