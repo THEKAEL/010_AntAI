@@ -192,7 +192,7 @@
             <P title='# is the Windows-Key / ! is the ALT-Key / ^ is CTRL-Key / + is the SHIFT-Key'>
                 <div>
                 <font color=gray size=4em face='Candara'>
-                    HELP: #F1;#F2 - - RUN (default search): X - - RUN (search in header1-3) X - - RUN (search in all Cols): F1 - - ADD TAG to search: X - - ADD HEADER to search: X - - ADD any Condition: !F1  <BR> || !x;^XButton1 EXECUTE the CLIPBOARD with standard app || # is Windows-Key - - ! is ALT-Key - - ^ is CTRL-Key - - + is SHIFT-Key
+                    HELP: #F1;#F11 - - RUN (default search): X - - RUN (search in header1-3) X - - RUN (search in all Cols): F1 - - ADD TAG to search: X - - ADD HEADER to search: X - - ADD any Condition: !F1  <BR> || !x;^XButton1 EXECUTE the CLIPBOARD with standard app || # is Windows-Key - - ! is ALT-Key - - ^ is CTRL-Key - - + is SHIFT-Key
                 </font>
                 </div>
                     <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
@@ -222,7 +222,7 @@
         <font face='Candara' >
         <TABLE id='master_table' class='main'>
             <CAPTION>
-                Output for:  > Y:\DEV\GIT\010\_AntAI\DOC\screenshots <  (There are # out of  results shown!)
+                Output for:  > testme1 <  (There are #1 out of 1 results shown!)
             </CAPTION>
             <COLGROUP>
                 <col span=3 class='tblgrouping' >
@@ -235,20 +235,20 @@
             <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
             <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
                 <option> - </option>
-                
+                <option value='myh1'>myh1</option> 
             </select>
         </TH>
         <TH class='base grouping'  >
             <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
             <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
                 <option> - </option>
-                
+                <option value='myh2'>myh2</option> 
             </select>
         </TH>
         <TH class='base grouping' >
             <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
                 <option> - </option>
-                
+                <option value='myh3'>myh3</option> 
             </select>
         </TH>
                     <TH class='base info'> Info </TH>
@@ -262,7 +262,9 @@
                 </TR>
             </thead>
             <tbody>
-                
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>myh1</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>myh2</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'>myh3</DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>this is my info test normal</DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'>out1</DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'>out2</DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>%test%</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>.\LOCAL_SOURCES\TEST_STD1.csv</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>FILE</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>n/a</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>CSV</DIV>  </TD></TR>
+
             </tbody>
         </TABLE>
         </font>

@@ -63,6 +63,15 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
         DebugAppend("START processing file " A_Index ": " sqliteArray[sqlite_counter] ,True,True)
 
         curr_sqlitefile := sqliteArray[sqlite_counter]
+
+        if(FileExist(curr_sqlitefile) == False) {
+            DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
+            Continue
+        }
+        else{
+            DebugAppend("MSG: File found --> Try import" ,True,True)
+        }
+
         ; ToDo: Some error handling 
         sqliteDBObject.AttachDB(curr_sqlitefile,"SRC")
         sql_statement = 
@@ -115,6 +124,14 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
 
         curr_csvfile := loc_arrayPathCSV[csv_counter]
         curr_csvfile_bak := curr_csvfile
+        if(FileExist(curr_csvfile_bak) == False) {
+            DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
+            Continue
+        }
+        else{
+            DebugAppend("MSG: File found --> Try import" ,True,True)
+        }
+        
         curr_csvfile := StrReplace(curr_csvfile, "\" , "\\" )
         OutputDebug, %loc_sqliteToolPath% %db_path% ".mode csv" ".import -skip 1 %curr_csvfile% T_KNOWLEDGE"
         RunWait, %loc_sqliteToolPath% %db_path% ".mode csv" ".import %curr_csvfile% T_KNOWLEDGE", ,  ;hide 
@@ -201,6 +218,15 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         DebugAppend("")
         DebugAppend("START file " A_Index ": " xlsArray[xls_counter] ,True,True)
         my_xls_to_open := StrReplace(xlsArray[xls_counter], ".\", A_ScriptDir "\")
+
+        if(FileExist(my_xls_to_open) == False) {
+            DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
+            Continue
+        }
+        else{
+            DebugAppend("MSG: File found --> Try import" ,True,True)
+        }
+
         XL_WB := XL.Workbooks.Open(my_xls_to_open,False,True) ; no link update + read only
         ; todo: some error handling
 
