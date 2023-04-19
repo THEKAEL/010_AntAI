@@ -1,2 +1,3 @@
 ﻿search_in,fit_to,H1,H2,H3,INFO,INFO_HTML,OUTPUT,OUTPUT_2,SHOW_FROM,SHOW_TO
-testme1,%test%,myh1,myh2,myh3,this is my info test normal,,out1,out2
+testme1,%test%,myh1,myh2,myh3,"needs to be quoted in case there is a comma , in the field ",,out1,out2
+testme2,%test%,myh1,myh2,myh3,no comma in the field,,out1,out2
