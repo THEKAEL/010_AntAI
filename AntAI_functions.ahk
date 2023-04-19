@@ -149,6 +149,17 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
     ; do plausi-checks fo xlsArray and lblArray
     ; check if db is open !
 
+    if (isExcelInstalled() == False )  {
+        MsgBox, 48, No Excel Installation Found, We could not create a COM Object based on a valid Excel installation on your computer. Please install Excel or convert your XLS into a vaid CSV format instad. 
+        DebugAppend("WARNING: No Excel installation found. Skipp import. ", True,True)
+        DebugAppend("MSG: Please install MS Excel or convert XLS files to CSV. ", True,True)
+        return
+    }
+    else {
+        DebugAppend("MSG: Valid Excel installation found.", True,True)
+
+    }
+
     DebugAppend("Start Rebuilding Knowledge Database from files.",True,True)
     if(deleteOldData==True) {
         DebugAppend("START: Drop old Tables.", True,True)
@@ -419,4 +430,20 @@ registerHK(hk_string_semikolon, mylbl){
     }
     return
 
+}
+
+
+
+isExcelInstalled()
+{
+    try
+    {
+        Excel := ComObjCreate("Excel.Application")
+        Excel.Quit()
+        return true
+    }
+    catch
+    {
+        return false
+    }
 }
