@@ -69,7 +69,7 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
             Continue
         }
         else{
-            DebugAppend("MSG: File found --> Try import" ,True,True)
+            DebugAppend("MSG: File found --> Try import" ,True,True) 
         }
 
         ; ToDo: Some error handling 
