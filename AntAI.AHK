@@ -9,8 +9,8 @@ SetWorkingDir, %A_ScriptDir%
     
     sqlite_dll_path := A_ScriptDir "\SQLite3.dll"
     user_pattern := "empty"
-    knowledge_path := A_ScriptDir "\KNOWLEDGE.db3"
-    config_ini_file := A_ScriptDir "\wisdom_config.ini"
+    knowledge_path := A_ScriptDir "\AntAiKNOWLEDGE.db3"
+    config_ini_file := A_ScriptDir "\antai_config.ini"
     sqliteToolPath := A_ScriptDir "\sqlite3.exe"
     html_outputFile := A_ScriptDir "\AntAi_out.html"
     
@@ -419,7 +419,7 @@ HELP_TEXT:
 
             If a search string contins seperators ";" it will split that string and perform a multiple incremental search.
     )
-    MsgBoxGui("Help for Wisdom-DB",help_text)
+    MsgBoxGui("Help for AntAi Knowledge-DB",help_text)
 Return
 
 
@@ -624,7 +624,7 @@ PREPARE_HTML_DATA:
     prev_qry := sql_qry ; for later use in case the user would like add a condition / without LIMIT clause
 
     htmlRowLimit := display_row_limit ; taken from ini-file / see above: display_row_limit
-    printable_output := formatTable_html(fullTable,"KNOWLEDGE DB output for " . user_pattern,False,3,htmlRowLimit, False)
+    printable_output := formatTable_html(fullTable,"AntAi Knowledge-DB output for " . user_pattern,False,3,htmlRowLimit, False)
 
     printable_headline := "Output for:  > "  user_pattern " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
 
