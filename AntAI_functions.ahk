@@ -104,6 +104,10 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
 
+    my_sql := """delete from T_KNOWLEDGE where upper(h1)='H1' and upper(h2)='H2' and upper(h3)='H3' """
+    sqliteDBObject.Prepare(my_sql, sss)
+    sss.Step()
+    
     DebugAppend("FINISHED processing SQLITE-files: #" sqliteArray[sqlite_counter] ,True,True)
 
 }
@@ -409,6 +413,10 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
     my_sql := "update T_KNOWLEDGE set show_to='2999-12-31' where show_to is null or trim(show_to) ='' "
+    sqliteDBObject.Prepare(my_sql, sss)
+    sss.Step()
+
+    my_sql := """delete from T_KNOWLEDGE where upper(h1)='H1' and upper(h2)='H2' and upper(h3)='H3' """
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
 
