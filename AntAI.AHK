@@ -5,8 +5,9 @@ SetWorkingDir, %A_ScriptDir%
 
 #Include .\OTHER_AHK\TKM_FORMATTING.ahk
 #Include .\OTHER_AHK\Class_SQLiteDB.ahk
-#Include AntAI_functions.ahk
-    
+#Include .\OTHER_AHK\AntAI_functions.ahk
+
+
     sqlite_dll_path := A_ScriptDir "\SQLite3.dll"
     user_pattern := "empty"
     knowledge_path := A_ScriptDir "\AntAiKNOWLEDGE.db3"
@@ -14,7 +15,7 @@ SetWorkingDir, %A_ScriptDir%
     sqliteToolPath := A_ScriptDir "\sqlite3.exe"
     html_outputFile := A_ScriptDir "\AntAi_out.html"
     
-    Gosub PROCESS_INI
+    Gosub, PROCESS_INI
 
     my_db3 := New SQLiteDB(sqlite_dll_path)
     if( cfg_inmem == 1) {   
@@ -168,6 +169,10 @@ return
     MsgBox, 0, Hotkey suspended, %my_user_msg% , 4
 return
 
+#G::
+    gosub, PROCESS_INI
+
+Return
 
 PROCESS_INI:
 
@@ -257,6 +262,26 @@ PROCESS_INI:
     } 
     OutputDebug, % arrayPathCSV.Length()
 
+
+
+    adhocsqlite_src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS","|")
+    array_adhocsqlite_key := StrSplit( adhocsqlite_src_string , "|" )
+
+    arrayPathADHOCSQLite := Array()
+    adhocSQLITE_stringlist := ""
+    for index, element in array_adhocsqlite_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SQLITE_INPUTS, %element%, X
+        if(x_temp != "X"){
+            arrayPathSQLite.Push(x_temp)
+            adhocSQLITE_stringlist := x_temp  "|"  adhocSQLITE_stringlist
+        }
+    } 
+
+    adhocSQLITE_stringlist := adhocSQLITE_stringlist . "|||"
+    adhocSQLITE_stringlist := StrReplace(adhocSQLITE_stringlist,"||||","")
+
     ;; register dynamically hotkeys based on ini file formatTable
 
     registerHK(hk_open_DB, "OPEN_DB")
@@ -335,6 +360,18 @@ REBUILD_DB:
     my_db3.storeto(knowledge_path)  ; save in memory DB to file because we need to have the db in file system for the next setpp
 
     buildFromCSV(knowledge_path,arrayPathCSV,sqliteToolPath) ; todo: Get CSV config like quotes or sepeators from inif file ??
+
+
+    flag_deleteEmptyHeader := 1 ; todo: maybe as a config parameter in the ini-file
+    if( flag_deleteEmptyHeader == 1) {   
+        my_sql := "delete from T_KNOWLEDGE where trim(h1)='' and trim(h2)='' and trim(h3)='' "
+        my_db3.Prepare(my_sql, sss)
+        sss.Step()
+    }
+    else {
+        ;we do not delete
+    }
+
     if( cfg_inmem == 1) {   
         my_db3.loadToInMem(knowledge_path) ; bring the db back to the RAM for further use and improved performance.
     }
@@ -594,12 +631,35 @@ FETCH_USER_INPUT:
     if(user_pattern=="") { 
         Return
     }
+    user_pattern_orig := user_pattern
     user_pattern := StrReplace(user_pattern,"_","\_")
     user_pattern := StrReplace(user_pattern,"%","\%")
     search_array := strsplit(user_pattern,";"," `t`r`n")
 
 return
 
+FETCH_USER_INPUT2:
+    send ^c
+    Sleep, 100
+
+    user_pattern := trim(Clipboard, omitchars := " `t`r`n")
+    if( user_pattern == "" )  {
+        click, 2
+        Sleep, 100
+        send ^c
+        Sleep, 100
+        user_pattern := trim(Clipboard, omitchars := " `t`r`n")
+    }
+
+    if(user_pattern=="") { 
+        Return
+    }
+    user_pattern_orig := user_pattern
+    user_pattern := StrReplace(user_pattern,"_","\_")
+    user_pattern := StrReplace(user_pattern,"%","\%")
+    search_array := strsplit(user_pattern,";"," `t`r`n")
+
+return
 
 PREPARE_HTML_DATA:
     
@@ -1044,4 +1104,20 @@ ExitApp
 
 
 
+!F::
+    Gui, Destroy
+    FormatTime, currDt, %A_Now%, yyyy-MM-dd
+    FormatTime, currMonth, %A_Now%, yyyy-MM
+    FormatTime, currDt2, %A_Now%, yyyyMMdd
+
+    Gosub, FETCH_USER_INPUT2
+    my_clip := user_pattern_orig
+    showAdhocInputGui(my_db3, sqlite_dll_path, "ADHOCMEMO" . currDt "_" . currDt2 , "ADHOC" , "ADHOC","MEMO",currMonth,"This Memo was created on the " . currDt ".", my_clip ,currDt,currDt,"2099-12-31",adhocSQLITE_stringlist)
+    my_db3.storeto(knowledge_path) 
+return
+
+
+
+
+#Include .\OTHER_AHK\AntAiGUI.AHK
 
