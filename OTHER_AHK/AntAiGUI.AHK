@@ -24,9 +24,9 @@ xxvalidto := "2099-12-31"
 xxdb3list := "Eintrag1|Eintrag2|Eintrag3|Eintrag4"
 xxSQLiteDLL := A_ScriptDir "\SQLite3.dll"
 xxmy_db3 := "" 
+xxpreselectedDB := ""
 
-
-showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "ADHOC",h2:= "ADHOC",h3:="ADHOC",infohtml := "n/a" ,output1 := "n/a" ,output2 := "n/a",validfrom="",validto="",db3list:="./ADHOC.db3"){
+showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "ADHOC",h2:= "ADHOC",h3:="ADHOC",infohtml := "n/a" ,output1 := "n/a" ,output2 := "n/a",validfrom="",validto="",db3list:="./ADHOC.db3",preselectedDB := ""){
 
     Global xxsearchin := searchin
     Global xxfitto := fitto
@@ -41,6 +41,7 @@ showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "AD
     Global xxdb3list := db3list
     Global xxSQLiteDLL := SQLiteDLL
     Global xxmy_db3 := basisDB
+    Global xxpreselectedDB := preselectedDB
     Gosub, INIT_ADHOCGUI
     
     return
@@ -94,12 +95,12 @@ Gui, Add, Button, gClearFeld9 x+5, CLEAR
 
 ; Erstelle die Dropdown-Box
 Gui, Add, Text, x5 , Dropdown:
-Gui, Add, DropDownList, vDropdown w395 x5 Choose1 , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
-
+Gui, Add, ComboBox, vDropdown w395 x5  , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
+GuiControl, Text, Dropdown, %xxpreselectedDB%
 
 struct_sql := "SELECT group_concat(my_col, '|') FROM (select distinct h1 || ';' || h2 as my_col from T_Knowledge order by 1 asc)  "
 headerstructure_list := xxmy_db3.tk_get1stValue(struct_sql)
-Gui, Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list%
+Gui, Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list% 
 Gui, Add, Button, gTakeField001 x+5, GET
 
 ; Erstelle die Buttons
