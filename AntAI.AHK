@@ -169,10 +169,7 @@ return
     MsgBox, 0, Hotkey suspended, %my_user_msg% , 4
 return
 
-#G::
-    gosub, PROCESS_INI
 
-Return
 
 PROCESS_INI:
 
@@ -264,23 +261,236 @@ PROCESS_INI:
 
 
 
+    ;;;; START READIN ADHOC DEFAULTS, SQLITE DB settings and HOTKEYS
+    ;;;;
+    ;;;;
+    ;;;;
+
+    adhocDict := {}
     adhocsqlite_src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS","|")
     array_adhocsqlite_key := StrSplit( adhocsqlite_src_string , "|" )
 
-    arrayPathADHOCSQLite := Array()
     adhocSQLITE_stringlist := ""
     for index, element in array_adhocsqlite_key
     {
 
         IniRead, x_temp, %config_ini_file%, ADHOC_SQLITE_INPUTS, %element%, X
         if(x_temp != "X"){
-            arrayPathSQLite.Push(x_temp)
-            adhocSQLITE_stringlist := x_temp  "|"  adhocSQLITE_stringlist
+            adhocDict[element] := x_temp
+            adhocSQLITE_stringlist :=  adhocSQLITE_stringlist "|" x_temp  
         }
     } 
 
-    adhocSQLITE_stringlist := adhocSQLITE_stringlist . "|||"
+    adhocSQLITE_stringlist := "|||" . adhocSQLITE_stringlist 
     adhocSQLITE_stringlist := StrReplace(adhocSQLITE_stringlist,"||||","")
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_HOTKEYS","|")
+    array_adhocHK_key := StrSplit( src_string , "|" )
+
+    arrayAdhocHK := Array()
+    for index, element in array_adhocHK_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SQLITE_HOTKEYS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+            registerHK(x_temp, "RUN_ADHOC_INPUT")
+        }
+
+    } 
+
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS_DEFAULTS","|")
+    array_adhocDefaultSQLite_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultSQLite := Array()
+    for index, element in array_adhocDefaultSQLite_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SQLITE_INPUTS_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_SEARCHIN_DEFAULTS","|")
+    array_adhocDefaultSEARCHIN_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultSEARCHIN := Array()
+    for index, element in array_adhocDefaultSEARCHIN_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SEARCHIN_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_FITTO_DEFAULTS","|")
+    array_adhocDefaultFITTO_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultFITTO := Array()
+    for index, element in array_adhocDefaultFITTO_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_FITTO_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+    OutputDebug, % array_adhocDefaultFITTO_key.Length()
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_H1_DEFAULTS","|")
+    array_adhocDefaultH1_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultH1 := Array()
+    for index, element in array_adhocDefaultH1_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_H1_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+    OutputDebug, % array_adhocDefaultH1_key.Length()
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_H2_DEFAULTS","|")
+    array_adhocDefaultH2_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultH2 := Array()
+    for index, element in array_adhocDefaultH2_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_H2_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+    OutputDebug, % array_adhocDefaultH2_key.Length()
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_H3_DEFAULTS","|")
+    array_adhocDefaultH3_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultH3 := Array()
+    for index, element in array_adhocDefaultH3_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_H3_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+    OutputDebug, % array_adhocDefaultH3_key.Length()
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_INFOHTML_DEFAULTS","|")
+    array_adhocDefaultINFOHTML_key := StrSplit( src_string , "|" )
+
+    ;arrayAdhocDefaultINFOHTML := Array()
+    for index, element in array_adhocDefaultINFOHTML_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_INFOHTML_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_OUTPUT1_DEFAULTS","|")
+    array_adhocDefaultOUTPUT1_key := StrSplit( src_string , "|" )
+
+    for index, element in array_adhocDefaultOUTPUT1_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_OUTPUT1_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_OUTPUT2_DEFAULTS","|")
+    array_adhocDefaultOUTPUT2_key := StrSplit( src_string , "|" )
+
+    for index, element in array_adhocDefaultOUTPUT2_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_OUTPUT2_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_SHOWFROM_DEFAULTS","|")
+    array_adhocDefaultSHOWFROM_key := StrSplit( src_string , "|" )
+
+
+    for index, element in array_adhocDefaultSHOWFROM_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SHOWFROM_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+
+
+    src_string := IniGetKeys(config_ini_file,"ADHOC_SHOWTO_DEFAULTS","|")
+    array_adhocDefaultSHOWTO_key := StrSplit( src_string , "|" )
+
+    for index, element in array_adhocDefaultSHOWTO_key
+    {
+
+        IniRead, x_temp, %config_ini_file%, ADHOC_SHOWTO_DEFAULTS , %element%, X
+        if(x_temp != "X"){
+            adhocDict[element] := x_temp
+        }
+
+    } 
+
+    ;;;; 
+    ;;;;
+    ;;;;
+    ;;;; START READIN ADHOC DEFAULTS, SQLITE DB settings and HOTKEYS
+
+
+
+
 
     ;; register dynamically hotkeys based on ini file formatTable
 
@@ -1103,17 +1313,58 @@ ExitApp
 
 
 
+getFirstKeyByValue(dict, val)
+{
+    for key, valueX in dict
+    {
+        if (valueX == val)
+            return key
+    }
+    
+    return ""
+}
 
-!F::
+
+
+RUN_ADHOC_INPUT:
     Gui, Destroy
     FormatTime, currDt, %A_Now%, yyyy-MM-dd
     FormatTime, currMonth, %A_Now%, yyyy-MM
     FormatTime, currDt2, %A_Now%, yyyyMMdd
 
+    if RegExMatch(getFirstKeyByValue(adhocDict, A_ThisHotkey), "(\d+)$", match)
+        my_idx := match
+    else
+        my_idx := 1
+        
+    
     Gosub, FETCH_USER_INPUT2
     my_clip := user_pattern_orig
-    showAdhocInputGui(my_db3, sqlite_dll_path, "ADHOCMEMO" . currDt "_" . currDt2 , "ADHOC" , "ADHOC","MEMO",currMonth,"This Memo was created on the " . currDt ".", my_clip ,currDt,currDt,"2099-12-31",adhocSQLITE_stringlist)
+
+    ;; todo: read default mappings from adhocDict(key) and then pass it to the showadhocinputgui-Function
+    
+   
+    zsearchin:= adhocDict["DEFAULT_SEARCHIN_" . my_idx]
+    zfitto:=  adhocDict["DEFAULT_FITTO_" . my_idx]
+    zh1:=  adhocDict["DEFAULT_H1_" . my_idx]
+    zh2:= adhocDict["DEFAULT_H2_" . my_idx]
+    zh3:= adhocDict["DEFAULT_H3_" . my_idx]
+    zinfohtml := adhocDict["DEFAULT_INFOHTML_" . my_idx]
+    zoutput1 := adhocDict["DEFAULT_OUTPUT1_" . my_idx]
+    zoutput2 := adhocDict["DEFAULT_OUTPUT2_" . my_idx]
+    zvalidfrom := adhocDict["DEFAULT_SHOWFROM_" . my_idx]
+    zvalidto := adhocDict["DEFAULT_SHOWTO_" . my_idx]
+    zdb3list := adhocSQLITE_stringlist
+
+    ;Set some defaults
+
+    ;my_clip
+    ;currDt
+    ;"2099-12-31"
+
+    showAdhocInputGui(my_db3, sqlite_dll_path, zsearchin . currDt "_" . currDt2 , zfitto , zh1 ,zh2,zh3,"This Memo was created on the " . currDt "." . zinfohtml , zoutput1 ,zoutput2,currDt,zvalidto,zdb3list)
     my_db3.storeto(knowledge_path) 
+
 return
 
 
