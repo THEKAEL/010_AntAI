@@ -1341,28 +1341,23 @@ RUN_ADHOC_INPUT:
     Gosub, FETCH_USER_INPUT2
     my_clip := user_pattern_orig
 
-    ;; todo: read default mappings from adhocDict(key) and then pass it to the showadhocinputgui-Function
-    
+    ;Set some defaults
    
-    zsearchin:= adhocDict["DEFAULT_SEARCHIN_" . my_idx]
+    zsearchin:= adhocDict["DEFAULT_SEARCHIN_" . my_idx] . "ADHOC_" . currDt "_" . currDt2
     zfitto:=  adhocDict["DEFAULT_FITTO_" . my_idx]
-    zh1:=  adhocDict["DEFAULT_H1_" . my_idx]
-    zh2:= adhocDict["DEFAULT_H2_" . my_idx]
-    zh3:= adhocDict["DEFAULT_H3_" . my_idx]
-    zinfohtml := adhocDict["DEFAULT_INFOHTML_" . my_idx]
-    zoutput1 := adhocDict["DEFAULT_OUTPUT1_" . my_idx]
+    zh1:= (adhocDict["DEFAULT_H1_" . my_idx] == "") ? "" : adhocDict["DEFAULT_H1_" . my_idx]
+    zh2:= (adhocDict["DEFAULT_H2_" . my_idx] == "") ? "" : adhocDict["DEFAULT_H2_" . my_idx]
+    zh3:= (adhocDict["DEFAULT_H3_" . my_idx] == "") ? currMonth : adhocDict["DEFAULT_H3_" . my_idx]
+    zinfohtml := "This Memo was created on the " . currDt ".`n<BR><BR>`n" .  adhocDict["DEFAULT_INFOHTML_" . my_idx]
+    zoutput1 := (adhocDict["DEFAULT_OUTPUT1_" . my_idx] == "" ) ? my_clip : adhocDict["DEFAULT_OUTPUT1_" . my_idx]
     zoutput2 := adhocDict["DEFAULT_OUTPUT2_" . my_idx]
-    zvalidfrom := adhocDict["DEFAULT_SHOWFROM_" . my_idx]
-    zvalidto := adhocDict["DEFAULT_SHOWTO_" . my_idx]
+    zvalidfrom := (adhocDict["DEFAULT_SHOWFROM_" . my_idx] == "") ? currdt : adhocDict["DEFAULT_SHOWFROM_" . my_idx] 
+    zvalidto := (adhocDict["DEFAULT_SHOWTO_" . my_idx] == "" ) ? "2099-12-31" : adhocDict["DEFAULT_SHOWTO_" . my_idx] 
     zdb3list := adhocSQLITE_stringlist
 
-    ;Set some defaults
+   
 
-    ;my_clip
-    ;currDt
-    ;"2099-12-31"
-
-    showAdhocInputGui(my_db3, sqlite_dll_path, zsearchin . currDt "_" . currDt2 , zfitto , zh1 ,zh2,zh3,"This Memo was created on the " . currDt "." . zinfohtml , zoutput1 ,zoutput2,currDt,zvalidto,zdb3list)
+    showAdhocInputGui(my_db3, sqlite_dll_path, zsearchin  , zfitto , zh1 ,zh2,zh3,zinfohtml , zoutput1 ,zoutput2,zvalidfrom,zvalidto,zdb3list)
     my_db3.storeto(knowledge_path) 
 
 return
