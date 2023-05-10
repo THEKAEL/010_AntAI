@@ -1355,7 +1355,6 @@ RUN_ADHOC_INPUT:
     zvalidto := (adhocDict["DEFAULT_SHOWTO_" . my_idx] == "" ) ? "2099-12-31" : adhocDict["DEFAULT_SHOWTO_" . my_idx] 
     zdb3list := adhocSQLITE_stringlist
 
-   
 
     showAdhocInputGui(my_db3, sqlite_dll_path, zsearchin  , zfitto , zh1 ,zh2,zh3,zinfohtml , zoutput1 ,zoutput2,zvalidfrom,zvalidto,zdb3list)
     my_db3.storeto(knowledge_path) 
