@@ -985,23 +985,27 @@ WRITE_HTML:
                 width: 50`%
                 min-width: 45`%;
                 max-width: 70`%;
+                z-index: 1;
             }
             th.grouping {
                 position: sticky;
                 top: 0;
                 min-width: 5`%;
+                z-index: 1;
             }
             th.output1 {
                 position: sticky;
                 top: 0;
                 min-width: 10`%;
                 max-widht: 40`%;
+                z-index: 1;
             }
             th.output2{
                 position: sticky;
                 top: 0;
                 min-width: 10`%;
                 max-widht: 40`%;
+                z-index: 1;
             }
             object {
                 width: 100`%;
@@ -1032,6 +1036,7 @@ WRITE_HTML:
             }
             th.base2 {
                 position: sticky;
+                z-index: 1;
                 top: 0;
                 background-color: rgb(240,240,255);
             }
@@ -1041,12 +1046,22 @@ WRITE_HTML:
 
             th.srcinfo {
                 position: sticky;
+                z-index: 1;
                 top: 0;
                 padding: 0em 0em 0em 0em;
                 width:0.5`%;
             }
             Option, Select {
                 font-family: "Candara";
+            }
+
+            #sticky-textfield {
+                position: sticky;
+                top: 0;
+                z-index: 2;
+                width: 100`%;
+                background-color: #f0f0f0;
+                padding: 5px;
             }
 
     </style>
@@ -1136,8 +1151,10 @@ WRITE_HTML:
                     HELP: %hk_help% - - RUN (default search): %hk_run_html% - - RUN (search in header1-3) %hk_run_header% - - RUN (search in all Cols): %hk_run_html_allcols% - - ADD TAG to search: %hk_run_add_tag% - - ADD HEADER to search: %hk_run_add_header% - - ADD any Condition: %hk_run_add_allcols%  <BR> || %exe_clipboard% EXECUTE the CLIPBOARD with standard app || # is Windows-Key - - ! is ALT-Key - - ^ is CTRL-Key - - + is SHIFT-Key 
                 </font>
                 </div>
+                <DIV id="sticky-textfield">
                     <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
-                <BR>
+                </DIV>
+                    <BR>
                 %html_alltags%
                 
                 </div>
@@ -1156,7 +1173,7 @@ WRITE_HTML:
                 <col span=5 class='tblsrcinfo' >
             </COLGROUP>            
             <thead>
-                <TR>
+                <TR style="height: 8em;">
                     %html_optionstag%
                     <TH class='base info'> Info </TH> 
                     <TH class='base output1'> Output </TH> 
