@@ -29,18 +29,6 @@ SetWorkingDir, %A_ScriptDir%
     default_run := "HTML_ALL_LOOKUP"
 
 
-    sql_template =
-    (
-        select  h1, h2, h3, info, output, output_2,
-        case when '#XXX#' like fit_to then fit_to else search_in end as match_lbl , 
-        src_lbl1, src_lbl2, src_lbl3, src_info, search_in, fit_to 
-        from T_KNOWLEDGE 
-        WHERE 
-        search_in like '`%#XXX#`%' ESCAPE '\' or
-        '#XXX#' like fit_to
-        order by h1,h2,h3,info,output ASC
-    )
-
     sql_template_html =
     (
         select  h1, h2, h3, case when trim(info_html)='' then replace( info, char(10),'<BR>') else replace(info_html,char(10),'') end as info_all, output, output_2,
@@ -287,6 +275,7 @@ PROCESS_INI:
 
 
     src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_HOTKEYS","|")
+    adhocHK_string := ""
     array_adhocHK_key := StrSplit( src_string , "|" )
 
     arrayAdhocHK := Array()
@@ -297,10 +286,12 @@ PROCESS_INI:
         if(x_temp != "X"){
             adhocDict[element] := x_temp
             registerHK(x_temp, "RUN_ADHOC_INPUT")
+            adhocHK_string := adhocHK_string " | " x_temp
         }
 
     } 
-
+    adhocHK_string := "|||" . adhocHK_string 
+    adhocHK_string := StrReplace(adhocHK_string,"||| | ","")
 
 
 
@@ -628,13 +619,14 @@ HELP_TEXT:
         ---- OTHER FEATURES --------------------------
             - Execute Clipboard       %exe_clipboard%
             - Turn Hotkeys (on/off)   ^Escape
+            - Knowledge Input-GUI     %adhocHK_string%
 
     Folder for (ADMIN FEATURES)
             - SQLITE SQLite dll       %sqlite_dll_path%
             - ini file 0              %config_ini_file%
             - Main Data Base (Sqlite) %knowledge_path%
 
-    Legend HK Shortcuts (AHK Standard syntax):
+    Legend HK Shortcuts (AHK Standard syntax / https://www.autohotkey.com/docs/v1/Hotkeys.htm):
             # stands for Winows Key
             ^ stands for CTRL or STRG key
             ! stands for ALT key
@@ -643,7 +635,7 @@ HELP_TEXT:
     How to...
         ... for advice how to set up and configure the Tool read detailed documentation.
         1) Select a search tag/text
-            In order to open a webpage with your custom help/info you have to:
+            In order to open a HTML-page with your custom help/knowledge you have to:
                 - Select a Text or
                 - Put text to your clipbord or
                 - hover over text with your mouse pointer
@@ -665,6 +657,9 @@ HELP_TEXT:
                 This might help you to quickly follow a file or folder.
 
             If a search string contins seperators ";" it will split that string and perform a multiple incremental search.
+
+            You can enter new knowledge via a GUI by copying some text information to your clipboard and pressing 
+            the hotkey %adhocHK_string%.
     )
     MsgBoxGui("Help for AntAi Knowledge-DB",help_text)
 Return
