@@ -64,7 +64,7 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
 
         curr_sqlitefile := sqliteArray[sqlite_counter]
 
-        if(FileExist(curr_sqlitefile) == False) {
+        if(FileExist(curr_sqlitefile) == "") {
             DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
             Continue
         }
@@ -126,7 +126,7 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
 
         curr_csvfile := loc_arrayPathCSV[csv_counter]
         curr_csvfile_bak := curr_csvfile
-        if(FileExist(curr_csvfile_bak) == False) {
+        if(FileExist(curr_csvfile_bak) == "") {
             DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
             Continue
         }
@@ -223,7 +223,11 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         DebugAppend("START file " A_Index ": " xlsArray[xls_counter] ,True,True)
         my_xls_to_open := StrReplace(xlsArray[xls_counter], ".\", A_ScriptDir "\")
 
-        if(FileExist(my_xls_to_open) == False) {
+        ;OutputDebug, % my_xls_to_open
+        ;OutputDebug, % FileExist(my_xls_to_open)
+
+
+        if(FileExist(my_xls_to_open) == "") {
             DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
             Continue
         }
