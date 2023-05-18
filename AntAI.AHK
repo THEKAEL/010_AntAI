@@ -623,7 +623,7 @@ HELP_TEXT:
 
     Folder for (ADMIN FEATURES)
             - SQLITE SQLite dll       %sqlite_dll_path%
-            - ini file 0              %config_ini_file%
+            - ini file                %config_ini_file%
             - Main Data Base (Sqlite) %knowledge_path%
 
     Legend HK Shortcuts (AHK Standard syntax / https://www.autohotkey.com/docs/v1/Hotkeys.htm):
