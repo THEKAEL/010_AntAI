@@ -1,6 +1,5 @@
 #Persistent
 #SingleInstance, Force
-#UseHook On
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
