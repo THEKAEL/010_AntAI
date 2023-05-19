@@ -638,7 +638,8 @@ Return
 HELP_TEXT:
     help_text = 
     ( 
-    AntAi - Your personal Knowledge DB by Thomas Kloeckl
+    AntAi - Your personal Knowledge DB by Thomas Kloeckl         https://github.com/THEKAEL/010_AntAI
+
     Hotkey for 
             - HELP                    %hk_help%
 
@@ -677,7 +678,7 @@ HELP_TEXT:
             + stands fro Shift key
     
     How to...
-        ... for advice how to set up and configure the Tool read detailed documentation.
+        ... for advice how to set up and configure the Tool read detailed wiki: (https://github.com/THEKAEL/010_AntAI/wiki)
         1) Select a search tag/text
             In order to open a HTML-page with your custom help/knowledge you have to:
                 - Select a Text or
