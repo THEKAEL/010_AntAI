@@ -1,3 +1,43 @@
+
+/*
+
+    MIT License
+
+    Copyright (c) 2023 Thomas Klöckl https://github.com/THEKAEL/010_AntAI
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+    The original/latest version of this code can be found under https://github.com/THEKAEL/010_AntAI
+    Contributions to my projects are highly appreciated.
+
+*/
+
+
+/*
+
+    This file contains some hepler functions that are used in the main script (AntAi.AHK).
+    Mainly you find here import function for csv, xls and sqlite...
+
+    Most functions in this file target to serve the main script and are not designed/developped for general usage.
+    Author: Thomas Klöckl https://github.com/THEKAEL
+*/
+
 #NoEnv
 
 #SingleInstance, Force
@@ -5,7 +45,16 @@ SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
 
+/*
+    This functions returns a string with all keys that were used in a specific section of the ini-file.
+    PARAM:  
+        InputFile  (String) -   The Path to the ini-file 
+        Section (String)    -   Thee Section of the ini-file
+        Delimiter (String)  -   Seperator for the keys used in the returned values
+    RETURNS:
+        (String)            -   The list of all keys 
 
+*/
 IniGetKeys(InputFile, Section , Delimiter="")
 {
 	;msgbox, OutputVar=%OutputVar% `n InputFile=%InputFile% `n Section=%Section% `n Delimiter=%Delimiter%
@@ -34,8 +83,17 @@ IniGetKeys(InputFile, Section , Delimiter="")
 }
 
 
-
-buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
+/*
+    This functions import data from SQLite data sources to the knowledge data base.
+    PARAM:  
+        sqliteDBObject  (Class_SQLiteDB)    -   This is the object of the sqlite AntAi (Main-) Knowledge Database
+        sqliteArray (Array of Strings)      -   A list with valid path to valid SQLite data bases
+        deleteOldData (Bool)                -   The Main Database table is delete completely !!! In case this parameter is true
+    RETURNS:
+        nothing
+        
+*/
+buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
 {
     DebugAppend("Start Rebuilding Knowledge Database from files.",True,True)
 
@@ -57,7 +115,7 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
     Loop, %num_files%
     {
         sqlite_counter := A_Index+0
-        OutputDebug, % xlsArray[sqlite_counter]
+        OutputDebug, % sqliteArray[sqlite_counter]
         DebugAppend("")
         DebugAppend("")
         DebugAppend("START processing file " A_Index ": " sqliteArray[sqlite_counter] ,True,True)
@@ -110,7 +168,19 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, lblArray, deleteOldData=False )
 
 }
 
-
+/*
+    This functions import data from csv data sources to the knowledge data base.
+    PARAM:  
+        db_path  (Class_SQLiteDB)    -   This is the object of the sqlite AntAi (Main-) Knowledge Database
+        loc_arrayPathCSV (Array of Strings)      -   A list with valid path to valid csv files
+        loc_sqliteToolPath (String)                -   The path to the sqlite tool. We use this external tool to import csv data.
+        quote4string (String)   - Strings quotes used in the csv file. This parameter will be passed on the to sqlite tool.
+        delim - Column seperator used in the csv file. This parameter will be passed on the to sqlite tool.
+        mask - Masking special character... not used at the moment
+    RETURNS:
+        nothing
+        
+*/
 buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", delim=",", mask=""){
 
     ;loc_sqliteToolPath := StrReplace(loc_sqliteToolPath, "\" , "\\" )
@@ -164,6 +234,17 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
 
 }
 
+
+/*
+    This functions import data from xls data sources to the knowledge data base.
+    PARAM:  
+        sqliteDBObject  (Class_SQLiteDB)    -   This is the object of the sqlite AntAi (Main-) Knowledge Database
+        xlsArray (Array of Strings)         -   A list with valid path to valid xls files
+        deleteOldData (Bool)                -   The Main Database table is delete completely !!! In case this parameter is true
+    RETURNS:
+        nothing
+        
+*/
 buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
 {
     ; todo: progress bar and logging and user feedback in the calling method
@@ -190,10 +271,6 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         sss.Step()
         sqliteDBObject.Prepare(my_sql2, sss)
         sss.Step()
-        ;sqliteDBObject.Prepare(my_sql3, sss)
-        ;sss.Step()
-        ;sqliteDBObject.Prepare(my_sql4, sss)
-        ;sss.Step()
         DebugAppend("END: Drop old Tables.", True, True)
     }
 
@@ -425,6 +502,12 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
 }
 
 
+/*
+    This function shows an easy popup message.
+    PARAM:
+        message - Message to be shown in the popup gui
+        duration - Time until the message disappears automatically
+*/
 showPopUp(message, duration) {
     Gui +LastFound +AlwaysOnTop -Caption +Border +E0x08000000 +ToolWindow -SysMenu -Owner +Disabled -DPIScale -Theme
     Gui Color, EEEEEE
@@ -436,13 +519,25 @@ showPopUp(message, duration) {
   }
   
 
-  getFileExt(str){
+
+/*
+    This function gets the file extension
+    PARAM:
+        str - path or file name including extension
+    RETURN:
+        String - The file extension, that means everyting after the last dot in the input string.
+*/
+getFileExt(str){
     dotPos := RegExMatch(str, "(?<=\.)[^.]*$", dot)
     fileExtension := SubStr(str,dotPos) ;(str, StrLen(str) - dotPos)
     return fileExtension
 }
 
 
+
+/*
+    Not needed
+*/
 extractToken(lookupString, left_token="##", right_token="##"){
     xpos := RegExMatch(lookupString , left_token . "(.*?)" . right_token, prep_pivot_config)
     prep_pivot_config := Trim(StrReplace(StrReplace(prep_pivot_config,left_token,""),right_token) )
@@ -450,7 +545,13 @@ extractToken(lookupString, left_token="##", right_token="##"){
 } 
 
 
-
+/*
+    Registers multiple hotkeys
+    PARAM:
+        hk_string_semikolon (String)    - a list with hotkeys separated by  ; 
+    RETURN:
+        nothing
+*/
 registerHK(hk_string_semikolon, mylbl){
     try{
     if(hk_string_semikolon=="X")
@@ -469,7 +570,11 @@ registerHK(hk_string_semikolon, mylbl){
 }
 
 
-
+/*
+    Checks if Excel is installed
+    RETURNS:
+        Boolean - True if a Excel installation was found / false if not
+*/
 isExcelInstalled()
 {
     try

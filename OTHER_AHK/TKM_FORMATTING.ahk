@@ -1,3 +1,23 @@
+
+
+
+
+/*
+    Here are some functions that are responsible to formatt matrix arrays (e.g. into a nice html table)
+    formatTable_html is used in the main script in order to create a valid html table that is then used
+    in the html output file.
+
+    All functions in this file target to serve the main script and are not designed/developped for general usage.
+    Author: Thomas Klöckl https://github.com/THEKAEL
+*/
+
+
+
+
+
+
+
+
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
@@ -10,6 +30,11 @@ Return StrReplace( Format( "{:0" Count "}", "" ), 0, Str )
 }
 
 
+/*
+   Creates a non-html ascii based table based on the given input table object
+   PARAM: 
+      oTbl  (Class_SQLiteDB.tk_getTableNoHeader() )   - Table object returned by tk_getTableNoHeader()
+*/
 formatTable(oTbl, my_title="", with_cap=100, rd="`n", cd="`t",emptyRowGap=2) {
 ;;dev
 
@@ -48,6 +73,13 @@ formatTable(oTbl, my_title="", with_cap=100, rd="`n", cd="`t",emptyRowGap=2) {
 return return_value
 }
 
+
+
+/*
+   Based on a given table object a html table is created.
+   PARAM: 
+      oTbl  (Class_SQLiteDB.tk_getTableNoHeader() )   - Table object returned by tk_getTableNoHeader()
+*/
 
 formatTable_html(oTbl, my_title="", table_frame = False, last_group_col = 3, row_limit=100, noDiv = True) {
 ;;dev
@@ -114,6 +146,12 @@ getOptionTags(xTbl, sep= " - " ){
 }
 
 
+
+
+
+/*
+   Some GUI taken from AHK forum
+*/
 MsgBoxGui(Title, Text, Timeout:=0) {
 	Gui Destroy
    global TextBox                       ; This variable can be used to update the text in the MsgBoxGui

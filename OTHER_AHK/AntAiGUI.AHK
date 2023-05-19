@@ -1,11 +1,54 @@
+
+/*
+
+    MIT License
+
+    Copyright (c) 2023 Thomas Klöckl https://github.com/THEKAEL/010_AntAI
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+    The original/latest version of this code can be found under https://github.com/THEKAEL/010_AntAI
+    Contributions to my projects are highly appreciated.
+
+*/
+
+
+
+
+
 #NoEnv
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
 
-; global vars that feed the gui
 
+/*
+    This script reasizes the GUI functionality to offer an interactive way to the user to add new knowledge data
+    to one of the sqlite data bases scpecified in the ini file.
+    Author: Thomas Klöckl https://github.com/THEKAEL
+*/
+
+
+/*
+    global vars that feed the gui / some default values for the GUI
+*/
 
 xxsearchin:="default search in"
 xxfitto := ""
@@ -25,6 +68,11 @@ xxSQLiteDLL := A_ScriptDir "\SQLite3.dll"
 xxmy_db3 := "" 
 xxpreselectedDB := ""
 
+
+
+/*
+    Function to start up the GUI
+*/
 showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "ADHOC",h2:= "ADHOC",h3:="ADHOC",infohtml := "n/a" ,output1 := "n/a" ,output2 := "n/a",validfrom="",validto="",db3list:="./ADHOC.db3",preselectedDB := ""){
 
     Global xxsearchin := searchin
@@ -49,9 +97,13 @@ showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "AD
 
 
 
+/*
+    The GUI is created with global labels and variables in order to realize events
+    This GUI shows inputs fields and buttons that allow the user to add a new knowledge item to one of the sqlite source databases
+*/
+
 
 INIT_ADHOCGUI:
-
 
 
 ; Erstelle die GUI

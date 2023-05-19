@@ -1,3 +1,47 @@
+
+/*
+
+    MIT License
+
+    Copyright (c) 2023 Thomas Klöckl https://github.com/THEKAEL/010_AntAI
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+    The original/latest version of this code can be found under https://github.com/THEKAEL/010_AntAI
+    Contributions to my projects are highly appreciated.
+
+*/
+
+
+
+
+
+
+/*
+    This is the MAIN AntAi-Script. Its the Starting Point of the AntAi Knowledge Database Tool
+
+    All routines/functions in this file target to serve the implementation of the AntAi Knowledge Data Base Tool
+    and are not designed/developped for general usage.
+    Author: Thomas Klöckl https://github.com/THEKAEL
+*/
+
+
 #Persistent
 #SingleInstance, Force
 SendMode Input
@@ -557,7 +601,7 @@ REBUILD_DB:
     my_db3.loadToInMem(knowledge_path) ; reopen it and load it to memory (RAM)
 
     buildFromXLS(my_db3, arrayPath,  True)
-    buildFromSQLITE(my_db3,arrayPathSQLite, array_sqlite_key, False )
+    buildFromSQLITE(my_db3,arrayPathSQLite, False )
     my_db3.storeto(knowledge_path)  ; save in memory DB to file because we need to have the db in file system for the next setpp
 
     buildFromCSV(knowledge_path,arrayPathCSV,sqliteToolPath) ; todo: Get CSV config like quotes or sepeators from inif file ??
