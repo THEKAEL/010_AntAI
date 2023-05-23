@@ -162,7 +162,9 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
 
-
+    my_sql := "delete from T_KNOWLEDGE where trim(h1)='' and trim(h2)='' and trim(h3)=''  and trim(info)='' and trim(info_html)='' and trim(output)='' and trim(output_2)='' "
+    sqliteDBObject.Prepare(my_sql, sss)
+    sss.Step()
     
     DebugAppend("FINISHED processing SQLITE-files: #" sqliteArray[sqlite_counter] ,True,True)
 
@@ -293,6 +295,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
     DebugAppend("INFO: There were XLS files found to be loaded: #" num_files, True, True)
     Loop, %num_files%
     {
+        Sleep, 4000
         xls_counter := A_Index+0
         OutputDebug, % xlsArray[xls_counter]
         DebugAppend("")
@@ -319,6 +322,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
 
         loop, %num_tabs%
         {
+            Sleep, 300
             tab_counter := A_Index+0
             curr_wsname := XL_WB.Worksheets(tab_counter).Name
             XL_WS := XL_WB.Worksheets(tab_counter)
@@ -389,6 +393,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
                 sss.Step() 
                 Loop, %num_rangerows%
                 {
+                    Sleep, 5
                     x_searchin :=  StrReplace(curr_region.Cells(1+A_Index,1).value, "'","''")
                     x_fitto := StrReplace(curr_region.Cells(1+A_Index,2).value, "'","''")
                     ; x_fittogroup := StrReplace(curr_region.Cells(1+A_Index,3).value, "'","''")
@@ -486,7 +491,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
             DebugAppend("FINISHED TAB, rows processed: " num_rangerows ,True,True)
         }
         DebugAppend("CLOSED WB: " XL_WB.name  ,True,True)
-        XL_WB.close(False)
+        XL_WB.close(False )
         
     }
 
@@ -496,6 +501,11 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
     my_sql := "update T_KNOWLEDGE set show_to='2999-12-31' where show_to is null or trim(show_to) ='' "
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
+
+    my_sql := "delete from T_KNOWLEDGE where trim(h1)='' and trim(h2)='' and trim(h3)=''  and trim(info)='' and trim(info_html)='' and trim(output)='' and trim(output_2)='' "
+    sqliteDBObject.Prepare(my_sql, sss)
+    sss.Step()
+
     DebugAppend("T_KNOWLEDGE cleaned." ,True,True)
 
 

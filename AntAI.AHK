@@ -901,7 +901,7 @@ FETCH_USER_INPUT2:
         user_pattern := trim(Clipboard, omitchars := " `t`r`n")
     }
 
-    if(user_pattern=="") { 
+    if(user_pattern="") { 
         Return
     }
     user_pattern_orig := user_pattern
