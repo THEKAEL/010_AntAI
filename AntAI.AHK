@@ -645,21 +645,15 @@ HELP_TEXT:
 
         ---- DEFAULT EXECUTION / SEARCH MODE -------
             - SWAP SEARCH MODE        %hk_change_defaultmode%
-            - RUN SEARCH              %hk_run_default%
-            - ADD SEARCH CONDITION    %hk_add_default%
-        
+            - RUN SEARCH              %hk_run_default%         - ADD search condition    %hk_add_default%
+            
         ----- DIRECT searches (not recommended)-----
-            - RUN TAG SEARCH          %hk_run_html%
-            - RUN HEADER SEARCH       %hk_run_header%  
-            - RUN FULL SEARCH         %hk_run_html_allcols%
-
-            - ADD TAG to search       %hk_run_add_tag%
-            - ADD HEADER to search    %hk_run_add_header%
-            - ADD anything to search  %hk_run_add_allcols%
-
+            - RUN TAG SEARCH          %hk_run_html%          - ADD TAG to search       %hk_run_add_tag%
+            - RUN HEADER SEARCH       %hk_run_header%          - ADD HEADER to search    %hk_run_add_header%               
+            - RUN FULL SEARCH         %hk_run_html_allcols%         - ADD anything to search  %hk_run_add_allcols%
         ---- ADMIN TASKS -----------------------------
             - OPEN DB (db browser)    %hk_open_db%            
-            - RE-BUILD DB             %hk_rebuild_db%
+            - RE-BUILD DB             %hk_rebuild_db%           
         
         ---- OTHER FEATURES --------------------------
             - Execute Clipboard       %exe_clipboard%
@@ -672,18 +666,15 @@ HELP_TEXT:
             - Main Data Base (Sqlite) %knowledge_path%
 
     Legend HK Shortcuts (AHK Standard syntax / https://www.autohotkey.com/docs/v1/Hotkeys.htm):
-            # stands for Winows Key
-            ^ stands for CTRL or STRG key
-            ! stands for ALT key
-            + stands fro Shift key
+            # for Winows Key        ^ for CTRL or STRG key
+            ! stands for ALT key    + stands fro Shift key
     
     How to...
         ... for advice how to set up and configure the Tool read detailed wiki: (https://github.com/THEKAEL/010_AntAI/wiki)
         1) Select a search tag/text
             In order to open a HTML-page with your custom help/knowledge you have to:
-                - Select a Text or
-                - Put text to your clipbord or
-                - hover over text with your mouse pointer
+                - Select a Text or  put text to your clipbord or hover over text with your mouse pointer
+
         2) Execute Search
             Then you need to press hotkey %hk_run_default%. (Other options see above)
             It will bring up a help page in your standard browser. Note that this should work within almost any application.
