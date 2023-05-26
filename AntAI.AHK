@@ -47,6 +47,8 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
+try{
+
 #Include .\OTHER_AHK\TKM_FORMATTING.ahk
 #Include .\OTHER_AHK\Class_SQLiteDB.ahk
 #Include .\OTHER_AHK\AntAI_functions.ahk
@@ -59,8 +61,11 @@ SetWorkingDir, %A_ScriptDir%
     sqliteToolPath := A_ScriptDir "\sqlite3.exe"
     html_outputFile := A_ScriptDir "\AntAi_out.html"
     
+    ;try catch
     Gosub, PROCESS_INI
 
+
+    ;try catch 
     my_db3 := New SQLiteDB(sqlite_dll_path)
     if( cfg_inmem == 1) {   
         my_db3.loadToInMem(knowledge_path)
@@ -158,6 +163,7 @@ return
 
 
 OpenLogGui:
+    ;try catch ohne impact
     Gui, Add, Edit, Readonly x10 y10 w600 h400 vDebug
     Gui, Show, w620 h420, Debug Window
     FormatTime, TimeString, A_Now, yyyy-MM-dd HH:mm:ss ;
@@ -167,6 +173,7 @@ return
 
 DebugAppend(Data, useNewline = True, addTime = False)
 {
+     ;try catch ohne impact
     FormatTime, TimeString, A_Now, HH:mm:ss ;
     GuiControlGet, Debug
     if (useNewline == True) 
@@ -179,6 +186,7 @@ DebugAppend(Data, useNewline = True, addTime = False)
 }
 
 closeLogGui:
+    ;;; todo als parameter im inif file
     ;sleep 3000
     ;Gui, Destroy
 return
@@ -186,6 +194,7 @@ return
 
 ;; Hotkey to susped other hotkeys. This is importat in case the user needs the hotkey in some applications like MS Excel
 ^Escape::
+    ;try catch w/o impact
     Suspend, Toggle
     isOn := (A_IsSuspended) ? "OFF" : "ON"
     isPrev := (A_IsSuspended) ? "ON" : "OFF"
@@ -204,7 +213,7 @@ return
 
 
 PROCESS_INI:
-
+    ; try catch wih error message and script exit ?
     IniRead, sqlite_dll_path, %config_ini_file%, GENERAL, SQLITE_DLL_PATH , %sqlite_dll_path%
     IniRead, knowledge_path, %config_ini_file% , GENERAL, KNOWLEDGE_PATH , %knowledge_path%
     IniRead, sqliteToolPath, %config_ini_file%, GENERAL, SQLITE3TOOL_PATH , %sqliteToolPath%
@@ -1413,3 +1422,14 @@ return
 
 #Include .\OTHER_AHK\AntAiGUI.AHK
 
+
+
+}catch error{
+    msgbox, "Error occured somewhere please debug"
+    MsgBox, 4, Error occured somewhere please consider to debug. Restart Script?
+    IfMsgBox Yes
+    {
+        NeustartErforderlich := true
+        Reload
+    }
+}

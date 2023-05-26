@@ -189,12 +189,12 @@ MsgBoxGui(Title, Text, Timeout:=0) {
   ButtonX := GuiWidth-RightMargin-ButtonWidth                 ; Calculate the horizontal position of the button
    ButtonY := WhiteBoxHeight+BottomGap                         ; Calculate the vertical position of the button
    Gui, Add, Button, x%ButtonX% y%ButtonY% w%ButtonWidth% h%ButtonHeight% Default, OK   ; Add the OK button
-   GuiControl, Focus, OK                                       ; Sets keyboard focus to the OK button
    GuiControl, +ReadOnly, TextBox 
    GuiHeight := WhiteBoxHeight+BottomHeight                    ; Calculate the overall height of the Gui
    Gui, Show, w%GuiWidth% h%GuiHeight%, %Title%                ; Show the Gui
    Gui, -ToolWindow                                            ; Remove the ToolWindow option so that the Gui has rounded corners and no icon
-                                                               ; Trick from http://ahkscript.org/boards/viewtopic.php?p=11519#p11519
+   GuiControl, Focus, OK                                       ; Sets keyboard focus to the OK button
+                                                          ; Trick from http://ahkscript.org/boards/viewtopic.php?p=11519#p11519
    if Timeout                                                  ; If the Timeout parameter has been specified ...
       SetTimer, GuiClose, % -Timeout*1000                      ; Start a timer to destroy the MsgBoxGui after Timeout seconds
    Return true
