@@ -1425,7 +1425,11 @@ return
 
 
 }catch error{
-    msgbox, "Error occured somewhere please debug"
+    errmsg := error.message
+    errfile := error.file
+    errline := error.line
+    MsgBox, MsgBox Fehlerdetails:`n`nFehlermeldung: %errmsg%`nDatei: %errfile%`nZeile: %errline%
+
     MsgBox, 4, Error occured somewhere please consider to debug. Restart Script?
     IfMsgBox Yes
     {
