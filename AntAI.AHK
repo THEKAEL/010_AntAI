@@ -817,7 +817,7 @@ Return
 HTML_ALL_LOOKUP:
     Gosub, FETCH_USER_INPUT
 
-        sql_qry := RegExReplace(sql_template_html2, "#XXX#",search_array[search_array.MinIndex()],All)
+        sql_qry := RegExReplace(sql_template_html2, "#XXX#",search_array[search_array.MinIndex()],All) 
         search_array.RemoveAt(search_array.MinIndex())
         Loop % search_array.Length() {
             xItem := search_array[A_Index]

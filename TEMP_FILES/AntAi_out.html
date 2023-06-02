@@ -214,7 +214,22 @@
                     <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
                 </DIV>
                     <BR>
-                
+                <select name='h1a' id='h1a' onInput="copyToTextfield('h1a'); return false;" >
+                <option> - </option>
+                <option value='Abbrevation'>Abbrevation</option> <option value='Birthday'>Birthday</option> <option value='CAMMEL'>CAMMEL</option> <option value='LOCATION'>LOCATION</option> <option value='Postal Code'>Postal Code</option> <option value='SAP'>SAP</option> <option value='SCRIPTS'>SCRIPTS</option> <option value='myh1'>myh1</option> 
+            </select>
+
+
+            <select name='h2a' id='h2a' onInput="copyToTextfield('h2a'); return false;" >
+                <option> - </option>
+                <option value=''></option> <option value='AHK'>AHK</option> <option value='Account Info'>Account Info</option> <option value='COMPANY CODE'>COMPANY CODE</option> <option value='EVENTS OUTAGE'>EVENTS OUTAGE</option> <option value='Germany'>Germany</option> <option value='PATH'>PATH</option> <option value='PSP/WBS'>PSP/WBS</option> <option value='SQL'>SQL</option> <option value='US'>US</option> <option value='WEB'>WEB</option> <option value='myh2'>myh2</option> 
+            </select>
+
+
+            <select name='h3a' id='h3a'  onInput="copyToTextfield('h3a'); return false;" >
+                <option> - </option>
+                <option value=''></option> <option value='CHATBOT'>CHATBOT</option> <option value='CMK'>CMK</option> <option value='EB_DORT'>EB_DORT</option> <option value='EXAMPLE'>EXAMPLE</option> <option value='NAME/ID'>NAME/ID</option> <option value='Name and ID'>Name and ID</option> <option value='ORACLE'>ORACLE</option> <option value='SEARCH'>SEARCH</option> <option value='SNOWFLAKE'>SNOWFLAKE</option> <option value='myh3'>myh3</option> 
+            </select>
 
                 </div>
             </P>
@@ -224,7 +239,7 @@
         <font face='Candara' >
         <TABLE id='master_table' class='main'>
             <CAPTION>
-                Output for:  > sqlite\_dll\_path := A\_ScriptDir "\SQLite3.dll" <  (There are # out of  results shown!)
+                Output for:  > select <  (There are #5 out of 5 results shown!)
             </CAPTION>
             <COLGROUP>
                 <col span=3 class='tblgrouping' >
@@ -237,20 +252,20 @@
             <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
             <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
                 <option> - </option>
-                
+                <option value='SCRIPTS'>SCRIPTS</option> 
             </select>
         </TH>
         <TH class='base grouping'  >
             <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
             <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
                 <option> - </option>
-                
+                <option value='SQL'>SQL</option> 
             </select>
         </TH>
         <TH class='base grouping' >
             <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
                 <option> - </option>
-                
+                <option value='ORACLE'>ORACLE</option> <option value='SNOWFLAKE'>SNOWFLAKE</option> 
             </select>
         </TH>
                     <TH class='base info'> Info </TH>
@@ -264,7 +279,17 @@
                 </TR>
             </thead>
             <tbody>
-                
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>SCRIPTS</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>SQL</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'>ORACLE</DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>Example how to manage scripts</DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'>select  * from CHECK_MAPPING</DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'></DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>SCRIPTSSQLORACLE</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>SRC_EXAMPLE_SCRIPTS2</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>row: 1</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>XLS</DIV>  </TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> SCRIPTS </font></TD> <TD class='base' > <font class='lessvisible'> SQL </font></TD> <TD class='base' > <font class='lessvisible'> ORACLE </font></TD> <TD class='base tblcol_4' onclick="CopyToClipboard('tbl_2_4');return false;" >  <div class='alldata_4' id='tbl_2_4'>Example how to manage scripts</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_2_5');return false;" >  <div class='alldata_5' id='tbl_2_5'>select * from (<BR>select tbl,report_type, report,anz from (<BR>    select * from (select 'CORE_DATA' as tbl, report_type, report, count(*) as anz from CORE_DATA archive group by report, report_type order by 1,2 asc )<BR>    UNION ALL<BR>    Select * from ( select 'CORE_DATA_ARCHIVE' as tbl, report_type, report, count(*) as anz from CORE_DATA_archive group by report, report_type order by 1,2 asc )<BR>    ) <BR>    )<BR>pivot  <BR>(<BR>    sum(anz)<BR>    for tbl in (   'CORE_DATA','CORE_DATA_ARCHIVE'  )<BR>)<BR>order by report asc<BR></DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_2_6');return false;" >  <div class='alldata_6' id='tbl_2_6'></DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_2_7');return false;" >  <div class='alldata_7' id='tbl_2_7'>SCRIPTSSQLORACLE</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_2_8');return false;" >  <div class='alldata_8' id='tbl_2_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_2_9');return false;" >  <div class='alldata_9' id='tbl_2_9'>SRC_EXAMPLE_SCRIPTS2</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_2_10');return false;" >  <div class='alldata_10' id='tbl_2_10'>row: 2</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_2_11');return false;" >  <div class='alldata_11' id='tbl_2_11'>XLS</DIV></TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> SCRIPTS </font></TD> <TD class='base' > <font class='lessvisible'> SQL </font></TD> <TD class='base' > <font class='lessvisible'> ORACLE </font></TD> <TD class='base tblcol_4' onclick="CopyToClipboard('tbl_3_4');return false;" >  <div class='alldata_4' id='tbl_3_4'>Example how to manage scripts</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_3_5');return false;" >  <div class='alldata_5' id='tbl_3_5'>select keymap.src, nvl(keymap.key_1,'xNULL') key_1, nvl(keymap.key_2,'xNULL') key_2, nvl(keymap.key_3,'xNULL') key_3, listagg(distinct cashout,'|') as cashout_lbl, listagg(distinct lis_1,'|') lis1, listagg(distinct lis_2,'|') lis2, listagg(distinct lis_3,'|') lis3, listagg(distinct segment_name,'|') segNames, listagg(distinct round(segment_share*100,0),'|') shares, listagg(distinct description,'|') descr  from mdb_map_key keymap <BR>left join mdb_map_lis lis on (keymap.lis_id  =lis.lis_id  ) <BR>left join mdb_map_alloc alloc on (keymap.alloc_id  =alloc.alloc_id  )<BR>left join mdb_map_alloc_def allocdef on (alloc.alloc_id=allocdef.alloc_id)<BR>left join main.pdb_segment seg on (alloc.segment_id=seg.segment_id) <BR>where to_date('2024-09-30','yyyy-mm-dd') between keymap.valid_from and keymap.valid_to <BR>and to_date('2024-09-30','yyyy-mm-dd') between alloc.valid_from and alloc.valid_to <BR>and to_date('2024-09-30','yyyy-mm-dd') between seg.valid_from and seg.valid_to <BR>group by <BR>keymap.src, keymap.key_1, keymap.key_2, keymap.key_3<BR></DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_3_6');return false;" >  <div class='alldata_6' id='tbl_3_6'></DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_3_7');return false;" >  <div class='alldata_7' id='tbl_3_7'>SCRIPTSSQLORACLE</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_3_8');return false;" >  <div class='alldata_8' id='tbl_3_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_3_9');return false;" >  <div class='alldata_9' id='tbl_3_9'>SRC_EXAMPLE_SCRIPTS2</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_3_10');return false;" >  <div class='alldata_10' id='tbl_3_10'>row: 3</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_3_11');return false;" >  <div class='alldata_11' id='tbl_3_11'>XLS</DIV></TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> SCRIPTS </font></TD> <TD class='base' > <font class='lessvisible'> SQL </font></TD> <TD class='base tblcol_3' onclick="CopyToClipboard('tbl_4_3');return false;" >  <div class='alldata_3' id='tbl_4_3'>SNOWFLAKE</DIV></TD><TD class='base tblcol_4' onclick="CopyToClipboard('tbl_4_4');return false;" >  <div class='alldata_4' id='tbl_4_4'>Example how to manage scripts</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_4_5');return false;" >  <div class='alldata_5' id='tbl_4_5'><BR>select k.*, lis_1, lis_2, lis_3, segment_name, segment_share <BR>from mdb_map_key k<BR>left join mdb_map_lis l on l.lis_id = k.lis_id<BR>left join mdb_map_alloc a on a.alloc_id = k.alloc_id<BR>left join helot.big_rhp_dim_segment s on s.segment_id = a.segment_id<BR>where k.last_update >= (SELECT eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user))<BR>and (SELECT eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user)) between k.valid_from and k.valid_to<BR>and (SELECT eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user)) between a.valid_from and a.valid_to<BR>and segment_share <> 0<BR>order by 1, 2<BR></DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_4_6');return false;" >  <div class='alldata_6' id='tbl_4_6'></DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_4_7');return false;" >  <div class='alldata_7' id='tbl_4_7'>SCRIPTSSQLSNOWFLAKE</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_4_8');return false;" >  <div class='alldata_8' id='tbl_4_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_4_9');return false;" >  <div class='alldata_9' id='tbl_4_9'>SRC_EXAMPLE_SCRIPTS2</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_4_10');return false;" >  <div class='alldata_10' id='tbl_4_10'>row: 5</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_4_11');return false;" >  <div class='alldata_11' id='tbl_4_11'>XLS</DIV></TD></TR>
+<TR>
+<TD class='base' > <font class='lessvisible'> SCRIPTS </font></TD> <TD class='base' > <font class='lessvisible'> SQL </font></TD> <TD class='base' > <font class='lessvisible'> SNOWFLAKE </font></TD> <TD class='base tblcol_4' onclick="CopyToClipboard('tbl_5_4');return false;" >  <div class='alldata_4' id='tbl_5_4'>Example how to manage scripts</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_5_5');return false;" >  <div class='alldata_5' id='tbl_5_5'> delete from MDB_ACTUALS_DWH where cob in (SELECT eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user)) ; <BR> delete from MDB_CORE_DATA where report = 'ACTUALS - '||to_char((select eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user)),'yyyy-mm') ;<BR><BR><BR> insert into MDB_ACTUALS_DWH select s.* from MDB_ACTUALS_DETAILS s ;<BR>--clear segment other  <BR> insert into MDB_ACTUALS_DWH select * from MDB_ADJ_OTHER; <BR><BR> insert into MDB_CORE_DATA<BR>  select 'ACTUALS - '||to_char(d.eom_finance,'yyyy-mm') as report, h.*<BR>  from MDB_ACTUALS_MTD h, (SELECT eom_finance FROM date_universe WHERE rep_date = (SELECT cob FROM date_user)) d ;<BR>--reversal for cashout <BR> insert into MDB_CORE_DATA select * from MDB_ADJ_CASHTRANSFER;  <BR><BR>/*##D##SNOW##D##*/</DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_5_6');return false;" >  <div class='alldata_6' id='tbl_5_6'></DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_5_7');return false;" >  <div class='alldata_7' id='tbl_5_7'>SCRIPTSSQLSNOWFLAKE</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_5_8');return false;" >  <div class='alldata_8' id='tbl_5_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_5_9');return false;" >  <div class='alldata_9' id='tbl_5_9'>SRC_EXAMPLE_SCRIPTS2</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_5_10');return false;" >  <div class='alldata_10' id='tbl_5_10'>row: 4</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_5_11');return false;" >  <div class='alldata_11' id='tbl_5_11'>XLS</DIV></TD></TR>
+
             </tbody>
         </TABLE>
         </font>
