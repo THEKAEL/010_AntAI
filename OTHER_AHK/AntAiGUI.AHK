@@ -105,67 +105,67 @@ showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "AD
 
 INIT_ADHOCGUI:
 
-
+Gui, MyGuiX:New, +HwndMyGuiXHwnd
 ; Erstelle die GUI
-Gui, Add, Text, x5, Search In:
-Gui, Add, Edit, vFeld1 w800 x5, %xxsearchin%
-Gui, Add, Button, gClearFeld1 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5, Search In:
+Gui, MyGuiX:Add, Edit, vFeld1 w800 x5, %xxsearchin%
+Gui, MyGuiX:Add, Button, gClearFeld1 x+5, CLEAR
 
-Gui, Add, Text, x5, (and/or) fit to:
-Gui, Add, Edit, vFeld2 w800 x5, %xxfitto%
-Gui, Add, Button, gClearFeld2 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5, (and/or) fit to:
+Gui, MyGuiX:Add, Edit, vFeld2 w800 x5, %xxfitto%
+Gui, MyGuiX:Add, Button, gClearFeld2 x+5, CLEAR
 
-Gui, Add, Text, x5, Header H1:
-Gui, Add, Edit, vFeld3 w800 x5, %xxh1%
-Gui, Add, Button, gClearFeld3 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5, Header H1:
+Gui, MyGuiX:Add, Edit, vFeld3 w800 x5, %xxh1%
+Gui, MyGuiX:Add, Button, gClearFeld3 x+5, CLEAR
 
-Gui, Add, Text, x5, Header H2:
-Gui, Add, Edit, vFeld4 w800 x5, %xxh2%
-Gui, Add, Button, gClearFeld4 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5, Header H2:
+Gui, MyGuiX:Add, Edit, vFeld4 w800 x5, %xxh2%
+Gui, MyGuiX:Add, Button, gClearFeld4 x+5, CLEAR
 
-Gui, Add, Text, x5 , Header H3:
-Gui, Add, Edit, vFeld5 x5 w800, %xxh3%
-Gui, Add, Button, gClearFeld5 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5 , Header H3:
+Gui, MyGuiX:Add, Edit, vFeld5 x5 w800, %xxh3%
+Gui, MyGuiX:Add, Button, gClearFeld5 x+5, CLEAR
 
-Gui, Add, Text, x5 , Info-HTML:
-Gui, Add, Edit, vFeld6 w800 h100 x5, %xxinfohtml%
-Gui, Add, Button, gClearFeld6 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5 , Info-HTML:
+Gui, MyGuiX:Add, Edit, vFeld6 w800 h100 x5, %xxinfohtml%
+Gui, MyGuiX:Add, Button, gClearFeld6 x+5, CLEAR
 
-Gui, Add, Text, x5 , OUTPUT1:
-Gui, Add, Edit, vFeld7 w800 h200 x5, %xxoutput1%
-Gui, Add, Button, gClearFeld7 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5 , OUTPUT1:
+Gui, MyGuiX:Add, Edit, vFeld7 w800 h200 x5, %xxoutput1%
+Gui, MyGuiX:Add, Button, gClearFeld7 x+5, CLEAR
 
-Gui, Add, Text, x5 , OUTPUT2:
-Gui, Add, Edit, vFeld8 w800 h100 x5, %xxoutput2%
-Gui, Add, Button, gClearFeld8 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5 , OUTPUT2:
+Gui, MyGuiX:Add, Edit, vFeld8 w800 h100 x5, %xxoutput2%
+Gui, MyGuiX:Add, Button, gClearFeld8 x+5, CLEAR
 
-Gui, Add, Text, x5 , Valid From / Valid To:
-Gui, Add, Edit, vFeld9 w395  x5, %xxvalidFrom%
-Gui, Add, Edit, vFeld10 w395  x+10, %xxvalidTo%
-Gui, Add, Button, gClearFeld9 x+5, CLEAR
+Gui, MyGuiX:Add, Text, x5 , Valid From / Valid To:
+Gui, MyGuiX:Add, Edit, vFeld9 w395  x5, %xxvalidFrom%
+Gui, MyGuiX:Add, Edit, vFeld10 w395  x+10, %xxvalidTo%
+Gui, MyGuiX:Add, Button, gClearFeld9 x+5, CLEAR
 
 ; Erstelle die Dropdown-Box
-Gui, Add, Text, x5 , Dropdown:
-Gui, Add, ComboBox, vDropdown w395 x5  , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
+Gui, MyGuiX:Add, Text, x5 , Dropdown:
+Gui, MyGuiX:Add, ComboBox, vDropdown w395 x5  , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
 GuiControl, Text, Dropdown, %xxpreselectedDB%
 
 struct_sql := "SELECT group_concat(my_col, '|') FROM (select distinct h1 || ';' || h2 as my_col from T_Knowledge order by 1 asc)  "
 headerstructure_list := xxmy_db3.tk_get1stValue(struct_sql)
-Gui, Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list% 
-Gui, Add, Button, gTakeField001 x+5, GET
+Gui, MyGuiX:Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list% 
+Gui, MyGuiX:Add, Button, gTakeField001 x+5, GET
 
 ; Erstelle die Buttons
-Gui, Add, Button, gxCommitButton x0,  COMMIT
-Gui, Add, Button, gxCancelButton x+5 , CANCEL
+Gui, MyGuiX:Add, Button, gxCommitButton x0,  COMMIT
+Gui, MyGuiX:Add, Button, gxCancelButton x+5 , CANCEL
 
 ; Zeige die GUI
-Gui, Show, , Add a new Knowledge Item to an ADHOC Database (source)
+Gui, MyGuiX:Show, , Add a new Knowledge Item to an ADHOC Database (source)
 return
 
 ; Button-Events
 xCommitButton:
     
-    Gui, Submit, NoHide
+    Gui, MyGuiX:Submit, NoHide
     ; MsgBox, Die Daten wurden gespeichert:`nFeld1: %Feld1%`nFeld2: %Feld2%`nFeld3: %Feld3%`nFeld4: %Feld4%`nFeld5: %Feld5%`nFeld6: %Feld6%`nDropdown: %Dropdown%
 
     selectedDB := Dropdown
@@ -220,14 +220,12 @@ xCommitButton:
     sss.Step()
 
     ;TODO: Manage properly the appending to the main database in AntAi
-
-
-
-
+    
 return
 
+
 xCancelButton:
-Gui, Destroy
+Gui, MyGuiX:Destroy
 return
 
 ; CLEAR-Button-Events
@@ -278,5 +276,53 @@ GuiControl, Text, Feld4, %selectedValue2%
 Return
 
 
-StrSplit(selectedValue, ";")
+;StrSplit(selectedValue, ";")
+
+
+
+OPEN_QUICK_ACCESS_GUI:
+
+Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+Gui, MyGui:Font, s6, Verdana
+Gui, MyGui:Add, Button, gButton1 Default Red  w60 , RUN SEARCH
+Gui, MyGui:Add, Button, gButton2 w60, ADD SEARCH  
+Gui, MyGui:Add, Button, gButton3 w60, ADD INFO    
+
+Gui, MyGui:+SysMenu
+offsetY:=A_ScreenHeight-100
+offsetX:=A_ScreenWidth/2
+
+GuiControl, +BackgroundFF0000, Button1
+GuiControl, +BackgroundFF0000, Button2
+
+OnMessage(0x201, "WM_LBUTTONDOWN")
+OnMessage(0x200, "WM_MOUSEMOVE")
+
+Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+
+Return
+
+Button1:
+Gosub, HTML_ALL_LOOKUP
+return
+
+Button2:
+Gosub, HTML_ADD_ALL_LOOKUP
+return
+
+Button3:
+Gosub, RUN_ADHOC_INPUT
+return
+
+WM_LBUTTONDOWN()
+{
+    PostMessage, 0xA1, 2
+}
+
+WM_MOUSEMOVE()
+{
+    PostMessage, 0xA1, 2
+}
+
+
 

@@ -64,6 +64,9 @@ try{
     ;try catch
     Gosub, PROCESS_INI
 
+    if(cfg_use_quick_access=1){
+        Gosub, OPEN_QUICK_ACCESS_GUI
+    }
 
     ;try catch 
     my_db3 := New SQLiteDB(sqlite_dll_path)
@@ -244,6 +247,8 @@ PROCESS_INI:
     IniRead, cfg_popupdelay, %config_ini_file%, ETC, POPUP_DELAY_MS, 700
     IniRead, cfg_stdout_browser, %config_ini_file%, RUN_CONFIG_STD , RUN_CONFIG_STDOUT_BROWSER, X
     IniRead, cfg_inmem, %config_ini_file%, ETC, USE_INMEM_DB , 0
+
+    IniRead, cfg_use_quick_access, %config_ini_file%, ETC, USE_QUICK_ACCESS, 1
 
     run_config_string := IniGetKeys(config_ini_file,"RUN_CONFIG","|")
     array_run_config := StrSplit( run_config_string , "|" )
@@ -1383,7 +1388,7 @@ getFirstKeyByValue(dict, val)
 
 
 RUN_ADHOC_INPUT:
-    Gui, Destroy
+    Gui, MyGuiX:Destroy
     FormatTime, currDt, %A_Now%, yyyy-MM-dd
     FormatTime, currMonth, %A_Now%, yyyy-MM
     FormatTime, currDt2, %A_Now%, yyyyMMdd
