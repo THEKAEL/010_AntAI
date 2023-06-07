@@ -299,6 +299,9 @@ OnMessage(0x201, "WM_LBUTTONDOWN")
 OnMessage(0x200, "WM_MOUSEMOVE")
 
 Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+guiID := WinExist() 
+processedAction := False
+SetTimer, CheckMouse, 1500
 
 Return
 
@@ -326,3 +329,29 @@ WM_MOUSEMOVE()
 
 
 
+return
+
+CheckMouse:
+    MouseGetPos, mX, mY, mWin, mControl
+    GuiControlGet, MyButtonPos,, MyButton
+    ;OutputDebug, %mControl%
+
+    GuiControlGet, buttonText,, %mControl%
+
+    ;if (mControl = "Button1")
+    if (guiID=mWin and processedAction=False)
+    {
+        ; Speichern Sie den aktuell markierten Text in die Zwischenablage
+        Send ^c
+        Sleep 300  ; Ein kurzes Delay, um sicherzustellen, dass der Text kopiert wurde
+
+        ; Den Inhalt der Zwischenablage in eine Variable speichern
+        ClipText := Clipboard
+        processedAction:=True
+        ; Den Inhalt der Zwischenablage in einer MessageBox anzeigen
+    ; MsgBox, %ClipText%
+    }
+    else if (guiID!=mWin) {
+        processedAction:=False
+    }
+return
