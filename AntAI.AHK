@@ -1316,7 +1316,7 @@ TOY_TRANSPARENCY: ;todo config in ini
     }
     else if(Transparent<180)
     {
-        WinSet, Transparent, 5, ahk_id %MouseWin%
+        WinSet, Transparent, 15, ahk_id %MouseWin%
         WinSet, AlwaysOnTop, On ,ahk_id %MouseWin%
     }
     else if(Transparent<230)

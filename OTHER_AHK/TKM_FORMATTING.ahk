@@ -152,6 +152,68 @@ getOptionTags(xTbl, sep= " - " ){
 /*
    Some GUI taken from AHK forum
 */
+
+MsgBoxGui(Title, Text, Timeout:=0) {
+	Gui CustomMSG:Destroy
+   global TextBox                       ; This variable can be used to update the text in the MsgBoxGui
+   static WhiteBox
+   
+   static Gap          := 6            ; Spacing above and below text in top area of the Gui
+   static LeftMargin   := 12            ; Left Gui margin
+   static RightMargin  := 8             ; Space between right side of button and right Gui edge
+   static ButtonWidth  := 88            ; Width of OK button
+   static ButtonHeight := 26            ; Height of OK button
+   static ButtonOffset := 30            ; Offset between the right side of text and right edge of button
+   static MinGuiWidth  := 138           ; Minimum width of Gui
+ 
+   BottomGap := LeftMargin                      ; Set the distance between the bottom of the white box and the top of the OK button
+   BottomHeight := ButtonHeight+2*BottomGap+3   ; Calculate the height of the bottom section of the Gui
+   if !GetMsgBoxFontInfo(FontName,FontSize,FontWeight,IsFontItalic)             ; Get the MsgBox font information
+      Return false                                                              ; If there is a problem getting the font information, return false
+   GuiOptions := "s" FontSize " w" FontWeight (IsFontItalic ? " italic" : "")   ; Define a string with the Gui options
+   Gui, CustomMSG:New, +HwndCustomMSGXHwnd
+   Gui, CustomMSG:Font, %GuiOptions%, Courier New ;Consolas ;%FontName%                                          ; Set the font options and name
+   Gui, CustomMSG:+LastFound +ToolWindow -MinimizeBox -MaximizeBox                        ; Set the Gui so it doesn't have an icon or the minimize and maximize buttons
+   if Text                                                                      ; If the text field is not blank ...
+   {  
+      Gui, CustomMSG:Add, Edit, x%LeftMargin% y%Gap% ReadOnly BackgroundTrans vTextBox, %Text%  
+      GuiControlGet, Size, Pos, TextBox                                         ; Get the position of the text box
+      GuiWidth := LeftMargin+SizeW+ButtonOffset+RightMargin+1                   ; Calculate the Gui width
+      GuiWidth := GuiWidth < MinGuiWidth ? MinGuiWidth : GuiWidth               ; Make sure that it's not smaller than MinGuiWidth
+      WhiteBoxHeight := SizeY+SizeH+Gap                                         ; Calculate the height of the white box
+   }
+   else                                                                         ; If the text field is blank ...
+   {  GuiWidth := MinGuiWidth                                                   ; Set the width of the Gui to MinGuiWidth
+      WhiteBoxHeight := 2*Gap+1                                                 ; Set the height of the white box
+      BottomGap++                                                               ; Increase the gap above the button by one
+      BottomHeight--                                                            ; Decrease the height of the bottom section of the Gui
+   }
+  ButtonX := GuiWidth-RightMargin-ButtonWidth                 ; Calculate the horizontal position of the button
+   ButtonY := WhiteBoxHeight+BottomGap                         ; Calculate the vertical position of the button
+   Gui,CustomMSG:Add, Button, gButtonOK x%ButtonX% y%ButtonY% w%ButtonWidth% h%ButtonHeight% Default, OK   ; Add the OK button
+   GuiControl, +ReadOnly, TextBox 
+   GuiHeight := WhiteBoxHeight+BottomHeight                    ; Calculate the overall height of the Gui
+   Gui, CustomMSG:Show, w%GuiWidth% h%GuiHeight%, %Title%                ; Show the Gui
+   Gui, CustomMSG:-ToolWindow                                            ; Remove the ToolWindow option so that the Gui has rounded corners and no icon
+   GuiControl, Focus, OK                                       ; Sets keyboard focus to the OK button
+                                                          ; Trick from http://ahkscript.org/boards/viewtopic.php?p=11519#p11519
+   if Timeout                                                  ; If the Timeout parameter has been specified ...
+      SetTimer, GuiClose, % -Timeout*1000                      ; Start a timer to destroy the MsgBoxGui after Timeout seconds
+   Return true
+
+   ButtonOK:
+   GuiClose:
+   GuiEscape:
+   Gui CustomMSG:Destroy
+   Return
+
+ 
+}
+
+/*
+
+
+
 MsgBoxGui(Title, Text, Timeout:=0) {
 	Gui Destroy
    global TextBox                       ; This variable can be used to update the text in the MsgBoxGui
@@ -170,6 +232,7 @@ MsgBoxGui(Title, Text, Timeout:=0) {
    if !GetMsgBoxFontInfo(FontName,FontSize,FontWeight,IsFontItalic)             ; Get the MsgBox font information
       Return false                                                              ; If there is a problem getting the font information, return false
    GuiOptions := "s" FontSize " w" FontWeight (IsFontItalic ? " italic" : "")   ; Define a string with the Gui options
+   Gui, New, +HwndCustomMSGXHwnd
    Gui, Font, %GuiOptions%, Courier New ;Consolas ;%FontName%                                          ; Set the font options and name
    Gui, +LastFound +ToolWindow -MinimizeBox -MaximizeBox                        ; Set the Gui so it doesn't have an icon or the minimize and maximize buttons
    if Text                                                                      ; If the text field is not blank ...
@@ -188,7 +251,7 @@ MsgBoxGui(Title, Text, Timeout:=0) {
    }
   ButtonX := GuiWidth-RightMargin-ButtonWidth                 ; Calculate the horizontal position of the button
    ButtonY := WhiteBoxHeight+BottomGap                         ; Calculate the vertical position of the button
-   Gui, Add, Button, x%ButtonX% y%ButtonY% w%ButtonWidth% h%ButtonHeight% Default, OK   ; Add the OK button
+   Gui,Add, Button, gButtonOK x%ButtonX% y%ButtonY% w%ButtonWidth% h%ButtonHeight% Default, OK   ; Add the OK button
    GuiControl, +ReadOnly, TextBox 
    GuiHeight := WhiteBoxHeight+BottomHeight                    ; Calculate the overall height of the Gui
    Gui, Show, w%GuiWidth% h%GuiHeight%, %Title%                ; Show the Gui
@@ -200,13 +263,15 @@ MsgBoxGui(Title, Text, Timeout:=0) {
    Return true
 
    ButtonOK:
-   GuiClose:
-   GuiEscape:
-   Gui Destroy
-   Return
+GuiClose:
+GuiEscape:
+Gui Destroy
+Return
+
+ 
 }
 
-
+*/
 
 ; Reference: http://ahkscript.org/boards/viewtopic.php?f=6&t=9122
 

@@ -279,14 +279,22 @@ Return
 ;StrSplit(selectedValue, ";")
 
 
+processedAction := False
 
 OPEN_QUICK_ACCESS_GUI:
 
+
+my_width:=70
+my_smallwidth:=20
+my_height:=20
+
 Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
 Gui, MyGui:Font, s6, Verdana
-Gui, MyGui:Add, Button, gButton1 Default Red  w60 , RUN SEARCH
-Gui, MyGui:Add, Button, gButton2 w60, ADD SEARCH  
-Gui, MyGui:Add, Button, gButton3 w60, ADD INFO    
+Gui, MyGui:Add, Button, gButton1 x5 Default  w%my_width% h%my_height% , RUN SEARCH
+Gui, MyGui:Add, Button, gButton11 x+5  w%my_smallwidth% h%my_height% CLEAR, ?
+Gui, MyGui:Add, Button, gButton2 x5 w%my_width% h%my_height%, ADD SEARCH  
+Gui, MyGui:Add, Button, gButton21 x+5 w%my_smallwidth% h%my_height% CLEAR, *
+Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
 
 Gui, MyGui:+SysMenu
 offsetY:=A_ScreenHeight-100
@@ -300,7 +308,12 @@ OnMessage(0x200, "WM_MOUSEMOVE")
 
 Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
 guiID := WinExist() 
-processedAction := False
+
+
+WinGet, Transparent, Transparent, ahk_id %guiID%
+WinSet, Transparent, 180, ahk_id %guiID%
+
+
 SetTimer, CheckMouse, 1500
 
 Return
@@ -309,8 +322,16 @@ Button1:
 Gosub, HTML_ALL_LOOKUP
 return
 
+Button11:
+Gosub, HELP_TEXT
+return
+
 Button2:
 Gosub, HTML_ADD_ALL_LOOKUP
+return
+
+Button21:
+MsgBox, Config tool not available.
 return
 
 Button3:
