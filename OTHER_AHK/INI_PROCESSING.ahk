@@ -43,7 +43,15 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-
+isInArray(value, array) {
+    StringCaseSense, Off
+    for index, item in array {
+        if (item = value) {
+            return true
+        }
+    }
+    return false
+}
 
 /*
     This functions returns a string with all keys that were used in a specific section of the ini-file.
@@ -86,7 +94,7 @@ IniGetKeys(InputFile, Section , Delimiter="")
 
 
 
-ReadIniToDictionary(iniFilePath) {
+ReadIniToDictionaryOLD(iniFilePath) {
     ; Erstellt ein neues AutoHotkey-Objekt, welches als Wörterbuch fungiert
     dict := Object()
   
@@ -120,5 +128,149 @@ ReadIniToDictionary(iniFilePath) {
   
     ; Gibt das Wörterbuch zurück
     return dict
+}
+  
+
+
+  
+
+
+ReadIniToDictionary(iniFilePath, restrictSection:="") {
+    ; Erstellt ein neues AutoHotkey-Objekt, welches als Wörterbuch fungiert
+    dict := Object()
+  
+    ; Liest die Sektionen der INI-Datei
+    IniRead, sections , %iniFilePath%
+  
+    ; Loop durch jede Sektion
+    Loop, Parse, sections, `n
+    {
+
+        ; Liest die Schlüssel und Werte innerhalb der aktuellen Sektion
+        IniRead, keys, %iniFilePath% , %A_LoopField%
+        currentSection:=A_LoopField
+        if (trim(restrictSection)="" or isInArray(currentSection, restrictSection) ){
+            ;continue with the code
+
+        }
+        Else
+        {
+            Continue ; break loop and goto next section
+        }
+        ; Loop durch jeden Schlüssel in der Sektion
+        Loop, Parse, keys, `n
+        {
+  
+  
+            ; Der aktuelle Schlüssel
+            key := A_LoopField
+  
+            ; Entfernt den Wertteil von 'key', um nur den Schlüsselnamen zu erhalten
+            key := RegExReplace(key, "=.*")
+  
+            ; Benutze IniRead, um den Wert des Schlüssels zu lesen
+            IniRead, value, %iniFilePath%, %currentSection%, %key%
+  
+            ; Fügt den Schlüssel-Wert-Paar zum Wörterbuch hinzu
+            dict[key] := value
+        }
+    }
+  
+    ; Gibt das Wörterbuch zurück
+    return dict
   }
   
+
+
+  ReadIniToDictionarySec(iniFilePath, restrictSection:="") {
+    ; Erstellt ein neues AutoHotkey-Objekt, welches als Wörterbuch fungiert
+    dict := Object()
+  
+    ; Liest die Sektionen der INI-Datei
+    IniRead, sections , %iniFilePath%
+  
+    ; Loop durch jede Sektion
+    Loop, Parse, sections, `n
+    {
+        ; Liest die Schlüssel und Werte innerhalb der aktuellen Sektion
+        IniRead, keys, %iniFilePath% , %A_LoopField%
+        currentSection:=A_LoopField
+        if trim(restrictSection)="" or isInArray(currentSection, restrictSection) {
+            ;continue with the code
+        }
+        Else
+        {
+            Continue ; break loop and goto next section
+        }
+        ; Loop durch jeden Schlüssel in der Sektion
+        Loop, Parse, keys, `n
+        {
+            ; Der aktuelle Schlüssel
+            key := A_LoopField
+  
+            ; Entfernt den Wertteil von 'key', um nur den Schlüsselnamen zu erhalten
+            key := RegExReplace(key, "=.*")
+  
+            ; Benutze IniRead, um den Wert des Schlüssels zu lesen
+            IniRead, value, %iniFilePath%, %currentSection%, %key%
+  
+            ; Fügt den Schlüssel-Wert-Paar zum Wörterbuch hinzu
+            dict[key] := [value, currentSection]
+        }
+    }
+  
+    ; Gibt das Wörterbuch zurück
+    return dict
+  }
+  
+
+  ReadIniToDictionarySec2(iniFilePath, restrictSection:="") {
+    ; Erstellt ein neues AutoHotkey-Objekt, welches als Wörterbuch fungiert
+    dict := Object()
+    if (restrictSection = "" and !IsObject(restrictSection)) {
+        restrictSection := []
+    } else if (!IsObject(restrictSection) and restrictSection != "" ){
+        restrictSection := [restrictSection]
+    }
+    ; Liest die Sektionen der INI-Datei
+    IniRead, sections , %iniFilePath%
+  
+    ; Loop durch jede Sektion
+    Loop, Parse, sections, `n
+    {
+        ; Liest die Schlüssel und Werte innerhalb der aktuellen Sektion
+        IniRead, keys, %iniFilePath% , %A_LoopField%
+        currentSection:=A_LoopField
+        testme := isInArray(currentSection, restrictSection) 
+        testme0 := !IsObject(restrictSection) 
+        if !IsObject(restrictSection) or (varT) or isInArray(currentSection, restrictSection) {
+            ;continue with the code
+        }
+        Else
+        {
+            Continue ; break loop and goto next section
+        }
+        ; Loop durch jeden Schlüssel in der Sektion
+        Loop, Parse, keys, `n
+        {
+            ; Der aktuelle Schlüssel
+            key := A_LoopField
+  
+            ; Entfernt den Wertteil von 'key', um nur den Schlüsselnamen zu erhalten
+            key := RegExReplace(key, "=.*")
+  
+            ; Benutze IniRead, um den Wert des Schlüssels zu lesen
+            IniRead, value, %iniFilePath%, %currentSection%, %key%
+            
+            key2:= currentSection . "#####" . key 
+            ; Fügt den Schlüssel-Wert-Paar zum Wörterbuch hinzu
+            dict[key2] := [value, currentSection, key]
+        }
+    }
+  
+    ; Gibt das Wörterbuch zurück
+    return dict
+  }
+
+
+
