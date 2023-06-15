@@ -37,7 +37,7 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-
+#Include .\OTHER_AHK\EDIT_INI.AHK
 
 /*
     This script reasizes the GUI functionality to offer an interactive way to the user to add new knowledge data
@@ -105,61 +105,61 @@ showAdhocInputGui( basisDB, SQLiteDLL, searchin:="ADHOC",fitto:="ADHOC",h1:= "AD
 
 INIT_ADHOCGUI:
 
-Gui, MyGuiX:New, +HwndMyGuiXHwnd
-; Erstelle die GUI
-Gui, MyGuiX:Add, Text, x5, Search In:
-Gui, MyGuiX:Add, Edit, vFeld1 w800 x5, %xxsearchin%
-Gui, MyGuiX:Add, Button, gClearFeld1 x+5, CLEAR
+    Gui, MyGuiX:New, +HwndMyGuiXHwnd
+    ; Erstelle die GUI
+    Gui, MyGuiX:Add, Text, x5, Search In:
+    Gui, MyGuiX:Add, Edit, vFeld1 w800 x5, %xxsearchin%
+    Gui, MyGuiX:Add, Button, gClearFeld1 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5, (and/or) fit to:
-Gui, MyGuiX:Add, Edit, vFeld2 w800 x5, %xxfitto%
-Gui, MyGuiX:Add, Button, gClearFeld2 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5, (and/or) fit to:
+    Gui, MyGuiX:Add, Edit, vFeld2 w800 x5, %xxfitto%
+    Gui, MyGuiX:Add, Button, gClearFeld2 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5, Header H1:
-Gui, MyGuiX:Add, Edit, vFeld3 w800 x5, %xxh1%
-Gui, MyGuiX:Add, Button, gClearFeld3 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5, Header H1:
+    Gui, MyGuiX:Add, Edit, vFeld3 w800 x5, %xxh1%
+    Gui, MyGuiX:Add, Button, gClearFeld3 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5, Header H2:
-Gui, MyGuiX:Add, Edit, vFeld4 w800 x5, %xxh2%
-Gui, MyGuiX:Add, Button, gClearFeld4 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5, Header H2:
+    Gui, MyGuiX:Add, Edit, vFeld4 w800 x5, %xxh2%
+    Gui, MyGuiX:Add, Button, gClearFeld4 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5 , Header H3:
-Gui, MyGuiX:Add, Edit, vFeld5 x5 w800, %xxh3%
-Gui, MyGuiX:Add, Button, gClearFeld5 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5 , Header H3:
+    Gui, MyGuiX:Add, Edit, vFeld5 x5 w800, %xxh3%
+    Gui, MyGuiX:Add, Button, gClearFeld5 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5 , Info-HTML:
-Gui, MyGuiX:Add, Edit, vFeld6 w800 h100 x5, %xxinfohtml%
-Gui, MyGuiX:Add, Button, gClearFeld6 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5 , Info-HTML:
+    Gui, MyGuiX:Add, Edit, vFeld6 w800 h100 x5, %xxinfohtml%
+    Gui, MyGuiX:Add, Button, gClearFeld6 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5 , OUTPUT1:
-Gui, MyGuiX:Add, Edit, vFeld7 w800 h200 x5, %xxoutput1%
-Gui, MyGuiX:Add, Button, gClearFeld7 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5 , OUTPUT1:
+    Gui, MyGuiX:Add, Edit, vFeld7 w800 h200 x5, %xxoutput1%
+    Gui, MyGuiX:Add, Button, gClearFeld7 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5 , OUTPUT2:
-Gui, MyGuiX:Add, Edit, vFeld8 w800 h100 x5, %xxoutput2%
-Gui, MyGuiX:Add, Button, gClearFeld8 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5 , OUTPUT2:
+    Gui, MyGuiX:Add, Edit, vFeld8 w800 h100 x5, %xxoutput2%
+    Gui, MyGuiX:Add, Button, gClearFeld8 x+5, CLEAR
 
-Gui, MyGuiX:Add, Text, x5 , Valid From / Valid To:
-Gui, MyGuiX:Add, Edit, vFeld9 w395  x5, %xxvalidFrom%
-Gui, MyGuiX:Add, Edit, vFeld10 w395  x+10, %xxvalidTo%
-Gui, MyGuiX:Add, Button, gClearFeld9 x+5, CLEAR
+    Gui, MyGuiX:Add, Text, x5 , Valid From / Valid To:
+    Gui, MyGuiX:Add, Edit, vFeld9 w395  x5, %xxvalidFrom%
+    Gui, MyGuiX:Add, Edit, vFeld10 w395  x+10, %xxvalidTo%
+    Gui, MyGuiX:Add, Button, gClearFeld9 x+5, CLEAR
 
-; Erstelle die Dropdown-Box
-Gui, MyGuiX:Add, Text, x5 , Dropdown:
-Gui, MyGuiX:Add, ComboBox, vDropdown w395 x5  , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
-GuiControl, Text, Dropdown, %xxpreselectedDB%
+    ; Erstelle die Dropdown-Box
+    Gui, MyGuiX:Add, Text, x5 , Dropdown:
+    Gui, MyGuiX:Add, ComboBox, vDropdown w395 x5  , %xxdb3list% ;alternativ ComboBox um Freitexte zuzulassen.
+    GuiControl, Text, Dropdown, %xxpreselectedDB%
 
-struct_sql := "SELECT group_concat(my_col, '|') FROM (select distinct h1 || ';' || h2 as my_col from T_Knowledge order by 1 asc)  "
-headerstructure_list := xxmy_db3.tk_get1stValue(struct_sql)
-Gui, MyGuiX:Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list% 
-Gui, MyGuiX:Add, Button, gTakeField001 x+5, GET
+    struct_sql := "SELECT group_concat(my_col, '|') FROM (select distinct h1 || ';' || h2 as my_col from T_Knowledge order by 1 asc)  "
+    headerstructure_list := xxmy_db3.tk_get1stValue(struct_sql)
+    Gui, MyGuiX:Add, ComboBox, vMyCombo x+5 w400 , %headerstructure_list% 
+    Gui, MyGuiX:Add, Button, gTakeField001 x+5, GET
 
-; Erstelle die Buttons
-Gui, MyGuiX:Add, Button, gxCommitButton x0,  COMMIT
-Gui, MyGuiX:Add, Button, gxCancelButton x+5 , CANCEL
+    ; Erstelle die Buttons
+    Gui, MyGuiX:Add, Button, gxCommitButton x0,  COMMIT
+    Gui, MyGuiX:Add, Button, gxCancelButton x+5 , CANCEL
 
-; Zeige die GUI
-Gui, MyGuiX:Show, , Add a new Knowledge Item to an ADHOC Database (source)
+    ; Zeige die GUI
+    Gui, MyGuiX:Show, , Add a new Knowledge Item to an ADHOC Database (source)
 return
 
 ; Button-Events
@@ -225,117 +225,126 @@ return
 
 
 xCancelButton:
-Gui, MyGuiX:Destroy
+    Gui, MyGuiX:Destroy
 return
 
 ; CLEAR-Button-Events
 ClearFeld1:
-GuiControl,, Feld1,
+    GuiControl,, Feld1,
 return
 
 ClearFeld2:
-GuiControl,, Feld2,
+    GuiControl,, Feld2,
 return
 
 ClearFeld3:
-GuiControl,, Feld3,
+    GuiControl,, Feld3,
 return
 
 ClearFeld4:
-GuiControl,, Feld4,
+    GuiControl,, Feld4,
 return
 
 ClearFeld5:
-GuiControl,, Feld5,
+    GuiControl,, Feld5,
 return
 
 ClearFeld6:
-GuiControl,, Feld6,
+    GuiControl,, Feld6,
 return
 
 ClearFeld7:
-GuiControl,, Feld7,
+    GuiControl,, Feld7,
 return
 
 ClearFeld8:
-GuiControl,, Feld8,
+    GuiControl,, Feld8,
 return
 
 ClearFeld9:
-GuiControl,, Feld9,
-GuiControl,, Feld10,
+    GuiControl,, Feld9,
+    GuiControl,, Feld10,
 return
 
 TakeField001:
-Gui, Submit, NoHide
-arr := StrSplit(MyCombo, ";")
-selectedValue1 := arr[1]
-selectedValue2 := arr[2]
-GuiControl, Text, Feld3, %selectedValue1%
-GuiControl, Text, Feld4, %selectedValue2%
+    Gui, Submit, NoHide
+    arr := StrSplit(MyCombo, ";")
+    selectedValue1 := arr[1]
+    selectedValue2 := arr[2]
+    GuiControl, Text, Feld3, %selectedValue1%
+    GuiControl, Text, Feld4, %selectedValue2%
 Return
 
 
 ;StrSplit(selectedValue, ";")
 
 
+
+
 processedAction := False
+edit_config_ini_file := config_ini_file
+
+openQuickAccessGUI(configINI){
+    Global edit_config_ini_file := configINI
+    Gosub, OPEN_QUICK_ACCESS_GUI
+}
 
 OPEN_QUICK_ACCESS_GUI:
 
 
-my_width:=70
-my_smallwidth:=20
-my_height:=20
+    my_width:=70
+    my_smallwidth:=20
+    my_height:=20
 
-Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
-Gui, MyGui:Font, s6, Verdana
-Gui, MyGui:Add, Button, gButton1 x5 Default  w%my_width% h%my_height% , RUN SEARCH
-Gui, MyGui:Add, Button, gButton11 x+5  w%my_smallwidth% h%my_height% CLEAR, ?
-Gui, MyGui:Add, Button, gButton2 x5 w%my_width% h%my_height%, ADD SEARCH  
-Gui, MyGui:Add, Button, gButton21 x+5 w%my_smallwidth% h%my_height% CLEAR, *
-Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
+    Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    Gui, MyGui:Font, s6, Verdana
+    Gui, MyGui:Add, Button, gButton1 x5 Default  w%my_width% h%my_height% , RUN SEARCH
+    Gui, MyGui:Add, Button, gButton11 x+5  w%my_smallwidth% h%my_height% CLEAR, ?
+    Gui, MyGui:Add, Button, gButton2 x5 w%my_width% h%my_height%, ADD SEARCH  
+    Gui, MyGui:Add, Button, gButton21 x+5 w%my_smallwidth% h%my_height% CLEAR, *
+    Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
 
-Gui, MyGui:+SysMenu
-offsetY:=A_ScreenHeight-100
-offsetX:=A_ScreenWidth/2
+    Gui, MyGui:+SysMenu
+    offsetY:=A_ScreenHeight-100
+    offsetX:=A_ScreenWidth/2
 
-GuiControl, +BackgroundFF0000, Button1
-GuiControl, +BackgroundFF0000, Button2
+    GuiControl, +BackgroundFF0000, Button1
+    GuiControl, +BackgroundFF0000, Button2
 
-OnMessage(0x201, "WM_LBUTTONDOWN")
-OnMessage(0x200, "WM_MOUSEMOVE")
+    OnMessage(0x201, "WM_LBUTTONDOWN")
+    OnMessage(0x200, "WM_MOUSEMOVE")
 
-Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
-guiID := WinExist() 
-
-
-WinGet, Transparent, Transparent, ahk_id %guiID%
-WinSet, Transparent, 180, ahk_id %guiID%
+    Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+    guiID := WinExist() 
 
 
-SetTimer, CheckMouse, 1500
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
+
+    SetTimer, CheckMouse, 1500
 
 Return
 
 Button1:
-Gosub, HTML_ALL_LOOKUP
+    Gosub, HTML_ALL_LOOKUP
 return
 
 Button11:
-Gosub, HELP_TEXT
+    Gosub, HELP_TEXT
 return
 
 Button2:
-Gosub, HTML_ADD_ALL_LOOKUP
+    Gosub, HTML_ADD_ALL_LOOKUP
 return
 
 Button21:
-MsgBox, Config tool not available.
+    sections :="" ; shows everything in the Ini-File
+    showEditIniGui(config_ini_file, sections, xmaxH:=850, xstdW:=500, xrowH:=25, xrowGap:=25, xleftGap:=15)
 return
 
 Button3:
-Gosub, RUN_ADHOC_INPUT
+    Gosub, RUN_ADHOC_INPUT
 return
 
 WM_LBUTTONDOWN()

@@ -65,7 +65,7 @@ try{
     Gosub, PROCESS_INI
 
     if(cfg_use_quick_access=1){
-        Gosub, OPEN_QUICK_ACCESS_GUI
+        openQuickAccessGUI(config_ini_file)
     }
 
     ;try catch 
@@ -1421,7 +1421,6 @@ RUN_ADHOC_INPUT:
     my_db3.storeto(knowledge_path) 
 
 return
-
 
 
 

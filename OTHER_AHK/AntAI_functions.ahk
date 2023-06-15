@@ -55,6 +55,10 @@ SetWorkingDir, %A_ScriptDir%
         (String)            -   The list of all keys 
 
 */
+
+/*
+
+
 IniGetKeys(InputFile, Section , Delimiter="")
 {
 	;msgbox, OutputVar=%OutputVar% `n InputFile=%InputFile% `n Section=%Section% `n Delimiter=%Delimiter%
@@ -81,6 +85,10 @@ IniGetKeys(InputFile, Section , Delimiter="")
 	}
 	return KEYSlist
 }
+
+*/
+
+
 
 
 /*
