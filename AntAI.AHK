@@ -167,8 +167,16 @@ return
 
 OpenLogGui:
     ;try catch ohne impact
-    Gui, Add, Edit, Readonly x10 y10 w600 h400 vDebug
-    Gui, Show, w620 h420, Debug Window
+    Gui, LogGui:Destroy
+    Gui, LogGui:New, +LastFound +ToolWindow -MinimizeBox -MaximizeBox +AlwaysOnTop , +HwndLogGuiHwnd
+    Gui, LogGui:Add, Edit, Readonly x10 y10 w600 h400 vDebug
+    Gui, LogGui:Show, w620 h420, Debug Window
+
+    ;transparent gimmic
+    guiID := WinExist() ; LogGuiHwnd ; defined above
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
     FormatTime, TimeString, A_Now, yyyy-MM-dd HH:mm:ss ;
     DebugAppend("[" TimeString "] LOGGING GUI CREATED")
 return

@@ -146,7 +146,16 @@ OKButtonINI:
         IniWrite, %value%, %iniFile%, %xsection%, %xkey%
 
     }
-    msgbox, You need to restart the script to apply changes.
+
+    MsgBox, 4, , Do you want to apply changes and restart the Script? If you have changed the data source you will need to rebuild the database after restart!
+
+    IfMsgBox, Yes
+        Reload
+    Else
+        MsgBox, Sie haben Nein gedrückt, das Skript wird nicht neu gestartet.
+
+    return
+
     Gui, INIEDIT:Destroy
 return
 

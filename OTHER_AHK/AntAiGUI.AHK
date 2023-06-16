@@ -295,14 +295,23 @@ OPEN_QUICK_ACCESS_GUI:
     my_width:=70
     my_smallwidth:=20
     my_height:=20
+    my_midWidth := my_smallwidth*2+5
 
     Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    Gui, MyGui:Font, Bold s6, Verdana
+    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , RUN SEARCH
+    Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
-    Gui, MyGui:Add, Button, gButton1 x5 Default  w%my_width% h%my_height% , RUN SEARCH
-    Gui, MyGui:Add, Button, gButton11 x+5  w%my_smallwidth% h%my_height% CLEAR, ?
-    Gui, MyGui:Add, Button, gButton2 x5 w%my_width% h%my_height%, ADD SEARCH  
-    Gui, MyGui:Add, Button, gButton21 x+5 w%my_smallwidth% h%my_height% CLEAR, *
+    Gui, MyGui:Add, Button, gButton_INIADMIN x+5 w%my_smallwidth% h%my_height% , *
+    Gui, MyGui:Add, Button, gButtonHELP x+5  w%my_smallwidth% h%my_height% CLEAR , ?
+    Gui, MyGui:Add, Button, gButton2LOOKADD x5 w%my_width% h%my_height%, ADD SEARCH  
+    Gui, MyGui:Add, Button, gButton_INIDS x+5 w%my_smallwidth% h%my_height% , DS
+    Gui, MyGui:Add, Text,  x+5 w%my_smallwidth% h%my_height% CLEAR, 
     Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
+    Gui, MyGui:Add, Button, gButton_INIHK x+5 w%my_smallwidth% h%my_height% , HK
+    Gui, MyGui:Add, Text,  x+5 w%my_smallwidth% h%my_height% CLEAR, 
+    Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    Gui, MyGui:Add, Button, gButton4Rebuild x+5 w%my_midWidth% h%my_height% CLEAR, Build DB
 
     Gui, MyGui:+SysMenu
     offsetY:=A_ScreenHeight-100
@@ -315,7 +324,7 @@ OPEN_QUICK_ACCESS_GUI:
     OnMessage(0x200, "WM_MOUSEMOVE")
 
     Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
-    guiID := WinExist() 
+    guiID := MyGuiHwnd ; defined above
 
 
     WinGet, Transparent, Transparent, ahk_id %guiID%
@@ -326,25 +335,39 @@ OPEN_QUICK_ACCESS_GUI:
 
 Return
 
-Button1:
+Button1LOOKALL:
     Gosub, HTML_ALL_LOOKUP
 return
 
-Button11:
+ButtonHELP:
     Gosub, HELP_TEXT
 return
 
-Button2:
+Button2LOOKADD:
     Gosub, HTML_ADD_ALL_LOOKUP
 return
 
-Button21:
+Button_INIADMIN:
     sections :="" ; shows everything in the Ini-File
+    showEditIniGui(config_ini_file, sections, xmaxH:=850, xstdW:=500, xrowH:=25, xrowGap:=25, xleftGap:=15)
+return
+
+Button_INIDS:
+    sections :=["XLS_INPUTS","CSV_INPUTS" ,"SQLITE_INPUTS"] ;shows everything related to data sources
+    showEditIniGui(config_ini_file, sections, xmaxH:=850, xstdW:=900, xrowH:=25, xrowGap:=25, xleftGap:=15)
+return
+
+Button_INIHK:
+    sections := ["MANDATORY_HOTKEYS","OPTIONAL_HOTKEYS"]    ;shows everything related to hotkeys
     showEditIniGui(config_ini_file, sections, xmaxH:=850, xstdW:=500, xrowH:=25, xrowGap:=25, xleftGap:=15)
 return
 
 Button3:
     Gosub, RUN_ADHOC_INPUT
+return
+
+Button4Rebuild:
+    Gosub, REBUILD_DB
 return
 
 WM_LBUTTONDOWN()

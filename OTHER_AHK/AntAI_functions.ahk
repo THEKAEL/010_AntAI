@@ -577,7 +577,7 @@ registerHK(hk_string_semikolon, mylbl){
 
     hk_arr :=  StrSplit( hk_string_semikolon , ";" )
     Loop % hk_arr.Length()
-        Hotkey, % hk_arr[A_Index], %mylbl%
+        Hotkey, % trim(hk_arr[A_Index]), %mylbl%
 
     } catch error
     {
