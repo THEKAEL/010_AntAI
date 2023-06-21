@@ -128,7 +128,7 @@
 
     <script>
         var size_flag = "10px";
-        var prev_value = "";
+        var prev_value = "pos;us;hills;pos;us;hills";
 
         function CopyToClipboard(id)
         {
@@ -181,7 +181,8 @@
         function selectText(id) {
             const input = document.getElementById(id);
             var curr_value = input.value ;
-
+            curr_value = curr_value.charAt(curr_value.length - 1);
+            // alert(curr_value)
             if(isNaN(curr_value.charCodeAt(0)) ){
                 input.value=""
                 prev_value=""
@@ -193,6 +194,16 @@
                 input.select();
                 prev_value = prev_value + curr_value ;
             }
+        };
+
+        function selectText2(id) {
+            const input = document.getElementById(id);
+
+            //input.value = prev_value  ;
+            // alert(curr_value.charCodeAt(0)) ;
+            input.focus();
+            input.select();
+
         };
 
     </script>
@@ -211,7 +222,7 @@
                 </font>
                 </div>
                 <DIV id="sticky-textfield">
-                    <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
+                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >pos;us;hills;pos;us;hills</textarea>
                 </DIV>
                     <BR>
                 <select name='h1a' id='h1a' onInput="copyToTextfield('h1a'); return false;" >
@@ -239,8 +250,7 @@
         <font face='Candara' >
         <TABLE id='master_table' class='main'>
             <CAPTION>
-                Output for:  > gui,MyGui:Destroy
-        gosub, OPEN\_QUICK\_ACCESS\_GUI <  (There are # out of  results shown!)
+                Output for:  > pos;us;hills;pos;us;hills <  (There are #1 out of 1 results shown!)
             </CAPTION>
             <COLGROUP>
                 <col span=3 class='tblgrouping' >
@@ -253,20 +263,20 @@
             <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
             <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
                 <option> - </option>
-                
+                <option value='Postal Code'>Postal Code</option> 
             </select>
         </TH>
         <TH class='base grouping'  >
             <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
             <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
                 <option> - </option>
-                
+                <option value='US'>US</option> 
             </select>
         </TH>
         <TH class='base grouping' >
             <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
                 <option> - </option>
-                
+                <option value=''></option> 
             </select>
         </TH>
                     <TH class='base info'> Info </TH>
@@ -280,7 +290,9 @@
                 </TR>
             </thead>
             <tbody>
-                
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>Postal Code</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>US</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'></DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>Example Postal Code for a <B> mapping solution with Headlines </b></DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'>90210.000000</DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'>Beverly Hills</DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>Postal CodeUSExample Postal Code for a <B> mapping solution with Headlines </b>90210Beverly Hills</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>.\LOCAL_SOURCES\SRC_EX1.xlsx</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>SRC_EXAMPLE_SHORTDETAILS</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>row: 15</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>XLS</DIV>  </TD></TR>
+
             </tbody>
         </TABLE>
         </font>

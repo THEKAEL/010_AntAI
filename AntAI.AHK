@@ -121,6 +121,7 @@ try{
     printable_output:=""
     printable_headline :=""
     search_in_all_cols := False
+    current_search_pattern := ""
     
     search_in_headers := False
     last_search := ""
@@ -747,7 +748,9 @@ HTML_TAG_LOOKUP:
     Gosub WRITE_HTML
     Gosub DISPLAY_HTML_DEFAULT
 
+    current_search_pattern := user_pattern
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -770,12 +773,14 @@ HTML_ADD_TAG_LOOKUP:
                     where  x%A_Index%.search_in  like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
             )
         }
-
+    
+    current_search_pattern := current_search_pattern . ";" . user_pattern
     Gosub, PREPARE_HTML_DATA
     Gosub, WRITE_HTML
     Gosub, DISPLAY_HTML_DEFAULT
 
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -791,11 +796,14 @@ HTML_HEADLINE_LOOKUP:
                     where  x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3  like '`%%xItem%`%' ESCAPE '\'
             )
         }
+    
+        current_search_pattern := user_pattern
     Gosub, PREPARE_HTML_DATA
     Gosub WRITE_HTML
     Gosub DISPLAY_HTML_DEFAULT
 
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -819,11 +827,14 @@ HTML_ADD_HEADLINE_LOOKUP:
                     where  x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 like '`%%xItem%`%' ESCAPE '\'
             )
         }
+    
+        current_search_pattern := current_search_pattern . ";" . user_pattern
     Gosub, PREPARE_HTML_DATA
     Gosub WRITE_HTML
     Gosub DISPLAY_HTML_DEFAULT
 
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -841,12 +852,12 @@ HTML_ALL_LOOKUP:
             )
         }
 
-
+    current_search_pattern := user_pattern
     Gosub, PREPARE_HTML_DATA
     Gosub WRITE_HTML
     Gosub DISPLAY_HTML_DEFAULT
-
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -870,11 +881,14 @@ HTML_ADD_ALL_LOOKUP:
                     where  x%A_Index%.search_in || '_' || x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 || '_' || x%A_Index%.info_all || '_' || x%A_Index%.output || '_' || x%A_Index%.output_2 like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like  x%A_Index%.fit_to
             )
         }
+
+    current_search_pattern := current_search_pattern . ";" . user_pattern
     Gosub, PREPARE_HTML_DATA
     Gosub, WRITE_HTML
     Gosub, DISPLAY_HTML_DEFAULT
 
     last_search := user_pattern ; remember in case for repeated call handling
+
 Return
 
 
@@ -949,7 +963,7 @@ PREPARE_HTML_DATA:
     htmlRowLimit := display_row_limit ; taken from ini-file / see above: display_row_limit
     printable_output := formatTable_html(fullTable,"AntAi Knowledge-DB output for " . user_pattern,False,3,htmlRowLimit, False)
 
-    printable_headline := "Output for:  > "  user_pattern " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
+    printable_headline := "Output for:  > "  current_search_pattern " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
 
 Return
 
@@ -1122,8 +1136,8 @@ WRITE_HTML:
 
     <script>
         var size_flag = "10px";
-        var prev_value = "";
-
+        var prev_value = "%current_search_pattern%";
+        
         function CopyToClipboard(id)
         {
             var r = document.createRange();
@@ -1175,7 +1189,8 @@ WRITE_HTML:
         function selectText(id) {
             const input = document.getElementById(id);
             var curr_value = input.value ;
-
+            curr_value = curr_value.charAt(curr_value.length - 1);
+            // alert(curr_value)
             if(isNaN(curr_value.charCodeAt(0)) ){
                 input.value=""
                 prev_value=""
@@ -1187,6 +1202,16 @@ WRITE_HTML:
                 input.select();
                 prev_value = prev_value + curr_value ;
             }
+        };
+
+        function selectText2(id) {
+            const input = document.getElementById(id);
+
+            //input.value = prev_value  ;
+            // alert(curr_value.charCodeAt(0)) ;
+            input.focus();
+            input.select();
+            
         };
 
     </script>
@@ -1205,7 +1230,7 @@ WRITE_HTML:
                 </font>
                 </div>
                 <DIV id="sticky-textfield">
-                    <textarea name="free_edit_textfield" id="free_text" onInput="selectText('free_text')" autofocus=True ></textarea>
+                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >%current_search_pattern%</textarea>
                 </DIV>
                     <BR>
                 %html_alltags%

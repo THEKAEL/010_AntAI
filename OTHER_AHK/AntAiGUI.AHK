@@ -306,11 +306,15 @@ OPEN_QUICK_ACCESS_GUI:
     Gui, MyGui:Add, Button, gButtonHELP x+5  w%my_smallwidth% h%my_height% CLEAR , ?
     Gui, MyGui:Add, Button, gButton2LOOKADD x5 w%my_width% h%my_height%, ADD SEARCH  
     Gui, MyGui:Add, Button, gButton_INIDS x+5 w%my_smallwidth% h%my_height% , DS
-    Gui, MyGui:Add, Text,  x+5 w%my_smallwidth% h%my_height% CLEAR, 
+    Gui, MyGui:Add, Button,  gButton_Exit x+5 w%my_smallwidth% h%my_height% CLEAR, X
     Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
     Gui, MyGui:Add, Button, gButton_INIHK x+5 w%my_smallwidth% h%my_height% , HK
-    Gui, MyGui:Add, Text,  x+5 w%my_smallwidth% h%my_height% CLEAR, 
-    Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    Gui, MyGui:Add, Button, gButton_GETSEARCH x+5 w%my_smallwidth% h%my_height% CLEAR, <-
+    Gui, MyGui:Add, Text,  x+5 w5 h%my_height% CLEAR, 
+
+    ; Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    Gui, MyGui:Add, Edit, x5 vMinieditor w%my_width% h%my_height% , %xxinfohtml%
+
     Gui, MyGui:Add, Button, gButton4Rebuild x+5 w%my_midWidth% h%my_height% CLEAR, Build DB
 
     Gui, MyGui:+SysMenu
@@ -336,7 +340,16 @@ OPEN_QUICK_ACCESS_GUI:
 Return
 
 Button1LOOKALL:
+    GuiControlGet, userInputNew,, Minieditor
+    if( userInputNew=""){
+        ; We ignor the Mini edit field
+    } 
+    else {
+        ; we put the value from the user input field into Clipboard
+        Clipboard := userInputNew
+    }
     Gosub, HTML_ALL_LOOKUP
+    GuiControl, MyGui:Text, Minieditor, 
 return
 
 ButtonHELP:
@@ -344,7 +357,16 @@ ButtonHELP:
 return
 
 Button2LOOKADD:
+    GuiControlGet, userInputNew,, Minieditor
+    if( userInputNew=""){
+        ; We ignor the Mini edit field
+    } 
+    else {
+        ; we put the value from the user input field into Clipboard
+        Clipboard := userInputNew
+    }
     Gosub, HTML_ADD_ALL_LOOKUP
+    GuiControl, MyGui:Text, Minieditor, 
 return
 
 Button_INIADMIN:
@@ -361,6 +383,15 @@ Button_INIHK:
     sections := ["MANDATORY_HOTKEYS","OPTIONAL_HOTKEYS"]    ;shows everything related to hotkeys
     showEditIniGui(config_ini_file, sections, xmaxH:=850, xstdW:=500, xrowH:=25, xrowGap:=25, xleftGap:=15)
 return
+
+Button_GETSEARCH:
+    GuiControl, MyGui:Text, Minieditor, %current_search_pattern%
+Return
+
+Button_Exit:
+    Gui, MyGui:Destroy
+    MsgBox, Info,  Please note that the Script and the HOTKEYS are still active. To exit script use the (hidden) icon menue in your windows toolbar.
+Return
 
 Button3:
     Gosub, RUN_ADHOC_INPUT
@@ -401,8 +432,6 @@ CheckMouse:
         ; Den Inhalt der Zwischenablage in eine Variable speichern
         ClipText := Clipboard
         processedAction:=True
-        ; Den Inhalt der Zwischenablage in einer MessageBox anzeigen
-    ; MsgBox, %ClipText%
     }
     else if (guiID!=mWin) {
         processedAction:=False
