@@ -313,3 +313,14 @@ GetMsgBoxFontInfo(ByRef Name:="", ByRef Size:=0, ByRef Weight:=0, ByRef IsItalic
 cleanAscii160(dirty_string){
 	return StrReplace(dirty_string, Chr(160), Chr(32))
 }
+
+
+escapeHTML(str) {
+   StringReplace, str, str, &, `&amp;, All
+   StringReplace, str, str, ", `&quot;, All
+   StringReplace, str, str, ', `&apos;, All
+   StringReplace, str, str, <, `&lt;, All
+   StringReplace, str, str, >, `&gt;, All
+   StringReplace, str, str, _, `&#95;, All
+   return str
+}

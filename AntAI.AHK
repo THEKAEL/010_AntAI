@@ -909,7 +909,7 @@ FETCH_USER_INPUT:
         Return
     }
     user_pattern_orig := user_pattern
-    user_pattern := StrReplace(user_pattern,"_","\_")
+    ; user_pattern := StrReplace(user_pattern,"_","\_")
     user_pattern := StrReplace(user_pattern,"%","\%")
     search_array := strsplit(user_pattern,";"," `t`r`n")
 
@@ -932,7 +932,7 @@ FETCH_USER_INPUT2:
         Return
     }
     user_pattern_orig := user_pattern
-    user_pattern := StrReplace(user_pattern,"_","\_")
+    ; user_pattern := StrReplace(user_pattern,"_","\_")
     user_pattern := StrReplace(user_pattern,"%","\%")
     search_array := strsplit(user_pattern,";"," `t`r`n")
 
@@ -963,8 +963,7 @@ PREPARE_HTML_DATA:
     htmlRowLimit := display_row_limit ; taken from ini-file / see above: display_row_limit
     printable_output := formatTable_html(fullTable,"AntAi Knowledge-DB output for " . user_pattern,False,3,htmlRowLimit, False)
 
-    printable_headline := "Output for:  > "  current_search_pattern " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
-
+    printable_headline := "Output for:  > "  escapeHtml(current_search_pattern) " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
 Return
 
 
@@ -1004,6 +1003,7 @@ WRITE_HTML:
         )
     }
 
+    current_search_pattern_escaped := escapeHTML(current_search_pattern)
     HTML_page =
     ( 
     <!DOCTYPE html>
@@ -1136,7 +1136,7 @@ WRITE_HTML:
 
     <script>
         var size_flag = "10px";
-        var prev_value = "%current_search_pattern%";
+        var prev_value = "%current_search_pattern_escaped%";
         
         function CopyToClipboard(id)
         {
