@@ -284,10 +284,26 @@ Return
 processedAction := False
 edit_config_ini_file := config_ini_file
 
-openQuickAccessGUI(configINI){
+openQuickAccessGUI(configINI, version:=2){
     Global edit_config_ini_file := configINI
-    Gosub, OPEN_QUICK_ACCESS_GUI
+    if (version=1 ) {
+        Gosub, OPEN_QUICK_ACCESS_GUI
+    }
+    else if (version=2) {
+        Gosub, OPEN_QUICK_ACCESS_GUI2
+    }
+    else if (version=3) {
+        Gosub, OPEN_QUICK_ACCESS_GUI3
+    }
+    else if (version=4) {
+        Gosub, OPEN_QUICK_ACCESS_GUI4
+    }
+    Else{
+        Gosub, OPEN_QUICK_ACCESS_GUI
+    }
+
 }
+
 
 OPEN_QUICK_ACCESS_GUI:
 
@@ -296,20 +312,22 @@ OPEN_QUICK_ACCESS_GUI:
     my_smallwidth:=20
     my_height:=20
     my_midWidth := my_smallwidth*2+5
+    next_gui_mode := 2
 
     Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
     Gui, MyGui:Font, Bold s6, Verdana
-    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , RUN SEARCH
+    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
     Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
-    Gui, MyGui:Add, Button, gButton_INIADMIN x+5 w%my_smallwidth% h%my_height% , *
-    Gui, MyGui:Add, Button, gButtonHELP x+5  w%my_smallwidth% h%my_height% CLEAR , ?
-    Gui, MyGui:Add, Button, gButton2LOOKADD x5 w%my_width% h%my_height%, ADD SEARCH  
-    Gui, MyGui:Add, Button, gButton_INIDS x+5 w%my_smallwidth% h%my_height% , DS
+    Gui, MyGui:Add, Button, gButtonHELP x+5  w%my_smallwidth% h%my_height% , ?
     Gui, MyGui:Add, Button,  gButton_Exit x+5 w%my_smallwidth% h%my_height% CLEAR, X
-    Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, ADD INFO    
-    Gui, MyGui:Add, Button, gButton_INIHK x+5 w%my_smallwidth% h%my_height% , HK
-    Gui, MyGui:Add, Button, gButton_GETSEARCH x+5 w%my_smallwidth% h%my_height% CLEAR, <-
+    Gui, MyGui:Add, Button, gButton2LOOKADD x5 w%my_width% h%my_height%, + FIND  
+    Gui, MyGui:Add, Button, gButton_INIADMIN x+5 w%my_smallwidth% h%my_height% , *
+    Gui, MyGui:Add, Button, gButton_INIDS x+5 w%my_smallwidth% h%my_height% CLEAR , DS
+    Gui, MyGui:Add, Button, gButton3 x5 w%my_width% h%my_height%, + INFO    
+    Gui, MyGui:Add, Button, gButton_GETSEARCH x+5 w%my_smallwidth% h%my_height% , <-
+    Gui, MyGui:Add, Button, gButton_INIHK x+5 w%my_smallwidth% h%my_height% CLEAR , HK
+
     Gui, MyGui:Add, Text,  x+5 w5 h%my_height% CLEAR, 
 
     ; Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
@@ -335,9 +353,174 @@ OPEN_QUICK_ACCESS_GUI:
     WinSet, Transparent, 180, ahk_id %guiID%
 
 
-    SetTimer, CheckMouse, 1500
+    SetTimer, CheckMouse, 1000
 
 Return
+
+OPEN_QUICK_ACCESS_GUI2:
+
+
+    my_width:=50
+    my_width2:=50*2
+    my_smallwidth:=20
+    my_height:=20
+    my_midWidth := my_smallwidth*2+5
+    next_gui_mode := 3
+
+    Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    Gui, MyGui:Font, Bold s6, Verdana
+    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
+    Gui, MyGui:Add, Button, gButton2LOOKADD x+3 w%my_width% h%my_height%, + FIND  
+    Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
+
+    Gui, MyGui:Font
+    Gui, MyGui:Font, s6, Verdana
+
+    Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+
+    Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
+    Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
+    Gui, MyGui:Add, Button, gButton_INIDS x+3 w%my_smallwidth% h%my_height% , DS
+   
+    Gui, MyGui:Add, Text,  x+3 w5 h%my_height% , 
+
+    ; Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
+    Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
+
+    Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+
+    Gui, MyGui:+SysMenu
+    offsetY:=A_ScreenHeight-100
+    offsetX:=A_ScreenWidth/2
+
+    GuiControl, +BackgroundFF0000, Button1
+    GuiControl, +BackgroundFF0000, Button2
+
+    OnMessage(0x201, "WM_LBUTTONDOWN")
+    OnMessage(0x200, "WM_MOUSEMOVE")
+
+    Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+    guiID := MyGuiHwnd ; defined above
+
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
+    SetTimer, CheckMouse, 1000
+
+Return
+
+
+OPEN_QUICK_ACCESS_GUI3:
+
+
+    my_width:=50
+    my_width2:=50*4
+    my_smallwidth:=20
+    my_height:=20
+    my_midWidth := my_smallwidth*2+5
+    next_gui_mode := 4
+
+    Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    Gui, MyGui:Font, Bold s6, Verdana
+    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
+    Gui, MyGui:Add, Button, gButton2LOOKADD x+3 w%my_width% h%my_height%, + FIND  
+    ;Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
+
+    Gui, MyGui:Font
+    Gui, MyGui:Font, s6, Verdana
+
+    ;Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+
+    ;Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
+    ;Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
+    ;Gui, MyGui:Add, Button, gButton_INIDS x+3 w%my_smallwidth% h%my_height% , DS
+   
+    Gui, MyGui:Add, Text,  x+3 w5 h%my_height% , 
+
+    ; Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
+    Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
+
+    ;Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+
+    Gui, MyGui:+SysMenu
+    offsetY:=A_ScreenHeight-100
+    offsetX:=A_ScreenWidth/2
+
+    GuiControl, +BackgroundFF0000, Button1
+    GuiControl, +BackgroundFF0000, Button2
+
+    OnMessage(0x201, "WM_LBUTTONDOWN")
+    OnMessage(0x200, "WM_MOUSEMOVE")
+
+    Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+    guiID := MyGuiHwnd ; defined above
+
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
+    SetTimer, CheckMouse, 1000
+
+Return
+
+
+OPEN_QUICK_ACCESS_GUI4:
+
+
+    my_width:=50
+    my_width2:=50*4
+    my_smallwidth:=20
+    my_height:=20
+    my_midWidth := my_smallwidth*2+5
+    next_gui_mode := 1
+
+    Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    ;Gui, MyGui:Font, Bold s6, Verdana
+    ;Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
+    ;Gui, MyGui:Add, Button, gButton2LOOKADD x+3 w%my_width% h%my_height%, + FIND  
+    ;Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
+
+    Gui, MyGui:Font
+    Gui, MyGui:Font, s6, Verdana
+
+    ;Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+
+    ;Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
+    ;Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
+    ;Gui, MyGui:Add, Button, gButton_INIDS x+3 w%my_smallwidth% h%my_height% , DS
+    Gui, MyGui:Font, s10, Verdana
+    Gui, MyGui:Add, Text,  x+3 w%my_width% h%my_height% , AntAI
+
+    ;Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
+    ;Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
+    ;Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
+
+    ;Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+
+    Gui, MyGui:+SysMenu
+    offsetY:=A_ScreenHeight-100
+    offsetX:=A_ScreenWidth/2
+
+    ;GuiControl, +BackgroundFF0000, Button1
+    ;GuiControl, +BackgroundFF0000, Button2
+
+    ;OnMessage(0x201, "WM_LBUTTONDOWN")
+    ;OnMessage(0x200, "WM_MOUSEMOVE")
+
+    Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+    guiID := MyGuiHwnd ; defined above
+
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
+    SetTimer, CheckMouse, 1000
+
+Return
+
 
 Button1LOOKALL:
     GuiControlGet, userInputNew,, Minieditor
@@ -390,7 +573,8 @@ Return
 
 Button_Exit:
     Gui, MyGui:Destroy
-    MsgBox, Info,  Please note that the Script and the HOTKEYS are still active. To exit script use the (hidden) icon menue in your windows toolbar.
+    openQuickAccessGUI(edit_config_ini_file,next_gui_mode)
+    ; MsgBox, Info,  Please note that the Script and the HOTKEYS are still active. To exit script use the (hidden) icon menue in your windows toolbar.
 Return
 
 Button3:

@@ -119,7 +119,7 @@ for index, section in sections {
         Gui, INIEDIT:Add, Text, x%tempXshfit% y%yPos%, %valKey%
         tempXshfit := overFlowShift + leftGap +stdW*0.4
         tempW := stdW*0.55
-        Gui, INIEDIT:Add, Edit, x%tempXshfit% y%yPos% w%tempW% v%key%, %valVal%
+        Gui, INIEDIT:Add, Edit, x%tempXshfit% y%yPos% w%tempW% v%key% -VScroll -HScroll  , %valVal% 
         yPos += rowGap
         if(yPos >= maxH - rowH-rowGap ) {
             currentCol += 1
