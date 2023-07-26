@@ -1,5 +1,4 @@
 ﻿/*
-
     MIT License
 
     Copyright (c) 2023 Thomas Klöckl https://github.com/THEKAEL/010_AntAI
@@ -24,12 +23,10 @@
 
     The original/latest version of this code can be found under https://github.com/THEKAEL/010_AntAI
     Contributions to my projects are highly appreciated.
-
 */
 
 
 /*
-
     This file contains some hepler functions that are used in the main script (AntAi.AHK).
     Mainly you find here import function for csv, xls and sqlite...
 
