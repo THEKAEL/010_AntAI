@@ -1,6 +1,9 @@
 # Current Status
 - The Tool is usable.
 - I will focus on an updated and imroved documentation
+- I am currently fixing bugs and implement some missing features
+- Check this side frequently in order to have the latest version downloaded.
+- I consider the database structure and the datasource structure as fixed (csv, xls and sqlite files). Hence these will be compatible with future versions!
   
 
 # 010_AntAI
