@@ -64,6 +64,26 @@ try{
     ;try catch
     Gosub, PROCESS_INI
 
+    if(cfg_extensions_folder!="X"){
+        Loop, %cfg_extensions_folder%\*.exe, RF ; option 1 = inclde subfolders
+        {
+            Run, %A_LoopFileFullPath%
+        }
+    }
+
+    /*
+    try{
+        if(cfg_extensions_folder!="X"){
+            Loop, %cfg_extensions_folder%\*.ahk, , 1 ; option 1 = inclde subfolders
+            {
+                Run, %A_LoopFileFullPath%
+            }
+        }
+    }catch(Error){
+        ; it seams that AHK is not installed. Therefore we skipp the processing in case of errors
+    }
+    */
+
     if(cfg_use_quick_access=1){
         openQuickAccessGUI(config_ini_file)
     }
@@ -259,6 +279,10 @@ PROCESS_INI:
 
     IniRead, cfg_use_quick_access, %config_ini_file%, ETC, USE_QUICK_ACCESS, 1
 
+    IniRead, cfg_extensions_folder, %config_ini_file%, ADDIN_EXTENSIONS, EXTENTIONS_FOLDER, .\EXTENSIONS
+
+
+
     run_config_string := IniGetKeys(config_ini_file,"RUN_CONFIG","|")
     array_run_config := StrSplit( run_config_string , "|" )
 
@@ -286,19 +310,19 @@ PROCESS_INI:
     OutputDebug, % arrayPath.Length()
 
 
-    sqlite_src_string := IniGetKeys(config_ini_file,"SQLITE_INPUTS","|")
+    sqlite_src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS_DEFAULTS","|")
     array_sqlite_key := StrSplit( sqlite_src_string , "|" )
 
-    arrayPathSQLite := Array()
     for index, element in array_sqlite_key
     {
-
         IniRead, x_temp, %config_ini_file%, SQLITE_INPUTS, %element%, X
         if(x_temp != "X")
-            arrayPathSQLite.Push(x_temp)
-
+            arrayPathSQLite.Push(x_temp) ; todo, do  not apped if element exists already in array
+        
     } 
     OutputDebug, % arrayPathSQLite.Length()
+
+
 
     csv_src_string := IniGetKeys(config_ini_file,"CSV_INPUTS","|")
     array_csv_key := StrSplit( csv_src_string , "|" )

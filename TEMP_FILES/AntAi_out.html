@@ -128,7 +128,7 @@
 
     <script>
         var size_flag = "10px";
-        var prev_value = "Tool";
+        var prev_value = "new";
 
         function CopyToClipboard(id)
         {
@@ -222,7 +222,7 @@
                 </font>
                 </div>
                 <DIV id="sticky-textfield">
-                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >Tool</textarea>
+                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >new</textarea>
                 </DIV>
                     <BR>
                 <select name='h1a' id='h1a' onInput="copyToTextfield('h1a'); return false;" >
@@ -250,7 +250,7 @@
         <font face='Candara' >
         <TABLE id='master_table' class='main'>
             <CAPTION>
-                Output for:  > Tool <  (There are # out of  results shown!)
+                Output for:  > new <  (There are #2 out of 2 results shown!)
             </CAPTION>
             <COLGROUP>
                 <col span=3 class='tblgrouping' >
@@ -263,20 +263,20 @@
             <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
             <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
                 <option> - </option>
-                
+                <option value='Postal Code'>Postal Code</option> <option value='SCRIPTS'>SCRIPTS</option> 
             </select>
         </TH>
         <TH class='base grouping'  >
             <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
             <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
                 <option> - </option>
-                
+                <option value='US'>US</option> <option value='AHK'>AHK</option> 
             </select>
         </TH>
         <TH class='base grouping' >
             <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
                 <option> - </option>
-                
+                <option value=''></option> <option value='EXAMPLE'>EXAMPLE</option> 
             </select>
         </TH>
                     <TH class='base info'> Info </TH>
@@ -290,7 +290,11 @@
                 </TR>
             </thead>
             <tbody>
-                
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>Postal Code</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>US</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'></DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>Example Postal Code for a <B> mapping solution with Headlines </b></DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'>10001.000000</DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'>New York</DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>Postal CodeUSExample Postal Code for a <B> mapping solution with Headlines </b>10001New York</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>.\LOCAL_SOURCES\SRC_EX1.xlsx</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>SRC_EXAMPLE_SHORTDETAILS</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>row: 11</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>XLS</DIV>  </TD></TR>
+<TR>
+<TD class='base tblcol_1' onclick="CopyToClipboard('tbl_2_1');return false;" >  <div class='alldata_1' id='tbl_2_1'>SCRIPTS</DIV></TD><TD class='base tblcol_2' onclick="CopyToClipboard('tbl_2_2');return false;" >  <div class='alldata_2' id='tbl_2_2'>AHK</DIV></TD><TD class='base tblcol_3' onclick="CopyToClipboard('tbl_2_3');return false;" >  <div class='alldata_3' id='tbl_2_3'>EXAMPLE</DIV></TD><TD class='base tblcol_4' onclick="CopyToClipboard('tbl_2_4');return false;" >  <div class='alldata_4' id='tbl_2_4'>Example how to manage scripts</DIV></TD><TD class='base tblcol_5' onclick="CopyToClipboard('tbl_2_5');return false;" >  <div class='alldata_5' id='tbl_2_5'>^!s::<BR>  WinGetPos, X, Y, Width, Height, A<BR>  NewWidth := Width / 2<BR>  WinMove, A, , 0, Y, NewWidth, Height<BR>Return</DIV></TD><TD class='base tblcol_6' onclick="CopyToClipboard('tbl_2_6');return false;" >  <div class='alldata_6' id='tbl_2_6'></DIV></TD><TD class='base tblcol_7' onclick="CopyToClipboard('tbl_2_7');return false;" >  <div class='alldata_7' id='tbl_2_7'>SCRIPTSAHK</DIV></TD><TD class='base tblcol_8' onclick="CopyToClipboard('tbl_2_8');return false;" >  <div class='alldata_8' id='tbl_2_8'>.\LOCAL_SOURCES\SRC_EX2.xlsx</DIV></TD><TD class='base tblcol_9' onclick="CopyToClipboard('tbl_2_9');return false;" >  <div class='alldata_9' id='tbl_2_9'>SRC_EXAMPLE_SCRIPTS2</DIV></TD><TD class='base tblcol_10' onclick="CopyToClipboard('tbl_2_10');return false;" >  <div class='alldata_10' id='tbl_2_10'>row: 8</DIV></TD><TD class='base tblcol_11' onclick="CopyToClipboard('tbl_2_11');return false;" >  <div class='alldata_11' id='tbl_2_11'>XLS</DIV></TD></TR>
+
             </tbody>
         </TABLE>
         </font>
