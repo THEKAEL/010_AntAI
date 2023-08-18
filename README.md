@@ -1,9 +1,10 @@
 # Current Status
-- The Tool is usable.
+- SQLite import was broken and got fixed 2023-08-18
+- The Tool is usable with focus on testing.
 - I will focus on an updated and imroved documentation
 - I am currently fixing bugs and implement some missing features
 - Check this side frequently in order to have the latest version downloaded.
-- I consider the database structure and the datasource structure as fixed (csv, xls and sqlite files). Hence these will be compatible with future versions!
+- I consider the database structure and the datasource structure as fixed (csv, xls and sqlite files). Hence these will be compatible with future versions.
   
 
 # 010_AntAI
