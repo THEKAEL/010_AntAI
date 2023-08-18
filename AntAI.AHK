@@ -310,9 +310,10 @@ PROCESS_INI:
     OutputDebug, % arrayPath.Length()
 
 
-    sqlite_src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS_DEFAULTS","|")
+    ;sqlite_src_string := IniGetKeys(config_ini_file,"ADHOC_SQLITE_INPUTS_DEFAULTS","|")
+    sqlite_src_string := IniGetKeys(config_ini_file,"SQLITE_INPUTS","|")
     array_sqlite_key := StrSplit( sqlite_src_string , "|" )
-
+    arrayPathSQLite := Array()
     for index, element in array_sqlite_key
     {
         IniRead, x_temp, %config_ini_file%, SQLITE_INPUTS, %element%, X
@@ -356,6 +357,7 @@ PROCESS_INI:
         IniRead, x_temp, %config_ini_file%, ADHOC_SQLITE_INPUTS, %element%, X
         if(x_temp != "X"){
             adhocDict[element] := x_temp
+            arrayPathSQLite.Push(x_temp) 
             adhocSQLITE_stringlist :=  adhocSQLITE_stringlist "|" x_temp  
         }
     } 

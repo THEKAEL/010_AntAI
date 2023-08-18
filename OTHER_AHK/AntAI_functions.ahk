@@ -160,6 +160,7 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
         
         sqliteDBObject.Prepare(sql_statement, sss)
         sss.Step()
+        sqliteDBObject.DetachDB("SRC")
         DebugAppend("FINISHED processing file " A_Index ": " sqliteArray[sqlite_counter] ,True,True)
     }
     
