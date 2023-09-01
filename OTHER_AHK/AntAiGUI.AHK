@@ -68,6 +68,10 @@ xxSQLiteDLL := A_ScriptDir "\SQLite3.dll"
 xxmy_db3 := "" 
 xxpreselectedDB := ""
 
+global val_checkTag := "Checked"
+global val_checkHeader := "Checked"
+global val_checkInfoOut := "Checked"
+
 
 
 /*
@@ -168,17 +172,18 @@ xCommitButton:
     Gui, MyGuiX:Submit, NoHide
     ; MsgBox, Die Daten wurden gespeichert:`nFeld1: %Feld1%`nFeld2: %Feld2%`nFeld3: %Feld3%`nFeld4: %Feld4%`nFeld5: %Feld5%`nFeld6: %Feld6%`nDropdown: %Dropdown%
 
+    ; TODO: Mask Strings to make them insertable sql_statement below
     selectedDB := Dropdown
-    Global xxsearchin := Feld1
-    Global xxfitto := Feld2
-    Global xxh1 := Feld3
-    Global xxh2 := Feld4
-    Global xxh3 := Feld5
-    Global xxinfohtml := Feld6
-    Global xxoutput1 := Feld7
-    Global xxoutput2 := Feld8
-    Global xxvalidfrom := Feld9
-    Global xxvalidto := Feld10
+    Global xxsearchin := sqlMask(Feld1)
+    Global xxfitto := sqlMask(Feld2)
+    Global xxh1 := sqlMask(Feld3)
+    Global xxh2 := sqlMask(Feld4)
+    Global xxh3 := sqlMask(Feld5)
+    Global xxinfohtml := sqlMask(Feld6)
+    Global xxoutput1 := sqlMask(Feld7)
+    Global xxoutput2 := sqlMask(Feld8)
+    Global xxvalidfrom := sqlMask(Feld9)
+    Global xxvalidto := sqlMask(Feld10)
 
     xxsqliteDBObject := New SQLiteDB(sqlite_dll_path)
     xxsqliteDBObject.OpenDB(selectedDB)
@@ -286,6 +291,30 @@ edit_config_ini_file := config_ini_file
 
 openQuickAccessGUI(configINI, version:=2){
     Global edit_config_ini_file := configINI
+
+    loc_check1 := global val_checkTag
+    loc_check2 := global val_checkHeader
+    loc_check3 := global val_checkInfoOut
+
+
+    if (loc_check1 != "" and loc_check1 != "Checked"){
+        global val_checkTag := "Checked"
+    }
+
+    if (loc_check2 != "" and loc_check2 != "Checked"){
+        global val_checkHeader := "Checked"
+    }
+
+    if( loc_check3 != "" and loc_check3 != "Checked"){
+        global val_checkInfoOut := "Checked"
+    }
+
+    if (loc_check1 = "" and loc_check2 = ""  and loc_check3 = "" ) {
+        global val_checkTag := "Checked"
+        global val_checkInfoOut := "Checked"
+        global val_checkHeader := "Checked"
+    }
+
     if (version=1 ) {
         Gosub, OPEN_QUICK_ACCESS_GUI
     }
@@ -320,7 +349,7 @@ OPEN_QUICK_ACCESS_GUI:
     Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
     Gui, MyGui:Add, Button, gButtonHELP x+5  w%my_smallwidth% h%my_height% , ?
-    Gui, MyGui:Add, Button,  gButton_Exit x+5 w%my_smallwidth% h%my_height% CLEAR, X
+    Gui, MyGui:Add, Button, gButton_Exit x+5 w%my_smallwidth% h%my_height% CLEAR, X
     Gui, MyGui:Add, Button, gButton2LOOKADD x5 w%my_width% h%my_height%, + FIND  
     Gui, MyGui:Add, Button, gButton_INIADMIN x+5 w%my_smallwidth% h%my_height% , *
     Gui, MyGui:Add, Button, gButton_INIDS x+5 w%my_smallwidth% h%my_height% CLEAR , DS
@@ -334,9 +363,13 @@ OPEN_QUICK_ACCESS_GUI:
     Gui, MyGui:Add, Edit, x5 vMinieditor w%my_width% h%my_height% , %xxinfohtml%
 
     Gui, MyGui:Add, Button, gButton4Rebuild x+5 w%my_midWidth% h%my_height% CLEAR, Build DB
+    Gui, MyGui:Add, CheckBox, vCheckbox1Tag gCheckboxSetting1 x5 %val_checkTag%, Tag
+    Gui, MyGui:Add, CheckBox, vCheckbox2Header gCheckboxSetting2 x+1 %val_checkHeader% , Head
+    Gui, MyGui:Add, CheckBox, vCheckbox3InfoOut gCheckboxSetting3 x+1 %val_checkInfoOut% , Info/Out
+   ; Gui, MyGui:Add, CheckBox, vCheckbox4 x+1, Out
 
     Gui, MyGui:+SysMenu
-    offsetY:=A_ScreenHeight-100
+    offsetY:=A_ScreenHeight-140
     offsetX:=A_ScreenWidth/2
 
     GuiControl, +BackgroundFF0000, Button1
@@ -364,6 +397,7 @@ OPEN_QUICK_ACCESS_GUI2:
     my_width2:=50*2
     my_smallwidth:=20
     my_height:=20
+    my_smallheight:=my_height/1.7
     my_midWidth := my_smallwidth*2+5
     next_gui_mode := 3
 
@@ -390,6 +424,11 @@ OPEN_QUICK_ACCESS_GUI2:
     Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
 
     Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+
+    Gui, MyGui:Add, CheckBox, vCheckbox1Tag gCheckboxSetting1 x+5 y9 h%my_smallheight% %val_checkTag%, Tag
+    Gui, MyGui:Add, CheckBox, vCheckbox2Header gCheckboxSetting2 x+1 h%my_smallheight%  %val_checkHeader%, Head
+    Gui, MyGui:Add, CheckBox, vCheckbox3InfoOut gCheckboxSetting3 x+1 h%my_smallheight%  %val_checkInfoOut%, Info/Out
+   ; Gui, MyGui:Add, CheckBox, vCheckbox4 x+1, Out
 
     Gui, MyGui:+SysMenu
     offsetY:=A_ScreenHeight-100
@@ -443,6 +482,11 @@ OPEN_QUICK_ACCESS_GUI3:
     ; Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
     Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
     Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
+
+    Gui, MyGui:Add, CheckBox, gCheckboxSetting1 vCheckbox1Tag x+5 y9 h%my_smallheight% %val_checkTag%, Tag
+    Gui, MyGui:Add, CheckBox, gCheckboxSetting2 vCheckbox2Header x+1 h%my_smallheight% %val_checkHeader%, Head
+    Gui, MyGui:Add, CheckBox, gCheckboxSetting3 vCheckbox3InfoOut x+1 h%my_smallheight% %val_checkInfoOut%, Info/Out
+   ; Gui, MyGui:Add, CheckBox, vCheckbox4 x+1, Out
 
     ;Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
 
@@ -522,6 +566,37 @@ OPEN_QUICK_ACCESS_GUI4:
 Return
 
 
+
+CheckboxSetting1:
+
+    if (val_checkTag = "Checked")
+        global val_checkTag := ""
+    else    
+        global val_checkTag := "Checked"
+
+return
+
+
+CheckboxSetting2:
+
+    if (val_checkHeader = "Checked")
+        global val_checkHeader := ""
+    else
+        global val_checkHeader := "Checked"
+
+return
+
+
+CheckboxSetting3:
+
+    if (val_checkInfoOut = "Checked")
+        global val_checkInfoOut := ""
+    else
+        global val_checkInfoOut := "Checked"
+
+return
+
+
 Button1LOOKALL:
     GuiControlGet, userInputNew,, Minieditor
     if( userInputNew=""){
@@ -596,7 +671,6 @@ WM_MOUSEMOVE()
 }
 
 
-
 return
 
 CheckMouse:
@@ -621,3 +695,8 @@ CheckMouse:
         processedAction:=False
     }
 return
+
+sqlMask(str){
+    maskStr := StrReplace(str,"'","''")
+    return maskStr
+}
