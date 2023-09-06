@@ -203,6 +203,46 @@ OpenLogGui:
 return
 
 
+
+getDynTemplateHtml(tag_search = True, header_search = True , info_search = True, output_search = True, source_search = False){
+    
+    search_condition := "'_'"
+
+    if(header_search){
+        search_condition := search_condition . " || h1 || '_' || h2 || '_' || h3 || '_'"
+    }
+    if(info_search){
+        search_condition := search_condition . " || info || '_' || info_html || '_'"
+    }
+    if(output_search){
+        search_condition := search_condition . " || output || '_' || output_2 || '_'"
+    }
+    if(source_search){
+        search_condition := search_condition . " || src_lbl1 || '_' || src_lbl2 || '_' || src_lbl3 || '_' || src_info || '_' "
+    }
+    if(tag_search){
+        search_condition := search_condition . " || search_in  "
+    }
+    
+    search_condition := search_condition . " like '`%#XXX#`%' ESCAPE '\' "
+
+    if(tag_search){
+        search_condition := search_condition . " or '#XXX#' like fit_to "
+    }
+
+    sql_template_html2 =
+    (
+        select  h1, h2, h3, case when trim(info_html)='' then replace( info, char(10),'<BR>')  else replace(info_html,char(10),'') end as info_all, output, output_2,
+        case when '#XXX#' like fit_to then fit_to else search_in  end as match_lbl , 
+        src_lbl1, src_lbl2, src_lbl3, src_info , search_in, fit_to 
+        from T_KNOWLEDGE 
+        WHERE 
+        %search_condition% and DATE('now') between show_from and show_to  
+        order by h1,h2,h3,info,output ASC
+    )
+}
+
+
 DebugAppend(Data, useNewline = True, addTime = False)
 {
      ;try catch ohne impact
@@ -758,6 +798,64 @@ Return
 
 
 ;; SUBS
+
+HTML_DYN_LOOKUP:
+
+; TODO: Implement the Dynamic template version
+    Gosub, FETCH_USER_INPUT
+    sql_template_html := getDynTemplateHtml()
+        sql_qry := RegExReplace(sql_template_html, "#XXX#",search_array[search_array.MinIndex()],All)
+        search_array.RemoveAt(search_array.MinIndex())
+        Loop % search_array.Length() {
+            xItem := search_array[A_Index]
+            sql_qry =
+            (
+                select * from ( %sql_qry% ) x%A_Index%
+                    where  x%A_Index%.search_in like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
+            )
+        }
+    Gosub, PREPARE_HTML_DATA
+    Gosub WRITE_HTML
+    Gosub DISPLAY_HTML_DEFAULT
+
+    current_search_pattern := user_pattern
+    last_search := user_pattern ; remember in case for repeated call handling
+
+Return
+
+
+HTML_ADD_DYN_LOOKUP:
+; TODO: Implement the Dynamic template version
+    Gosub, FETCH_USER_INPUT
+        temp_template = 
+        (
+            select * from ( %prev_qry% ) xx
+                where  xx.search_in || '_' || xx.h1 || '_' || xx.h2 || '_' || 
+                xx.h3 || '_' || xx.info_all || '_' || xx.output || '_' || 
+                xx.output_2 like '`%#XXX#`%' or '#XXX#' like xx.fit_to
+ 
+        )
+        sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
+        search_array.RemoveAt(search_array.MinIndex())
+        Loop % search_array.Length() {
+            xItem := search_array[A_Index]
+            sql_qry =
+            (
+                select * from ( %sql_qry% ) x%A_Index%
+                    where  x%A_Index%.search_in || '_' || x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 || '_' || x%A_Index%.info_all || '_' || x%A_Index%.output || '_' || x%A_Index%.output_2 like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like  x%A_Index%.fit_to
+            )
+        }
+
+    current_search_pattern := current_search_pattern . ";" . user_pattern
+    Gosub, PREPARE_HTML_DATA
+    Gosub, WRITE_HTML
+    Gosub, DISPLAY_HTML_DEFAULT
+
+    last_search := user_pattern ; remember in case for repeated call handling
+
+Return
+
+
 HTML_TAG_LOOKUP:
     Gosub, FETCH_USER_INPUT
         sql_qry := RegExReplace(sql_template_html, "#XXX#",search_array[search_array.MinIndex()],All)
