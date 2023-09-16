@@ -147,6 +147,13 @@ try{
     last_search := ""
     html_alltags :=""
 
+    global_setting_tag_search = True
+    global_setting_header_search = True 
+    global_setting_info_search = True
+    global_setting_output_search = True
+    global_setting_source_search = False
+
+
     if(show_all_tags==1) {
         h1_allitems := my_db3.tk_getTableNoHeader("select distinct h1 from T_KNOWLEDGE order by h1 asc")
         h2_allitems := my_db3.tk_getTableNoHeader("select distinct h2 from T_KNOWLEDGE order by h2 asc")
@@ -203,34 +210,44 @@ OpenLogGui:
 return
 
 
+setSearchSettings(tag_search = True, header_search = True , info_search = True, output_search = True, source_search = False)
+{
+    global global_setting_tag_search       := tag_search
+    global global_setting_header_search    := header_search 
+    global global_setting_info_search      := info_search
+    global global_setting_output_search    := output_search
+    global global_setting_source_search    := source_search
 
-getDynTemplateHtml(tag_search = True, header_search = True , info_search = True, output_search = True, source_search = False){
+
+}
+
+getDynTemplateHtml(tag_search = True, header_search = True , info_search = True, output_search = True, source_search = False, whereOnly = False, tblSuffix = "" ){
     
     search_condition := "'_'"
 
     if(header_search){
-        search_condition := search_condition . " || h1 || '_' || h2 || '_' || h3 || '_'"
+        search_condition := search_condition . " || " . tblSuffix . "h1 || '_' || " . tblSuffix . "h2 || '_' || " . tblSuffix . "h3 || '_'"
     }
     if(info_search){
-        search_condition := search_condition . " || info || '_' || info_html || '_'"
+        search_condition := search_condition . " || " . tblSuffix . "info || '_' || " . tblSuffix . "info_html || '_'"
     }
     if(output_search){
-        search_condition := search_condition . " || output || '_' || output_2 || '_'"
+        search_condition := search_condition . " || " . tblSuffix . "output || '_' || " . tblSuffix . "output_2 || '_'"
     }
     if(source_search){
-        search_condition := search_condition . " || src_lbl1 || '_' || src_lbl2 || '_' || src_lbl3 || '_' || src_info || '_' "
+        search_condition := search_condition . " || " . tblSuffix . "src_lbl1 || '_' || " . tblSuffix . "src_lbl2 || '_' || " . tblSuffix . "src_lbl3 || '_' || " . tblSuffix . "src_info || '_' "
     }
     if(tag_search){
-        search_condition := search_condition . " || search_in  "
+        search_condition := search_condition . " || " . tblSuffix . "search_in  "
     }
     
     search_condition := search_condition . " like '`%#XXX#`%' ESCAPE '\' "
 
     if(tag_search){
-        search_condition := search_condition . " or '#XXX#' like fit_to "
+        search_condition := search_condition . " or '#XXX#' like " . tblSuffix . "fit_to "
     }
 
-    sql_template_html2 =
+    sql_template =
     (
         select  h1, h2, h3, case when trim(info_html)='' then replace( info, char(10),'<BR>')  else replace(info_html,char(10),'') end as info_all, output, output_2,
         case when '#XXX#' like fit_to then fit_to else search_in  end as match_lbl , 
@@ -240,6 +257,13 @@ getDynTemplateHtml(tag_search = True, header_search = True , info_search = True,
         %search_condition% and DATE('now') between show_from and show_to  
         order by h1,h2,h3,info,output ASC
     )
+
+    if (whereOnly = True) {
+        return search_condition 
+    }
+    else {
+        return sql_template
+    }
 }
 
 
@@ -803,7 +827,7 @@ HTML_DYN_LOOKUP:
 
 ; TODO: Implement the Dynamic template version
     Gosub, FETCH_USER_INPUT
-    sql_template_html := getDynTemplateHtml()
+    sql_template_html := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, false, "")
         sql_qry := RegExReplace(sql_template_html, "#XXX#",search_array[search_array.MinIndex()],All)
         search_array.RemoveAt(search_array.MinIndex())
         Loop % search_array.Length() {
@@ -814,11 +838,14 @@ HTML_DYN_LOOKUP:
                     where  x%A_Index%.search_in like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
             )
         }
+
+    current_search_pattern := user_pattern
+
     Gosub, PREPARE_HTML_DATA
     Gosub WRITE_HTML
     Gosub DISPLAY_HTML_DEFAULT
 
-    current_search_pattern := user_pattern
+
     last_search := user_pattern ; remember in case for repeated call handling
 
 Return
@@ -827,22 +854,23 @@ Return
 HTML_ADD_DYN_LOOKUP:
 ; TODO: Implement the Dynamic template version
     Gosub, FETCH_USER_INPUT
+    sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, whereOnly = True, tblSuffix = "xx.")
         temp_template = 
         (
             select * from ( %prev_qry% ) xx
-                where  xx.search_in || '_' || xx.h1 || '_' || xx.h2 || '_' || 
-                xx.h3 || '_' || xx.info_all || '_' || xx.output || '_' || 
-                xx.output_2 like '`%#XXX#`%' or '#XXX#' like xx.fit_to
+                where  %sql_where%
  
         )
         sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
         search_array.RemoveAt(search_array.MinIndex())
         Loop % search_array.Length() {
             xItem := search_array[A_Index]
+            sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, whereOnly = True, x . A_Index . ".")
+            sql_where := RegExReplace(sql_where, "#XXX#",xItem,All)
             sql_qry =
             (
                 select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.search_in || '_' || x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 || '_' || x%A_Index%.info_all || '_' || x%A_Index%.output || '_' || x%A_Index%.output_2 like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like  x%A_Index%.fit_to
+                    where %sql_where%
             )
         }
 
@@ -857,161 +885,105 @@ Return
 
 
 HTML_TAG_LOOKUP:
-    Gosub, FETCH_USER_INPUT
-        sql_qry := RegExReplace(sql_template_html, "#XXX#",search_array[search_array.MinIndex()],All)
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.search_in like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
-            )
-        }
-    Gosub, PREPARE_HTML_DATA
-    Gosub WRITE_HTML
-    Gosub DISPLAY_HTML_DEFAULT
 
-    current_search_pattern := user_pattern
-    last_search := user_pattern ; remember in case for repeated call handling
+    global_setting_tag_search := True
+    global_setting_header_search := False
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
+
+    Gosub, HTML_DYN_LOOKUP
+    
 
 Return
 
 
 HTML_ADD_TAG_LOOKUP:
-    Gosub, FETCH_USER_INPUT
 
-        temp_template = 
-        (
-            select * from ( %prev_qry% ) xx
-                where   xx.search_in like '`%#XXX#`%' ESCAPE '\' or '#XXX#' like xx.fit_to
- 
-        )
-        sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.search_in  like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
-            )
-        }
-    
-    current_search_pattern := current_search_pattern . ";" . user_pattern
-    Gosub, PREPARE_HTML_DATA
-    Gosub, WRITE_HTML
-    Gosub, DISPLAY_HTML_DEFAULT
+    global_setting_tag_search := True
+    global_setting_header_search := False
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
 
-    last_search := user_pattern ; remember in case for repeated call handling
+    Gosub, HTML_ADD_DYN_LOOKUP
 
 Return
 
 
 HTML_HEADLINE_LOOKUP:
-    Gosub, FETCH_USER_INPUT
-        sql_qry := RegExReplace(sql_template_html3, "#XXX#",search_array[search_array.MinIndex()],All)
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3  like '`%%xItem%`%' ESCAPE '\'
-            )
-        }
-    
-        current_search_pattern := user_pattern
-    Gosub, PREPARE_HTML_DATA
-    Gosub WRITE_HTML
-    Gosub DISPLAY_HTML_DEFAULT
 
-    last_search := user_pattern ; remember in case for repeated call handling
+    global_setting_tag_search := False
+    global_setting_header_search := True
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
+
+    Gosub, HTML_DYN_LOOKUP
+
+Return
+
+HTML_GUI_LOOKUP:
+
+    ;TODO: Get the settings from the GUI
+    global_setting_tag_search := False
+    global_setting_header_search := True
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
+
+    Gosub, HTML_DYN_LOOKUP
+
+Return
+
+HTML_ADD_GUI_LOOKUP:
+    ;TODO: Get the settings from the GUI
+    global_setting_tag_search := False
+    global_setting_header_search := True
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
+
+    Gosub, HTML_ADD_DYN_LOOKUP
 
 Return
 
 
 HTML_ADD_HEADLINE_LOOKUP:
-    Gosub, FETCH_USER_INPUT
 
-        temp_template = 
-        (
-            select * from ( %prev_qry% ) xx
-                where  xx.h1 || '_' || xx.h2 || '_' || 
-                xx.h3 like '`%#XXX#`%' ESCAPE '\'
- 
-        )
-        sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 like '`%%xItem%`%' ESCAPE '\'
-            )
-        }
-    
-        current_search_pattern := current_search_pattern . ";" . user_pattern
-    Gosub, PREPARE_HTML_DATA
-    Gosub WRITE_HTML
-    Gosub DISPLAY_HTML_DEFAULT
+    global_setting_tag_search := False
+    global_setting_header_search := True
+    global_setting_info_search := False
+    global_setting_output_search := False 
+    global_setting_source_search := False
 
-    last_search := user_pattern ; remember in case for repeated call handling
+    Gosub, HTML_ADD_DYN_LOOKUP
 
 Return
 
 
 HTML_ALL_LOOKUP:
-    Gosub, FETCH_USER_INPUT
 
-        sql_qry := RegExReplace(sql_template_html2, "#XXX#",search_array[search_array.MinIndex()],All) 
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where x%A_Index%.search_in || '_' ||  x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 || '_' || x%A_Index%.info_all || '_' || x%A_Index%.output || '_' || x%A_Index%.output_2 like '`%%xItem%`%' ESCAPE '\' or '`%%xItem%`%' like x%A_Index%.fit_to
-            )
-        }
+    global_setting_tag_search := True
+    global_setting_header_search := True
+    global_setting_info_search := True
+    global_setting_output_search := True 
+    global_setting_source_search := False
 
-    current_search_pattern := user_pattern
-    Gosub, PREPARE_HTML_DATA
-    Gosub WRITE_HTML
-    Gosub DISPLAY_HTML_DEFAULT
-    last_search := user_pattern ; remember in case for repeated call handling
+    Gosub, HTML_DYN_LOOKUP
 
 Return
 
 
 HTML_ADD_ALL_LOOKUP:
-    Gosub, FETCH_USER_INPUT
-        temp_template = 
-        (
-            select * from ( %prev_qry% ) xx
-                where  xx.search_in || '_' || xx.h1 || '_' || xx.h2 || '_' || 
-                xx.h3 || '_' || xx.info_all || '_' || xx.output || '_' || 
-                xx.output_2 like '`%#XXX#`%' or '#XXX#' like xx.fit_to
- 
-        )
-        sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
-        search_array.RemoveAt(search_array.MinIndex())
-        Loop % search_array.Length() {
-            xItem := search_array[A_Index]
-            sql_qry =
-            (
-                select * from ( %sql_qry% ) x%A_Index%
-                    where  x%A_Index%.search_in || '_' || x%A_Index%.h1 || '_' || x%A_Index%.h2 || '_' || x%A_Index%.h3 || '_' || x%A_Index%.info_all || '_' || x%A_Index%.output || '_' || x%A_Index%.output_2 like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like  x%A_Index%.fit_to
-            )
-        }
 
-    current_search_pattern := current_search_pattern . ";" . user_pattern
-    Gosub, PREPARE_HTML_DATA
-    Gosub, WRITE_HTML
-    Gosub, DISPLAY_HTML_DEFAULT
+    global_setting_tag_search := True
+    global_setting_header_search := True
+    global_setting_info_search := True
+    global_setting_output_search := True 
+    global_setting_source_search := False
 
-    last_search := user_pattern ; remember in case for repeated call handling
+    Gosub, HTML_ADD_DYN_LOOKUP
 
 Return
 
@@ -1039,6 +1011,8 @@ FETCH_USER_INPUT:
 
 return
 
+
+
 FETCH_USER_INPUT2:
     send ^c
     Sleep, 100
@@ -1061,6 +1035,8 @@ FETCH_USER_INPUT2:
     search_array := strsplit(user_pattern,";"," `t`r`n")
 
 return
+
+
 
 PREPARE_HTML_DATA:
     
@@ -1089,8 +1065,6 @@ PREPARE_HTML_DATA:
 
     printable_headline := "Output for:  > "  escapeHtml(current_search_pattern) " <  (There are #" min(htmlRowLimit,fullTable.MaxIndex()) " out of " fullTable.MaxIndex() " results shown!)"
 Return
-
-
 
 
 
@@ -1498,7 +1472,6 @@ FOLLOW_CLIPBOARD:
         return
     }
     my_clip := trim(Clipboard)
-
 
     to_execute:=""
     temp_needle:=""

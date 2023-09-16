@@ -606,7 +606,9 @@ Button1LOOKALL:
         ; we put the value from the user input field into Clipboard
         Clipboard := userInputNew
     }
-    Gosub, HTML_ALL_LOOKUP
+ 
+    setSearchSettings(val_checkTag=="Checked", val_checkHeader=="Checked", val_checkInfoOut=="Checked",val_checkInfoOut=="Checked",False)
+    Gosub, HTML_DYN_LOOKUP
     GuiControl, MyGui:Text, Minieditor, 
 return
 
@@ -623,7 +625,8 @@ Button2LOOKADD:
         ; we put the value from the user input field into Clipboard
         Clipboard := userInputNew
     }
-    Gosub, HTML_ADD_ALL_LOOKUP
+    setSearchSettings(val_checkTag=="Checked", val_checkHeader=="Checked", val_checkInfoOut=="Checked",val_checkInfoOut=="Checked",False)
+    Gosub, HTML_ADD_DYN_LOOKUP
     GuiControl, MyGui:Text, Minieditor, 
 return
 
