@@ -229,7 +229,13 @@ getDynTemplateHtml(tag_search = True, header_search = True , info_search = True,
         search_condition := search_condition . " || " . tblSuffix . "h1 || '_' || " . tblSuffix . "h2 || '_' || " . tblSuffix . "h3 || '_'"
     }
     if(info_search){
-        search_condition := search_condition . " || " . tblSuffix . "info || '_' || " . tblSuffix . "info_html || '_'"
+        if (whereOnly = True) {
+            search_condition := search_condition . " || " . tblSuffix . "info_all || '_'"
+        }
+        else {
+            search_condition := search_condition . " || " . tblSuffix . "info || '_' || " . tblSuffix . "info_html || '_'"
+        }
+        
     }
     if(output_search){
         search_condition := search_condition . " || " . tblSuffix . "output || '_' || " . tblSuffix . "output_2 || '_'"
@@ -854,18 +860,20 @@ Return
 HTML_ADD_DYN_LOOKUP:
 ; TODO: Implement the Dynamic template version
     Gosub, FETCH_USER_INPUT
-    sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, whereOnly = True, tblSuffix = "xx.")
-        temp_template = 
+    sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search,  True,  "xx.")
+    OutputDebug, %sql_where%    
+    temp_template = 
         (
             select * from ( %prev_qry% ) xx
                 where  %sql_where%
  
         )
         sql_qry := RegExReplace(temp_template, "#XXX#",search_array[search_array.MinIndex()],All)
+        OutputDebug, %sql_qry%
         search_array.RemoveAt(search_array.MinIndex())
         Loop % search_array.Length() {
             xItem := search_array[A_Index]
-            sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, whereOnly = True, x . A_Index . ".")
+            sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search,  True, x . A_Index . ".")
             sql_where := RegExReplace(sql_where, "#XXX#",xItem,All)
             sql_qry =
             (
@@ -873,6 +881,7 @@ HTML_ADD_DYN_LOOKUP:
                     where %sql_where%
             )
         }
+        OutputDebug, %sql_qry%
 
     current_search_pattern := current_search_pattern . ";" . user_pattern
     Gosub, PREPARE_HTML_DATA

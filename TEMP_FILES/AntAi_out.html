@@ -128,7 +128,7 @@
 
     <script>
         var size_flag = "10px";
-        var prev_value = "postal;us";
+        var prev_value = "postal;atlanta";
 
         function CopyToClipboard(id)
         {
@@ -222,24 +222,24 @@
                 </font>
                 </div>
                 <DIV id="sticky-textfield">
-                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >postal;us</textarea>
+                    <textarea name="free_edit_textfield" id="free_text"  onFocus="selectText2('free_text')"   onInput="selectText('free_text')" autofocus=True >postal;atlanta</textarea>
                 </DIV>
                     <BR>
                 <select name='h1a' id='h1a' onInput="copyToTextfield('h1a'); return false;" >
                 <option> - </option>
-                <option value=''></option> <option value='ADHOC'>ADHOC</option> <option value='Abbrevation'>Abbrevation</option> <option value='Birthday'>Birthday</option> <option value='CAMMEL'>CAMMEL</option> <option value='LOCATION'>LOCATION</option> <option value='Postal Code'>Postal Code</option> <option value='SAP'>SAP</option> <option value='SCRIPTS'>SCRIPTS</option> <option value='myh1'>myh1</option> 
+                <option value='ADHOC'>ADHOC</option> <option value='Abbrevation'>Abbrevation</option> <option value='Birthday'>Birthday</option> <option value='CAMMEL'>CAMMEL</option> <option value='LOCATION'>LOCATION</option> <option value='Postal Code'>Postal Code</option> <option value='SAP'>SAP</option> <option value='SCRIPTS'>SCRIPTS</option> <option value='myh1'>myh1</option> 
             </select>
 
 
             <select name='h2a' id='h2a' onInput="copyToTextfield('h2a'); return false;" >
                 <option> - </option>
-                <option value=''></option> <option value='AHK'>AHK</option> <option value='Account Info'>Account Info</option> <option value='CHATGPT'>CHATGPT</option> <option value='COMPANY CODE'>COMPANY CODE</option> <option value='EVENTS OUTAGE'>EVENTS OUTAGE</option> <option value='Germany'>Germany</option> <option value='MEMO'>MEMO</option> <option value='PATH'>PATH</option> <option value='PSP/WBS'>PSP/WBS</option> <option value='SQL'>SQL</option> <option value='US'>US</option> <option value='WEB'>WEB</option> <option value='myh2'>myh2</option> 
+                <option value=''></option> <option value='AHK'>AHK</option> <option value='Account Info'>Account Info</option> <option value='COMPANY CODE'>COMPANY CODE</option> <option value='EVENTS OUTAGE'>EVENTS OUTAGE</option> <option value='Germany'>Germany</option> <option value='MEMO'>MEMO</option> <option value='PATH'>PATH</option> <option value='PSP/WBS'>PSP/WBS</option> <option value='SQL'>SQL</option> <option value='US'>US</option> <option value='WEB'>WEB</option> <option value='myh2'>myh2</option> 
             </select>
 
 
             <select name='h3a' id='h3a'  onInput="copyToTextfield('h3a'); return false;" >
                 <option> - </option>
-                <option value=''></option> <option value='2023-05'>2023-05</option> <option value='2023-06'>2023-06</option> <option value='2023-08'>2023-08</option> <option value='CHATBOT'>CHATBOT</option> <option value='CMK'>CMK</option> <option value='EB_DORT'>EB_DORT</option> <option value='EXAMPLE'>EXAMPLE</option> <option value='NAME/ID'>NAME/ID</option> <option value='Name and ID'>Name and ID</option> <option value='ORACLE'>ORACLE</option> <option value='SEARCH'>SEARCH</option> <option value='SNOWFLAKE'>SNOWFLAKE</option> <option value='myh3'>myh3</option> 
+                <option value=''></option> <option value='2023-05'>2023-05</option> <option value='2023-06'>2023-06</option> <option value='CHATBOT'>CHATBOT</option> <option value='CMK'>CMK</option> <option value='EB_DORT'>EB_DORT</option> <option value='EXAMPLE'>EXAMPLE</option> <option value='NAME/ID'>NAME/ID</option> <option value='Name and ID'>Name and ID</option> <option value='ORACLE'>ORACLE</option> <option value='SEARCH'>SEARCH</option> <option value='SNOWFLAKE'>SNOWFLAKE</option> <option value='myh3'>myh3</option> 
             </select>
 
                 </div>
@@ -250,7 +250,7 @@
         <font face='Candara' >
         <TABLE id='master_table' class='main'>
             <CAPTION>
-                Output for:  > postal;us <  (There are # out of  results shown!)
+                Output for:  > postal;atlanta <  (There are #1 out of 1 results shown!)
             </CAPTION>
             <COLGROUP>
                 <col span=3 class='tblgrouping' >
@@ -263,20 +263,20 @@
             <button id="increaseBtn" class="hdgimmic indecrease">Incr. Row Height</button> <br>
             <select name='h1' id='h1' class='hdgimmic' onInput="copyToTextfield('h1'); return false;" >
                 <option> - </option>
-                
+                <option value='Postal Code'>Postal Code</option> 
             </select>
         </TH>
         <TH class='base grouping'  >
             <button id="decreaseBtn" class="hdgimmic indecrease">Decr. Row Height</button> <BR>
             <select name='h2' id='h2' class='hdgimmic' onInput="copyToTextfield('h2'); return false;" >
                 <option> - </option>
-                
+                <option value='US'>US</option> 
             </select>
         </TH>
         <TH class='base grouping' >
             <select name='h3' id='h3'  onInput="copyToTextfield('h3'); return false;" >
                 <option> - </option>
-                
+                <option value=''></option> 
             </select>
         </TH>
                     <TH class='base info'> Info </TH>
@@ -290,7 +290,9 @@
                 </TR>
             </thead>
             <tbody>
-                
+                <TR>
+<TD class='base tblcol_1'  onclick="CopyToClipboard('tbl_1_1');return false;" > <div class='alldata_1' id='tbl_1_1'>Postal Code</DIV>  </TD><TD class='base tblcol_2'  onclick="CopyToClipboard('tbl_1_2');return false;" > <div class='alldata_2' id='tbl_1_2'>US</DIV>  </TD><TD class='base tblcol_3'  onclick="CopyToClipboard('tbl_1_3');return false;" > <div class='alldata_3' id='tbl_1_3'></DIV>  </TD><TD class='base tblcol_4'  onclick="CopyToClipboard('tbl_1_4');return false;" > <div class='alldata_4' id='tbl_1_4'>Example Postal Code for a <B> mapping solution with Headlines </b></DIV>  </TD><TD class='base tblcol_5'  onclick="CopyToClipboard('tbl_1_5');return false;" > <div class='alldata_5' id='tbl_1_5'>30303.000000</DIV>  </TD><TD class='base tblcol_6'  onclick="CopyToClipboard('tbl_1_6');return false;" > <div class='alldata_6' id='tbl_1_6'>Atlanta</DIV>  </TD><TD class='base tblcol_7'  onclick="CopyToClipboard('tbl_1_7');return false;" > <div class='alldata_7' id='tbl_1_7'>Postal CodeUSExample Postal Code for a <B> mapping solution with Headlines </b>30303Atlanta</DIV>  </TD><TD class='base tblcol_8'  onclick="CopyToClipboard('tbl_1_8');return false;" > <div class='alldata_8' id='tbl_1_8'>.\LOCAL_SOURCES\SRC_EX1.xlsx</DIV>  </TD><TD class='base tblcol_9'  onclick="CopyToClipboard('tbl_1_9');return false;" > <div class='alldata_9' id='tbl_1_9'>SRC_EXAMPLE_SHORTDETAILS</DIV>  </TD><TD class='base tblcol_10'  onclick="CopyToClipboard('tbl_1_10');return false;" > <div class='alldata_10' id='tbl_1_10'>row: 18</DIV>  </TD><TD class='base tblcol_11'  onclick="CopyToClipboard('tbl_1_11');return false;" > <div class='alldata_11' id='tbl_1_11'>XLS</DIV>  </TD></TR>
+
             </tbody>
         </TABLE>
         </font>
