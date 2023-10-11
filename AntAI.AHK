@@ -1420,7 +1420,7 @@ DISPLAY_HTML_DEFAULT:
 
     if(cfg_stdout_browser=="X") {
         ;Default based on Sstemsettings is used to execute / open html file
-        Run, % html_outputFile
+        Run, %html_outputFile%, wait
         return
     }
 
@@ -1428,7 +1428,7 @@ DISPLAY_HTML_DEFAULT:
     if ( RegExMatch( cfg_stdout_browser,"\{\{.*\}\}" ) > 0 ) {
         to_execute:=RegExReplace(cfg_stdout_browser, "\{\{.*\}\}" , html_outputFile)
         to_execute:=StrReplace(to_execute,".\", A_ScriptDir "\")
-        run, %to_execute%
+        Run, %to_execute%, wait
         Return
     }
     
@@ -1436,10 +1436,10 @@ DISPLAY_HTML_DEFAULT:
 
         ; If no special handling was found execute the clipboard
         html_outputFile2:=StrReplace(html_outputFile,".\", A_ScriptDir "\")
-        Run, %cfg_stdout_browser%  %html_outputFile2%
+        Run, %cfg_stdout_browser%  %html_outputFile2%, wait
 
     } catch Error {
-        Run, % html_outputFile
+        Run, % html_outputFile, wait
     }
 
 

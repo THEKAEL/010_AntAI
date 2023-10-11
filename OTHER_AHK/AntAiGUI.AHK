@@ -497,6 +497,12 @@ OPEN_QUICK_ACCESS_GUI3:
     GuiControl, +BackgroundFF0000, Button1
     GuiControl, +BackgroundFF0000, Button2
 
+    ;GuiControl, +TabRight, MyGui:Button1
+    ;GuiControl, +TabRight, MyGui:Button2
+    ;GuiControl, +TabRight, MyGui:Minieditor
+    ;GuiControl, +TabRight, MyGui:Button_Exit
+    
+
     OnMessage(0x201, "WM_LBUTTONDOWN")
     OnMessage(0x200, "WM_MOUSEMOVE")
 
@@ -610,6 +616,9 @@ Button1LOOKALL:
     setSearchSettings(val_checkTag=="Checked", val_checkHeader=="Checked", val_checkInfoOut=="Checked",val_checkInfoOut=="Checked",False)
     Gosub, HTML_DYN_LOOKUP
     GuiControl, MyGui:Text, Minieditor, 
+    Sleep, 1000
+    Gui, MyGui:Show
+    GuiControl, MyGui:Focus, Minieditor,
 return
 
 ButtonHELP:
@@ -628,6 +637,9 @@ Button2LOOKADD:
     setSearchSettings(val_checkTag=="Checked", val_checkHeader=="Checked", val_checkInfoOut=="Checked",val_checkInfoOut=="Checked",False)
     Gosub, HTML_ADD_DYN_LOOKUP
     GuiControl, MyGui:Text, Minieditor, 
+    Sleep, 1000
+    Gui, MyGui:Show
+    GuiControl, MyGui:Focus, Minieditor,
 return
 
 Button_INIADMIN:
