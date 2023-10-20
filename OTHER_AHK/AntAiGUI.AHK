@@ -272,12 +272,15 @@ ClearFeld9:
 return
 
 TakeField001:
+    FormatTime, CurrentDateTime,, yyyy-MM-dd
+    FormatTime, CurrentDateTime2,, yyyyMMdd
     Gui, Submit, NoHide
     arr := StrSplit(MyCombo, ";")
     selectedValue1 := arr[1]
     selectedValue2 := arr[2]
     GuiControl, Text, Feld3, %selectedValue1%
     GuiControl, Text, Feld4, %selectedValue2%
+    GuiControl, Text, Feld1, ADHOC_%selectedValue1%_%selectedValue2%_%CurrentDateTime%_%CurrentDateTime2%
 Return
 
 

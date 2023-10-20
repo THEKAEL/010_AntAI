@@ -709,8 +709,55 @@ HTML_ADD_DEFAULT_LOOKUP:
 
 Return
 
+#+F1::
+    Gosub, REFRESH_DB
+return
+
+REFRESH_DB:
+    Gosub,  OpenLogGui
+    DebugAppend("START REFRESHING DB (updateing changed source files only): " knowledge_path,True,True)
+    
+    my_db3.close() ; close db
+    my_db3.loadToInMem(knowledge_path) ; reopen it and load it to memory (RAM)
+
+    FileGetTime, modifiedDateDB, %knowledge_path%, M
+    DebugAppend("Updating sources if they have a modification date after: " modifiedDateDB,True,True)
+    DebugAppend("-------------------------------------------------------" ,True,True)
+    DebugAppend(" " ,True,True)
+
+    buildFromXLS(my_db3, arrayPath,  False, modifiedDateDB)
+
+    buildFromSQLITE(my_db3,arrayPathSQLite, False ,modifiedDateDB)
+
+    my_db3.storeto(knowledge_path)  ; save in memory DB to file because we need to have the db in file system for the next setpp
+
+    buildFromCSV(knowledge_path,arrayPathCSV,sqliteToolPath,,,,modifiedDateDB) ; todo: Get CSV config like quotes or sepeators from inif file ??
 
 
+    flag_deleteEmptyHeader := 1 ; todo: maybe as a config parameter in the ini-file
+    if( flag_deleteEmptyHeader == 1) {   
+        my_sql := "delete from T_KNOWLEDGE where trim(h1)='' and trim(h2)='' and trim(h3)='' "
+        my_db3.Prepare(my_sql, sss)
+        sss.Step()
+    }
+    else {
+        ;we do not delete
+    }
+
+    if( cfg_inmem == 1) {   
+        my_db3.loadToInMem(knowledge_path) ; bring the db back to the RAM for further use and improved performance.
+    }
+    else {
+        ;we do not put it back to the memory and access data directly on the drive
+    }
+    DebugAppend("" ,True,True)
+    DebugAppend("-------------------------------------------------------" ,True,True)
+    DebugAppend("--Partial Update/Refresh of the Knowledge-DB finished!--" ,True,True)
+    DebugAppend("-------------------------------------------------------" ,True,True)
+    OutputDebug, % "Partial Update/Refresh of the Knowledge-DB finished!"
+    Gosub, CloseLogGui
+
+return
 
 REBUILD_DB:
     Gosub,  OpenLogGui
@@ -742,7 +789,12 @@ REBUILD_DB:
     else {
         ;we do not put it back to the memory and access data directly on the drive
     }
-    OutputDebug, % "Load/Refresh of db finished!"
+
+    DebugAppend("" ,True,True)
+    DebugAppend("-------------------------------------------------------" ,True,True)
+    DebugAppend("--Full Re-Build of the Knowledge-DB finished!----------" ,True,True)
+    DebugAppend("-------------------------------------------------------" ,True,True)
+    OutputDebug, % "Full Re-Build of the Knowledge-DB finished!"
     Gosub, CloseLogGui
 
 return

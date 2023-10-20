@@ -101,9 +101,10 @@ IniGetKeys(InputFile, Section , Delimiter="")
         nothing
         
 */
-buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
+buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False, refreshAfter="19000101" )
 {
     DebugAppend("Start Rebuilding Knowledge Database from files.",True,True)
+    sqliteArray := keepFileAfter(sqliteArray,refreshAfter) 
 
     if(deleteOldData==True) {
         DebugAppend("START: Drop old Tables.", True,True)
@@ -128,14 +129,21 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
         DebugAppend("")
         DebugAppend("START processing file " A_Index ": " sqliteArray[sqlite_counter] ,True,True)
 
+        ;sqliteDBObject.Prepare("BEGIN TRANSACTION", sss)
+        ;sss.Step() 
+        sqliteDBObject.Prepare("Delete from T_KNOWLEDGE where src_lbl1='" sqliteArray[sqlite_counter] "'", sss)
+        sss.Step() 
+        ;sqliteDBObject.Prepare("COMMIT", sss)
+        ;sss.Step() 
+
         curr_sqlitefile := sqliteArray[sqlite_counter]
 
         if(FileExist(curr_sqlitefile) == "") {
-            DebugAppend("WARNING: File NOT (!) found --> SKIPP import" ,True,True)
+            DebugAppend("WARNING: File NOT found --> SKIPP import" ,True,True)
             Continue
         }
         else{
-            DebugAppend("MSG: File found --> Try import" ,True,True) 
+            DebugAppend("SUCCESS: File found --> Try import" ,True,True) 
         }
 
         ; ToDo: Some error handling 
@@ -192,9 +200,10 @@ buildFromSQLITE(sqliteDBObject, sqliteArray, deleteOldData=False )
         nothing
         
 */
-buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", delim=",", mask=""){
+buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", delim=",", mask="",refreshAfter="19000101" ){
 
     ;loc_sqliteToolPath := StrReplace(loc_sqliteToolPath, "\" , "\\" )
+    loc_arrayPathCSV := keepFileAfter(loc_arrayPathCSV,refreshAfter) 
     num_files := loc_arrayPathCSV.count()
 
     Loop, %num_files%
@@ -216,6 +225,11 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
         }
         
         curr_csvfile := StrReplace(curr_csvfile, "\" , "\\" )
+
+        my_sql := """delete from T_KNOWLEDGE where src_lbl1='" curr_csvfile_bak "'"""
+        OutputDebug, %loc_sqliteToolPath% %db_path%  %my_sql%
+        RunWait, %loc_sqliteToolPath% %db_path%  %my_sql%
+
         OutputDebug, %loc_sqliteToolPath% %db_path% ".mode csv" ".import -skip 1 %curr_csvfile% T_KNOWLEDGE"
         RunWait, %loc_sqliteToolPath% %db_path% ".mode csv" ".import %curr_csvfile% T_KNOWLEDGE", ,  ;hide 
         ;Run, %loc_sqliteToolPath% %db_path% "update T_KNOWLEDGE set src_lbl1='curr_csvfile', src_lbl2='FILE', src_lbl3='n/a', src_info='CSV', _insertLBL='csv_updated' where src_info is NULL", ,
@@ -256,11 +270,12 @@ buildFromCSV(db_path,loc_arrayPathCSV,loc_sqliteToolPath,quote4string="""", deli
         nothing
         
 */
-buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
+buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True, refreshAfter="19000101"  )
 {
     ; todo: progress bar and logging and user feedback in the calling method
     ; do plausi-checks fo xlsArray and lblArray
     ; check if db is open !
+    xlsArray := keepFileAfter(xlsArray,refreshAfter) 
 
     if (isExcelInstalled() == False )  {
         MsgBox, 48, No Excel Installation Found, We could not create a COM Object based on a valid Excel installation on your computer. Please install Excel or convert your XLS into a vaid CSV format instad. 
@@ -297,7 +312,9 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
 
     DebugAppend("START: Create an XLS Application Object.", True, True)
     XL := ComObjCreate("Excel.Application")
+    Sleep, 2000
     XL.Visible := False
+    Sleep, 1000
 
     DebugAppend("END: Create an XLS Application Object.", True, True)
     num_files := xlsArray.count()
@@ -328,6 +345,13 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         ; todo: some error handling
 
         num_tabs := XL_WB.Worksheets.count()
+
+        sqliteDBObject.Prepare("BEGIN TRANSACTION", sss)
+        sss.Step() 
+        sqliteDBObject.Prepare("Delete from T_KNOWLEDGE where src_lbl1='" xlsArray[xls_counter] "'", sss)
+        sss.Step() 
+        sqliteDBObject.Prepare("COMMIT", sss)
+        sss.Step() 
 
         loop, %num_tabs%
         {
@@ -400,6 +424,7 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
                 curr_region := XL_WS.Range("A1") ; .currentRegion()
                 sqliteDBObject.Prepare("BEGIN TRANSACTION", sss)
                 sss.Step() 
+
                 Loop, %num_rangerows%
                 {
                     Sleep, 5
@@ -504,6 +529,9 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
         
     }
 
+    XL.quit()
+    DebugAppend("EXCEL instant closed. " ,True,True)
+
     my_sql := "update T_KNOWLEDGE set show_from='1900-01-01' where show_from is null or trim(show_from) ='' "
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
@@ -515,8 +543,9 @@ buildFromXLS(sqliteDBObject, xlsArray, deleteOldData=True )
     sqliteDBObject.Prepare(my_sql, sss)
     sss.Step()
 
-    DebugAppend("T_KNOWLEDGE cleaned." ,True,True)
+    DebugAppend("T_KNOWLEDGE cleaned. x" ,True,True)
 
+    return
 
 }
 
@@ -598,12 +627,46 @@ isExcelInstalled()
 {
     try
     {
-        Excel := ComObjCreate("Excel.Application")
-        Excel.Quit()
+        Excelxx := ComObjCreate("Excel.Application")
+        Sleep, 4000
+        Excelxx.Quit()
+
         return true
     }
     catch
     {
         return false
     }
+}
+
+keepFileAfter(fileArray, removeAfter="19000101")
+{
+    if(removeAfter="19000101" or removeAfter="0" or removeAfter="")
+    {
+        return fileArray
+    }
+
+    newArray := []
+    ; Überprüfen Sie jede Datei im ursprünglichen Array
+
+    for index, file in fileArray {
+        xfile := StrReplace(file, ".\", A_ScriptDir "\")
+        try{
+            FileGetTime, fileLastModified, %xfile%, M
+        
+            ; Vergleichen Sie die Zeitstempel
+            if ("x" fileLastModified > "x" removeAfter) {
+                NewArray.Push(file)
+            }
+            else
+            {
+                DebugAppend("INFO: File skipped because it did not changed since " removeAfter ":" file ,True,True) 
+            }
+        } catch Error {
+            NewArray.Push(file)
+        }
+    }
+
+    return NewArray
+
 }
