@@ -330,6 +330,9 @@ openQuickAccessGUI(configINI, version:=2){
     else if (version=4) {
         Gosub, OPEN_QUICK_ACCESS_GUI4
     }
+    else if (version=5) {
+        Gosub, OPEN_QUICK_ACCESS_GUI5
+    }
     Else{
         Gosub, OPEN_QUICK_ACCESS_GUI
     }
@@ -393,6 +396,7 @@ OPEN_QUICK_ACCESS_GUI:
 
 Return
 
+
 OPEN_QUICK_ACCESS_GUI2:
 
 
@@ -405,16 +409,21 @@ OPEN_QUICK_ACCESS_GUI2:
     next_gui_mode := 3
 
     Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+
+    Gui, MyGui:Font
+    Gui, MyGui:Font, s6, Verdana
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+    Gui, MyGui:Add, Button, gButtonHELP x+3  w%my_smallwidth% h%my_height% , ?
+
     Gui, MyGui:Font, Bold s6, Verdana
-    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
+    Gui, MyGui:Add, Button, gButton1LOOKALL x+10 Default  w%my_width% h%my_height% , FIND
     Gui, MyGui:Add, Button, gButton2LOOKADD x+3 w%my_width% h%my_height%, + FIND  
     Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
 
     Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
 
-    Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
-    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+
 
     Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
     Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
@@ -426,9 +435,11 @@ OPEN_QUICK_ACCESS_GUI2:
     Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
     Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
 
-    Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+    ;Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+    Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_width% h%my_height% , Full Build
+    Gui, MyGui:Add, Button, gButton4UpdateBuild x+10 w%my_Width% h%my_height% , Partial Build
 
-    Gui, MyGui:Add, CheckBox, vCheckbox1Tag gCheckboxSetting1 x+5 y9 h%my_smallheight% %val_checkTag%, Tag
+    Gui, MyGui:Add, CheckBox, vCheckbox1Tag gCheckboxSetting1 x+5 y8 h%my_smallheight% %val_checkTag%, Tag
     Gui, MyGui:Add, CheckBox, vCheckbox2Header gCheckboxSetting2 x+1 h%my_smallheight%  %val_checkHeader%, Head
     Gui, MyGui:Add, CheckBox, vCheckbox3InfoOut gCheckboxSetting3 x+1 h%my_smallheight%  %val_checkInfoOut%, Info/Out
    ; Gui, MyGui:Add, CheckBox, vCheckbox4 x+1, Out
@@ -465,16 +476,18 @@ OPEN_QUICK_ACCESS_GUI3:
     next_gui_mode := 4
 
     Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+    Gui, MyGui:Font, s6, Verdana
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
     Gui, MyGui:Font, Bold s6, Verdana
-    Gui, MyGui:Add, Button, gButton1LOOKALL x5 Default  w%my_width% h%my_height% , FIND
+    Gui, MyGui:Add, Button, gButton1LOOKALL x+10 Default  w%my_width% h%my_height% , FIND
     Gui, MyGui:Add, Button, gButton2LOOKADD x+3 w%my_width% h%my_height%, + FIND  
-    ;Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
+    Gui, MyGui:Add, Button, gButton3 x+3 w%my_width% h%my_height%, + INFO    
 
     Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
 
     ;Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
-    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+    ;Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
 
     ;Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
     ;Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
@@ -486,7 +499,7 @@ OPEN_QUICK_ACCESS_GUI3:
     Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
     Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
 
-    Gui, MyGui:Add, CheckBox, gCheckboxSetting1 vCheckbox1Tag x+5 y9 h%my_smallheight% %val_checkTag%, Tag
+    Gui, MyGui:Add, CheckBox, gCheckboxSetting1 vCheckbox1Tag x+5 y8 h%my_smallheight% %val_checkTag%, Tag
     Gui, MyGui:Add, CheckBox, gCheckboxSetting2 vCheckbox2Header x+1 h%my_smallheight% %val_checkHeader%, Head
     Gui, MyGui:Add, CheckBox, gCheckboxSetting3 vCheckbox3InfoOut x+1 h%my_smallheight% %val_checkInfoOut%, Info/Out
    ; Gui, MyGui:Add, CheckBox, vCheckbox4 x+1, Out
@@ -525,10 +538,11 @@ OPEN_QUICK_ACCESS_GUI4:
 
     my_width:=50
     my_width2:=50*4
+    my_width3:=80
     my_smallwidth:=20
     my_height:=20
     my_midWidth := my_smallwidth*2+5
-    next_gui_mode := 1
+    next_gui_mode := 5
 
     Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
     ;Gui, MyGui:Font, Bold s6, Verdana
@@ -538,21 +552,22 @@ OPEN_QUICK_ACCESS_GUI4:
 
     Gui, MyGui:Font
     Gui, MyGui:Font, s6, Verdana
-
+    ;Gui, MyGui:Add, Text,  x+3 w%my_smallwidth% h%my_height% , Config
     ;Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
     Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
-
-    ;Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
-    ;Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
-    ;Gui, MyGui:Add, Button, gButton_INIDS x+3 w%my_smallwidth% h%my_height% , DS
-    Gui, MyGui:Font, s10, Verdana
-    Gui, MyGui:Add, Text,  x+3 w%my_width% h%my_height% , AntAI
+    Gui, MyGui:Font, s6, Verdana
+    Gui, MyGui:Add, Button, gButton_INIADMIN x+10 w%my_smallwidth% h%my_height% , *
+    Gui, MyGui:Add, Button, gButton_INIHK x+3 w%my_smallwidth% h%my_height% , HK
+    Gui, MyGui:Add, Button, gButton_INIDS x+3 w%my_smallwidth% h%my_height% , DS
+    
+    ;Gui, MyGui:Add, Text,  x+3 w%my_width% h%my_height% , AntAI
 
     ;Gui, MyGui:Add, Text,  x5 w%my_width% h%my_height% , 
     ;Gui, MyGui:Add, Edit, x+10 vMinieditor w%my_width2% h%my_height% , %xxinfohtml%
     ;Gui, MyGui:Add, Button, gButton_GETSEARCH x+3 w%my_smallwidth% h%my_height% , <-
 
-    ;Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_midWidth% h%my_height% , Build DB
+    Gui, MyGui:Add, Button, gButton4Rebuild x+10 w%my_width3% h%my_height% , Full Build
+    Gui, MyGui:Add, Button, gButton4UpdateBuild x+10 w%my_Width3% h%my_height% , Update DB
 
     Gui, MyGui:+SysMenu
     offsetY:=A_ScreenHeight-100
@@ -574,6 +589,45 @@ OPEN_QUICK_ACCESS_GUI4:
 
 Return
 
+
+OPEN_QUICK_ACCESS_GUI5:
+
+    my_width:=50
+    my_width2:=50*4
+    my_width3:=80
+    my_smallwidth:=20
+    my_height:=20
+    my_midWidth := my_smallwidth*2+5
+    next_gui_mode := 2
+
+    Gui, MyGui:New, +AlwaysOnTop -Caption +ToolWindow +LastFound +HwndMyGuiHwnd
+
+    Gui, MyGui:Font
+    Gui, MyGui:Font, s6, Verdana
+    ;Gui, MyGui:Add, Text,  x+3 y9 w%my_smallwidth% h%my_height% , AntAI
+    Gui, MyGui:Add, Button,  gButton_Exit x+3 w%my_smallwidth% h%my_height% , X
+    Gui, MyGui:Add, Button, gButtonHELP x+10  w%my_smallwidth% h%my_height% , ?
+   
+
+    Gui, MyGui:+SysMenu
+    offsetY:=A_ScreenHeight-100
+    offsetX:=A_ScreenWidth/2
+
+    ;GuiControl, +BackgroundFF0000, Button1
+    ;GuiControl, +BackgroundFF0000, Button2
+
+    ;OnMessage(0x201, "WM_LBUTTONDOWN")
+    ;OnMessage(0x200, "WM_MOUSEMOVE")
+
+    Gui, MyGui:Show,   x%offsetX% y%offsetY%, My Gui
+    guiID := MyGuiHwnd ; defined above
+
+    WinGet, Transparent, Transparent, ahk_id %guiID%
+    WinSet, Transparent, 180, ahk_id %guiID%
+
+    SetTimer, CheckMouse, 1000
+
+Return
 
 
 CheckboxSetting1:
@@ -675,7 +729,13 @@ Button3:
 return
 
 Button4Rebuild:
+; Full rebuild of the whole knowledge db importing all specified data sources
     Gosub, REBUILD_DB
+return
+
+Button4UpdateBuild:
+; Updating/refreshing the knowledge database only of those data sources that are supposingly new or have changed (based on the file property attributes)
+    Gosub, REFRESH_DB
 return
 
 WM_LBUTTONDOWN()
