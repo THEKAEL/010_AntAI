@@ -883,6 +883,12 @@ Return
 
 HTML_DYN_LOOKUP:
 
+    prev_qry:= " select *, INFO || INFO_HTML as info_all, '' as match_lbl from T_KNOWLEDGE "
+    current_search_pattern := ""
+    Gosub, HTML_ADD_DYN_LOOKUP 
+    /*
+
+
 ; TODO: Implement the Dynamic template version
     Gosub, FETCH_USER_INPUT
     sql_template_html := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search, false, "")
@@ -896,7 +902,7 @@ HTML_DYN_LOOKUP:
                     where  x%A_Index%.search_in like '`%%xItem%`%' ESCAPE '\' or '%xItem%' like x%A_Index%.fit_to
             )
         }
-
+    OutputDebug, % sql_qry
     current_search_pattern := user_pattern
 
     Gosub, PREPARE_HTML_DATA
@@ -905,6 +911,8 @@ HTML_DYN_LOOKUP:
 
 
     last_search := user_pattern ; remember in case for repeated call handling
+
+    */
 
 Return
 
@@ -925,7 +933,7 @@ HTML_ADD_DYN_LOOKUP:
         search_array.RemoveAt(search_array.MinIndex())
         Loop % search_array.Length() {
             xItem := search_array[A_Index]
-            sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search,  True, x . A_Index . ".")
+            sql_where := getDynTemplateHtml(global_setting_tag_search, global_setting_header_search , global_setting_info_search, global_setting_output_search, global_setting_source_search,  True, "x" . A_Index . ".")
             sql_where := RegExReplace(sql_where, "#XXX#",xItem,All)
             sql_qry =
             (
@@ -935,7 +943,7 @@ HTML_ADD_DYN_LOOKUP:
         }
         OutputDebug, %sql_qry%
 
-    current_search_pattern := current_search_pattern . ";" . user_pattern
+    current_search_pattern := ( (current_search_pattern != "")? current_search_pattern . ";" . user_pattern :  user_pattern )  
     Gosub, PREPARE_HTML_DATA
     Gosub, WRITE_HTML
     Gosub, DISPLAY_HTML_DEFAULT
@@ -1118,7 +1126,7 @@ PREPARE_HTML_DATA:
     limited_sql_qry := "select  h1, h2, h3, info_all, output, output_2, match_lbl, src_lbl1, src_lbl2, src_lbl3, src_info  from (" . limited_sql_qry . ") TK "
     
     fullTable := my_db3.tk_getTableNoHeader(limited_sql_qry)
-
+    OutputDebug, % limited_sql_qry
     prev_qry := sql_qry ; for later use in case the user would like add a condition / without LIMIT clause
 
     htmlRowLimit := display_row_limit ; taken from ini-file / see above: display_row_limit
@@ -1240,6 +1248,7 @@ WRITE_HTML:
             td.base {
                 padding: 1em 1em 1em 1em;
                 word-wrap: break-word;
+                vertical-align: top;
             } 
             td.tblcol_11, td.tblcol_10, td.tblcol_9, td.tblcol_8, td.tblcol_7 {
                 font-color: rgb(240,240,240);
@@ -1290,8 +1299,67 @@ WRITE_HTML:
                 padding: 5px;
             }
 
+            .mystick {
+                position: sticky;
+                z-index: 30;
+                top: 1vh;
+            }
+
     </style>
 
+    <style>
+            .hidden {
+                display: none;
+            }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentRow = 0;
+            var rows = document.querySelectorAll('#master_table tr');
+            var numRows = rows.length;
+            var dataInfo = document.getElementById('dataInfo');
+
+            // Funktion zum Aktualisieren der Sichtbarkeit der Zeilen und der Anzeige
+            function updateVisibility() {
+                if (currentRow === 0) {
+                    for (var i = 1; i < numRows; i++) {
+                        rows[i].classList.remove('hidden');
+                    }
+                    dataInfo.textContent = numRows - 1 + '/' + (numRows - 1);
+                } else {
+                    for (var i = 1; i < numRows; i++) {
+                        rows[i].classList.add('hidden');
+                    }
+                    rows[currentRow].classList.remove('hidden');
+                    dataInfo.textContent = currentRow + '/' + (numRows - 1);
+                }
+            }
+
+            // Event-Listener für die Buttons
+            document.getElementById('next').addEventListener('click', function() {
+                if (currentRow < numRows - 1) {
+                    currentRow++;
+                    updateVisibility();
+                }
+            });
+
+            document.getElementById('prev').addEventListener('click', function() {
+                if (currentRow > 1) {
+                    currentRow--;
+                    updateVisibility();
+                }
+            });
+
+            document.getElementById('showAll').addEventListener('click', function() {
+                currentRow = 0;
+                updateVisibility();
+            });
+
+            // Beim Laden alle Zeilen anzeigen und die Anzeige aktualisieren
+            updateVisibility();
+        });
+    </script>
 
     <script>
         var size_flag = "10px";
@@ -1395,6 +1463,12 @@ WRITE_HTML:
                 %html_alltags%
                 
                 </div>
+                <span class="mystick">
+                <button class="indecrease" id="prev">&lt-</button>
+                <button class="indecrease" id="showAll">x</button>
+                <button class="indecrease"  id="next">-&gt</button>
+                <span class="indecrease mystick" id="dataInfo">0/0</span>
+                </span> <BR>
             </P>
             <br>
             <br>

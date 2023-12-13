@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabellennavigation</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="prev">←</button>
+    <button id="showAll">x</button>
+    <button id="next">→</button>
+    <span id="dataInfo">0/0</span>
+
+    <table id="master_table" border="1">
+        <tr><th>Überschrift 1</th><th>Überschrift 2</th></tr>
+        <tr><td>Daten 1</td><td>Daten 1</td></tr>
+        <tr><td>Daten 1</td><td>Daten 2</td></tr>
+        <tr><td>Daten 1</td><td>Daten 3</td></tr>
+        <tr><td>Daten 1</td><td>Daten 4</td></tr>
+        <tr><td>Daten 1</td><td>Daten 5</td></tr>
+        <tr><td>Daten 1</td><td>Daten 6</td></tr>
+        <!-- Weitere Zeilen Ihrer Tabelle -->
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentRow = 0;
+            var rows = document.querySelectorAll('#master_table tr');
+            var numRows = rows.length;
+            var dataInfo = document.getElementById('dataInfo');
+
+            // Funktion zum Aktualisieren der Sichtbarkeit der Zeilen und der Anzeige
+            function updateVisibility() {
+                if (currentRow === 0) {
+                    for (var i = 1; i < numRows; i++) {
+                        rows[i].classList.remove('hidden');
+                    }
+                    dataInfo.textContent = numRows - 1 + '/' + (numRows - 1);
+                } else {
+                    for (var i = 1; i < numRows; i++) {
+                        rows[i].classList.add('hidden');
+                    }
+                    rows[currentRow].classList.remove('hidden');
+                    dataInfo.textContent = currentRow + '/' + (numRows - 1);
+                }
+            }
+
+            // Event-Listener für die Buttons
+            document.getElementById('next').addEventListener('click', function() {
+                if (currentRow < numRows - 1) {
+                    currentRow++;
+                    updateVisibility();
+                }
+            });
+
+            document.getElementById('prev').addEventListener('click', function() {
+                if (currentRow > 1) {
+                    currentRow--;
+                    updateVisibility();
+                }
+            });
+
+            document.getElementById('showAll').addEventListener('click', function() {
+                currentRow = 0;
+                updateVisibility();
+            });
+
+            // Beim Laden alle Zeilen anzeigen und die Anzeige aktualisieren
+            updateVisibility();
+        });
+    </script>
+</body>
+</html>
