@@ -61,28 +61,34 @@ try{
     sqliteToolPath := A_ScriptDir "\sqlite3.exe"
     html_outputFile := A_ScriptDir "\AntAi_out.html"
     
+    
     ;try catch
     Gosub, PROCESS_INI
 
+    /*
+    cfg_extensions_folder := A_ScriptDir "\" cfg_extensions_folder
     if(cfg_extensions_folder!="X"){
+        OutputDebug, %cfg_extensions_folder%\*.exe
         Loop, %cfg_extensions_folder%\*.exe, RF ; option 1 = inclde subfolders
         {
             Run, %A_LoopFileFullPath%
         }
     }
-
-    /*
+    */
+    extension_message := "The following extensions were started: `n`n"
     try{
         if(cfg_extensions_folder!="X"){
-            Loop, %cfg_extensions_folder%\*.ahk, , 1 ; option 1 = inclde subfolders
+            Loop, %cfg_extensions_folder%\*.exe, , 1 ; option 1 = inclde subfolders
             {
                 Run, %A_LoopFileFullPath%
+                extension_message := extension_message . A_LoopFileFullPath . "`n"
             }
         }
     }catch(Error){
         ; it seams that AHK is not installed. Therefore we skipp the processing in case of errors
+        MsgBox, There is an error loading extensions. Probably the follwing extension is corrupt`n %A_LoopFileFullPath%
     }
-    */
+    MsgBox, % extension_message
 
     if(cfg_use_quick_access=1){
         openQuickAccessGUI(config_ini_file)
