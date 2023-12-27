@@ -1321,44 +1321,47 @@ WRITE_HTML:
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var currentRow = 0;
-            var rows = document.querySelectorAll('#master_table tr');
+            var currentRow = -1;
+            var rows = document.querySelectorAll('#master_table tbody > tr');
             var numRows = rows.length;
             var dataInfo = document.getElementById('dataInfo');
 
             // Funktion zum Aktualisieren der Sichtbarkeit der Zeilen und der Anzeige
             function updateVisibility() {
-                if (currentRow === 0) {
-                    for (var i = 1; i < numRows; i++) {
-                        rows[i].classList.remove('hidden');
+                if (currentRow <= -1) {
+                    for (var i = 0; i < numRows; i++) {
+                            rows[i].classList.remove('hidden');
                     }
-                    dataInfo.textContent = numRows - 1 + '/' + (numRows - 1);
+                    dataInfo.textContent = ' ALL rows out of ' + (numRows );
+                    currentRow=-1
                 } else {
-                    for (var i = 1; i < numRows; i++) {
-                        rows[i].classList.add('hidden');
+                    for (var i = 0; i < numRows; i++) {
+                        if (rows[i].parentNode.parentNode.id === 'master_table') {
+                            rows[i].classList.add('hidden');
+                        }
                     }
                     rows[currentRow].classList.remove('hidden');
-                    dataInfo.textContent = currentRow + '/' + (numRows - 1);
+                    dataInfo.textContent = (currentRow+1) + '/' + (numRows );
                 }
             }
 
             // Event-Listener für die Buttons
             document.getElementById('next').addEventListener('click', function() {
-                if (currentRow < numRows - 1) {
+                if (currentRow < numRows -1 ) {
                     currentRow++;
                     updateVisibility();
                 }
             });
 
             document.getElementById('prev').addEventListener('click', function() {
-                if (currentRow > 1) {
+                if (currentRow > 0) {
                     currentRow--;
                     updateVisibility();
                 }
             });
 
             document.getElementById('showAll').addEventListener('click', function() {
-                currentRow = 0;
+                currentRow = -1;
                 updateVisibility();
             });
 
