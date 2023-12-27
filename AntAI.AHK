@@ -1322,7 +1322,7 @@ WRITE_HTML:
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var currentRow = -1;
-            var rows = document.querySelectorAll('#master_table tbody > tr');
+            var rows = document.querySelectorAll('#master_table > tbody > tr');
             var numRows = rows.length;
             var dataInfo = document.getElementById('dataInfo');
 
